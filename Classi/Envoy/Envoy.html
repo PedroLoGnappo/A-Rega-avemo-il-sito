@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Creazione Personaggio - Envoy</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 40px 40px 40px; /* Padding bilanciato senza immagini fisse laterali */
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONE PRINCIPALE (EFFETTO QUANTISTICO) */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        /* DESCRIZIONE DELLA CLASSE */
+        .class-description {
+            text-align: center; 
+            font-family: 'Rajdhani', sans-serif; 
+            color: #a1b5cc; 
+            max-width: 850px; 
+            margin: 0 auto 35px auto; 
+            font-size: 1.05em; 
+            line-height: 1.6; 
+            font-style: italic;
+        }
+
+        /* BLOCCO SINTESI STATISTICHE (MONOLITE FUMÉ) */
+        .stats-summary-box {
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+            background: rgba(15, 22, 42, 0.5);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .stats-boosts-table {
+            width: 100%;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .boost-cell-left {
+            width: 50%;
+            vertical-align: top;
+            padding-right: 20px;
+            border-right: 1px solid #203a70;
+            color: #cdffff;
+        }
+        .boost-cell-right {
+            width: 50%;
+            vertical-align: top;
+            padding-left: 20px;
+            color: #cdffff;
+        }
+        .boost-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        .stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .stat-desc {
+            font-size: 0.85em;
+            line-height: 1.4;
+            color: #8da2bb;
+            display: block;
+        }
+
+        /* GRIGLIA MEGA PULSANTI */
+        .mega-buttons-grid {
+            max-width: 900px;
+            margin: 0 auto 60px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        /* BLOCCHETTI IN STILE MONOLITE FUMÉ PER OPZIONI */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6); /* Vetro scuro */
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2; /* Accento viola di base */
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff; /* Diventa ciano luminoso */
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.25em;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+        }
+        .feature-card:hover .feature-title {
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0;
+            font-style: italic;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- NOME DELLA CLASSE CENTRATO -->
+    <h1 class="main-title">ENVOY</h1>
+
+    <!-- DESCRIZIONE DELLA CLASSE -->
+    <p class="class-description">
+        Sei un maestro dell'influenza. Ti fai strada nell'universo con un sorriso affascinante, un'arguzia rapida e un acuto senso di autoconservazione. Sei un leader che motiva i tuoi compagni di squadra, li spinge oltre i loro limiti e li aiuta nei moments difficili. Eccelli nel convincere gli altri a fare ciò che vuoi, ma sei sempre pronto ad affrontare i problemi a testa alta quando le cose volgono al peggio. Potresti essere un truffatore, un diplomatico, un artista o un ufficiale militare—o potresti assumere qualsiasi ruolo la situazione richieda.
+    </p>
+
+    <!-- BOX ATTRIBUTO CHIAVE E HIT POINTS (MONOLITE SINTESI) -->
+    <div class="stats-summary-box">
+        <table class="stats-boosts-table">
+            <tr>
+                <td class="boost-cell-left">
+                    <span class="boost-label" style="color: #00ffff;">KEY ATTRIBUTE</span>
+                    <span class="stat-value">Charisma (Carisma)</span>
+                    <span class="stat-desc">Al 1° livello, la tua classe ti fornisce un aumento di attributo speciale applicato direttamente a Carisma.</span>
+                </td>
+                <td class="boost-cell-right">
+                    <span class="boost-label" style="color: #8a2be2;">HIT POINTS</span>
+                    <span class="stat-value">8 + Modificatore di Costituzione</span>
+                    <span class="stat-desc">Aumenti il tuo ammontare massimo di Punti Ferita di questo valore al 1° livello e a ogni livello successivo.</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- GRIGLIA MEGA PULSANTI DI REINDIRIZZAMENTO FLUIDO -->
+    <div class="mega-buttons-grid">
+        <!-- LINK PRIVILEGI DI CLASSE -->
+        <a href="EnvoyClassFeatures.html" class="feature-card">
+            <div>
+                <span class="feature-title">CLASS FEATURES</span>
+                <p class="feature-text">Vedi la progressione completa dal livello 1 al 20 e tutti i privilegi di classe sbloccati.</p>
+            </div>
+        </a>
+
+        <!-- LINK TALENTI DI CLASSE -->
+        <a href="EnvoyFeats.html" class="feature-card">
+            <div>
+                <span class="feature-title">ENVOY FEATS</span>
+                <p class="feature-text">Esplora l'elenco completo di tutti i talenti di classe dell'Inviato divisi per livello.</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

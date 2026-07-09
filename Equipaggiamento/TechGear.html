@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Tech Gear</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            /* Sfondo con immagine Equipaggiamento.jpeg ed overlay scuro al 45% */
+            background-color: #060913; 
+            background-image: linear-gradient(rgba(6, 9, 19, 0.45), rgba(6, 9, 19, 0.45)), url('Equipaggiamento.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px;
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico con Dropdown) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONE PRINCIPALE */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            color: #a1b5cc;
+            max-width: 850px;
+            margin: 0 auto 35px auto;
+            font-size: 1.05em;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* INTRO CARD DESCRITTIVA CATEGORIA */
+        .intro-summary-box {
+            max-width: 1000px;
+            margin: 0 auto 40px auto;
+            background: rgba(8, 16, 38, 0.9); 
+            border: 1px solid #203a70;
+            border-top: 3px solid #00ffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border-radius: 4px;
+            padding: 22px;
+            backdrop-filter: blur(8px);
+        }
+        .intro-text {
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0;
+        }
+
+        /* SEZIONE SOTTO-CATEGORIE */
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            margin: 40px 0 20px 0;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .tech-gear-grid {
+            max-width: 1000px;
+            margin: 0 auto 60px auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .gear-card {
+            background: rgba(15, 22, 42, 0.85); 
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .gear-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+            background: rgba(20, 30, 58, 0.9);
+        }
+        .gear-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.25em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+        }
+        .gear-card:hover .gear-title {
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+        }
+        .gear-text {
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #cdffff;
+            margin: 0;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE SULL'ASSE DESTRA */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.95); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- TITOLO GENERALE -->
+    <h1 class="main-title">TECH GEAR</h1>
+    <p class="subtitle">Dispositivi di consumo, tecnologia portatile e strumentazioni galattiche avanzate per l'esplorazione cosmica.</p>
+
+    <!-- RIEPILOGO REGOLE CATEGORIA -->
+    <div class="intro-summary-box">
+        <p class="intro-text">
+            I dispositivi tecnologici rappresentano una varietà di equipaggiamenti commerciali e specializzati utilizzati in tutta la galassia. A seconda della situazione, il tuo personaggio avrà bisogno di oggetti di ogni tipo, sia durante l'esplorazione che nei periodi di downtime, che vanno dai datapad personali ai disturbatori di segnale. La maggior parte degli oggetti tecnologici può essere ricaricata durante i periodi di riposo o tramite altri mezzi, come l'energia cinetica e solare. Solo pochi oggetti potrebbero richiedere batterie aggiuntive, come indicato nella loro scheda specifica.
+        </p>
+    </div>
+
+    <!-- SEZIONE SOTTO-CATEGORIE -->
+    <div class="section-divider">Seleziona Sottocategoria</div>
+
+    <div class="tech-gear-grid">
+        <!-- PULSANTE 1: ADVENTURING GEAR -->
+        <a href="AdventuringGear.html" class="gear-card">
+            <div>
+                <div class="gear-title">Adventuring Gear</div>
+                <p class="gear-text">Esplora gli strumenti di sopravvivenza essenziali e i toolkit di utilità. Questi oggetti seguono regole speciali o richiedono maggiori dettagli tecnici per il loro corretto utilizzo sul campo.</p>
+            </div>
+        </a>
+
+        <!-- PULSANTE 2: MEDICAL ITEMS -->
+        <a href="MedicalItems.html" class="gear-card">
+            <div>
+                <div class="gear-title">Medical Items</div>
+                <p class="gear-text">I beni medici non sono magici e sfruttano proprietà chimiche e biotecnologiche (non emanano aure magiche e non sono influenzati da <em>Dispel Magic</em>). Molti sono consumabili (usati una sola volta). Per fabbricarli tramite l'attività di Crafting a pagina 197 è obbligatorio possedere il talento di abilità <strong>Serum Crafting</strong>.</p>
+            </div>
+        </a>
+
+        <!-- PULSANTE 3: SERVICES -->
+        <a href="Services.html" class="gear-card">
+            <div>
+                <div class="gear-title">Services</div>
+                <p class="gear-text">Accedi all'elenco dei servizi specializzati e di base disponibili nella maggior parte degli insediamenti e delle megalopoli galattiche (trasporti, alloggi, cure e contratti professionali).</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

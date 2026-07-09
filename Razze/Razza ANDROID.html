@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Razza Androide</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 380px; /* Margine sinistro aumentato per fare spazio alle immagini fisse */
+            letter-spacing: 0.5px;
+        }
+
+        /* IMAGES FISSE A SINISTRA */
+        .fixed-img-1 {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-2 {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-1:hover, .fixed-img-2:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI (EFFETTO QUANTISTICO) */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8em;
+            color: #8a2be2;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .main-desc {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #a1b5cc;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        /* BLOCCO STATISTICHE INIZIALI */
+        .stats-summary-box {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            background: rgba(15, 22, 42, 0.5);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .stats-row-top {
+            display: flex;
+            justify-content: space-around;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #203a70;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            color: #00ffff;
+        }
+        .stats-boosts-table {
+            width: 100%;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .boost-cell-left {
+            width: 50%;
+            vertical-align: top;
+            padding-right: 15px;
+            border-right: 1px solid #203a70;
+            color: #cdffff;
+        }
+        .boost-cell-right {
+            width: 50%;
+            vertical-align: top;
+            padding-left: 15px;
+            color: #cdffff;
+        }
+        .boost-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* GRIGLIA ORIZZONTALE DEI COMPONENTI */
+        .features-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 25px;
+        }
+
+        /* BLOCCHETTI IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6); /* Vetro scuro */
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2; /* Accento viola di base */
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff; /* Diventa ciano luminoso */
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        
+        /* VERSIONE TALENTI CON BORDO LATERALE ROSSO/ARANCIO */
+        .feat-lvl-1 { border-left-color: #c62828; }
+        .feat-lvl-5 { border-left-color: #e65100; }
+        .feat-lvl-9 { border-left-color: #f57c00; }
+        .feat-lvl-13 { border-left-color: #d84315; }
+        .feat-lvl-17 { border-left-color: #4f5b66; }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 4px 0;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+        }
+        .feature-text small {
+            color: #8da2bb;
+            line-height: 1.4;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* METADATI MECCANICHE ED EFFETTI */
+        .paradox-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .meta-label {
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        /* TRATTI COMPRESI */
+        .traits-container {
+            margin-bottom: 12px;
+        }
+        .trait-pill {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75em;
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            background: rgba(0, 82, 204, 0.15);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- IMMAGINI FISSE IN LATERALE SINISTRO -->
+    <img src="ANDROID.jpeg" alt="Android" class="fixed-img-1">
+    <img src="ANDROID2.jpeg" alt="Android 2" class="fixed-img-2">
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA RAZZA -->
+    <h1 class="main-title">Specie selezionata: ANDROID</h1>
+    
+    <!-- QUADRO SINTESI STATISTICHE E ATTRIBUTI -->
+    <div class="stats-summary-box">
+        <div class="stats-row-top">
+            <span>PUNTI FERITA (HP): 8</span>
+            <span>TAGLIA: Media</span>
+            <span>VELOCITÀ: 25 Piedi (7.5 mt)</span>
+        </div>
+        <table class="stats-boosts-table">
+            <tr>
+                <td class="boost-cell-left">
+                    <span class="boost-label" style="color: #00ff66;">Aggiungi +1 alle seguenti statistiche: (Attributi +):</span>
+                    Destrezza, Intelligenza, Un aumento libero da assegnare.
+                </td>
+                <td class="boost-cell-right">
+                    <span class="boost-label" style="color: #ff3333;">Sottrai -1 alle seguenti statistiche:</span>
+                    Carisma (Inibitori emotivi di serie).
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- CARATTERISTICHE DI SPECIE -->
+    <div class="backgrounds-grid" style="max-width: 1000px; margin: 0 auto 40px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 20px;">
+        
+        <!-- TRATTI E LINGUAGGI -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">DATI ANAGRAFICI DI FABBRICA</h2>
+                <div class="feature-translation">TRAITS & LANGUAGES</div>
+                <div class="traits-container">
+                    <span class="trait-pill">ANDROID</span>
+                    <span class="trait-pill">UMANOIDE</span>
+                </div>
+                <p class="feature-text">
+                    <strong>LANGUAGES:</strong> Comune.<br>
+                    <small>Lingue aggiuntive pari a 1 + il tuo modificatore di Intelligenza (se positivo). Scegli liberamente dalla lista dei linguaggi comuni del sistema.</small>
+                </p>
+            </div>
+        </div>
+
+        <!-- VISIONE E COSTRUZIONE -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">LOW-LIGHT VISION & CONSTRUCTED</h2>
+                <div class="feature-translation">Sistemi di Supporto Ottici e Biologici</div>
+                <p class="feature-text">
+                    <strong>Visione Crepuscolare:</strong> Vedi nella luce fioca come se fosse luce intensa, ignorando la condizione occultato dovuta alla scarsità di illuminazione.<br><br>
+                    <strong>Costruito:</strong> Il tuo corpo sintetico resiste ai malanni meglio di un organismo biologico. Guadagni un <strong>bonus di circostanza di +1</strong> ai tiri salvezza contro malattie, veleni e radiazioni. Possiedi sempre le protezioni ambientali base attive.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SEZIONE LIGNAGGI -->
+    <h2 class="section-divider">ANDROID HERITAGES ( PUOI SCEGLIERNE SOLO 1 )</h2>
+    <div class="section-subtitle">(Lignaggi Androidi)</div>
+    <p class="main-desc">
+        Il lignaggio di un androide spesso riflette lo scopo per cui è stato originariamente creato o il modo in cui ha adattato il proprio corpo per soddisfare al meglio la sua vita attuale.
+    </p>
+
+    <div class="features-grid">
+        <!-- ARTIFICIAL SCION -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Artificial Scion Android</h2>
+                <div class="feature-translation">(Discendente Artificiale)</div>
+                <p class="feature-text">Il tuo corpo è stato creato da una potente intelligenza artificiale per interfacciarsi con altre macchine. Possiedi dettagli insoliti (lineamenti incredibilmente simmetrici, dita extra o doppie pupille).</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Trained ( T ) in <strong>Computer</strong> e ottieni il talento di abilità <strong>Phreaker</strong>.
+            </div>
+        </div>
+
+        <!-- MOD FANATIC -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Mod Fanatic Android</h2>
+                <div class="feature-translation">(Fanatico delle Modifiche)</div>
+                <p class="feature-text">Tu o le tue iterazioni precedenti avete modificato il vostro telaio per renderlo altamente compatibile con i potenziamenti delle armature commerciali.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Guadagni uno <strong>slot extra per potenziamenti d'armatura</strong> sul corpo. Inizi con un modulo comune di livello 1 o inferiore installato gratis.
+            </div>
+        </div>
+
+        <!-- NETWORKED -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Networked Android</h2>
+                <div class="feature-translation">(Androide In Rete)</div>
+                <p class="feature-text">Il tuo corpo si connette fluidamente con i sistemi esterni. Ottieni la comunicazione a onde corte (shortwave) wireless entro 9 metri con macchine o costrutti tech.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Puoi usare <strong>Computer</strong> per Hackerare, Disattivare Dispositivi o Scassinare a distanza (entro 9 metri) senza kit e a mani libere.
+            </div>
+        </div>
+
+        <!-- RENEWED -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Renewed Android</h2>
+                <div class="feature-translation">(Androide Rinnovato)</div>
+                <p class="feature-text">Molte anime hanno abitato questo guscio prima di te. La prima volta in un giorno in cui perdi la condizione morente (dying), <strong>non guadagni</strong> la condizione ferito (wounded).</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Trained ( T ) in un'abilità di <strong>Richiamare Conoscenze</strong> a scelta e ottieni il talento <strong>Conoscenza Dubbia (Dubious Knowledge)</strong>.
+            </div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 1° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 1 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 1° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Android Lore <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Hai studiato a fondo le origini e la storia del tuo popolo sintetico.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trained ( T ) in Artigianato e Furto. Guadagni il talento Conoscenza Addizionale legato ad Android Lore.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Emotionless <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">I tuoi processori emotivi inibiti ti rendono quasi immune ai condizionamenti psicologici.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Bonus di circostanza di +1 ai TS contro effetti di emozione. I successi diventano successi critici.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Internal Compartment <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Possiedi una cavità cava nascosta nell'avambraccio per occultare piccoli oggetti.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Custodisci oggetti (Ingombro L). Bonus di +4 contro i furti. Puoi estrarre un'arma nascosta ed eseguire un Colpo con 1 azione.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Memory Recovery <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Attingi ai dati archiviati delle anime precedenti che hanno occupato il tuo corpo.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Durante i preparativi giornalieri, ottieni la competenza Trained ( T ) in un'abilità a tua scelta fino al giorno successivo.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Nanite Surge <small style="display:inline; color:#8a2be2;">[R] - FEAT 1</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta all'ora | <strong>Innesco:</strong> Tenti un'azione di abilità (max 3 azioni).</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Sovraccarichi i naniti per ottenere un bonus di stato di +2 alla prova. Emetti luce fioca per 1 round in un raggio di 3 metri.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Nightvision Adaptation <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">I chip visivi oculari sono stati calibrati per scansionare l'assenza totale di luce.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Guadagni la capacità permanente di <strong>Scurovisione (Darkvision)</strong>.</div>
+        </div>
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <h2 class="bg-title">Quickened Processor <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Il tuo processore centrale calcola le minacce ambientali a velocità ultra-quantistica durante le fases di attrito e di navigazione.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Bonus di circostanza di +1 alle prove di Deception (Percezione) per l'iniziativa e bonus di circostanza di +2 a Pilotare per l'iniziativa.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 5° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 5 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 5° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Advanced Targeting System <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text">I sistemi di puntamento predicono matematicamente i movimenti di fuga dei nemici agganciati.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi lanciare l'incantesimo <em>sure strike</em> (colpo sicuro) una volta al giorno come incantesimo innato arcano.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Machine Saboteur <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text">Sei programmato per iniettare stringhe di codice corrotte nei nemici artificiali o nei droni.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Quando metti a segno un colpo critico contro una creatura tech, le infliggi lo stato <strong>glitching 1</strong>.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Protective Subroutine <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Nanite Surge</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi attivare il Nanite Surge quando effettui un Tiro Salvezza invece di una prova di abilità, ottenendo un bonus di stato di +2 al TS.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 9° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 9 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 9° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-9">
+            <h2 class="bg-title">Internal Respirator <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <p class="feature-text">I polmoni sintetici riciclano internamente i composti gassosi isolandoti dal vuoto o dai gas tossici.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trattieni il respiro per un'ora addizionale. Richiede 10 minuti di aria respirabile pulita per ricaricare le riserve.</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="bg-title">Offensive Subroutine <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Nanite Surge</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi attivare Nanite Surge durante un tiro per colpire (attack roll) per ottenere un bonus di stato di +1 all'attacco.</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="bg-title">Repair Module <small style="display:inline; color:#f57c00;">[1A] - FEAT 9</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta al giorno</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> I naniti riparano i circuiti conferendoti fast healing (guarigione rapida) pari a metà del tuo livello per 1 minuto.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 13° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 13 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 13° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Consistent Surge <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Nanite Surge</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ottimizzi il cooldown dei micro-naniti: puoi usare il Nanite Surge una volta ogni 10 minuti invece di una volta all'ora.</div>
+        </div>
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Revivification Protocol <small style="display:inline; color:#d84315;">[F] - FEAT 13</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta al giorno | <strong>Innesco:</strong> Stai per tentare un tiro di recupero mentre sei morente.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ti rianimi istantaneamente a 1 PF, perdi lo stato morente e privo di sensi e puoi agire subito nel turno. Aumenti ferito normalmente.</div>
+        </div>
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Synthetic Speech <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Lignaggio Artificial Scion o Networked Android</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi lanciare l'incantesimo <em>speak with computers</em> una volta al giorno come incantesimo innato arcano di 4° grado.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 17° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 17 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 17° Livello)</div>
+    <div class="features-grid" style="margin-bottom: 60px;">
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Memory Matrix <small style="display:inline; color:#4f5b66;">- FEAT 17</small></h2>
+            <p class="feature-text">Baluardi logico-matematici blindano il tuo nucleo di memoria da manomissioni mentali ed esoteriche.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Tiri due volte (prendendo il massimo) contro confuso o controllato. Se fallisci e inizi il turno controllato, superando una prova con CD 5 rimani paralizzato anziché agire contro i tuoi alleati.</div>
+        </div>
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Nanite Form <small style="display:inline; color:#4f5b66;">[2A] - FEAT 17</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta al giorno</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ti dissolvi in uno sciame di naniti per 1 minuto. Diventi di taglia Enorme, ottieni Volare (12 mt) e il tratto sciame. Con 2 azioni infliggi 10d6 danni da acido nello spazio occupato (TS Reflex (Riflessi) base).</div>
+        </div>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

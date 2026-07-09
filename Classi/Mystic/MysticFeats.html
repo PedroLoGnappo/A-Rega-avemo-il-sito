@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Mystic - Privilegi di Classe</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 40px 40px 40px;
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            text-align: center;
+            color: #a1b5cc;
+            font-size: 1em;
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+
+        /* STRUTTURA DELLA TIMELINE DEI LIVELLI */
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .level-section {
+            border-left: 3px solid #8a2be2; /* Accento viola olografico verticale */
+            padding-left: 25px;
+        }
+        .level-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4em;
+            color: #00ffff;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .level-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #0052cc, transparent);
+        }
+
+        /* BLOCCHETTI IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s ease-in-out;
+            backdrop-filter: blur(6px);
+        }
+        .feature-card:hover {
+            transform: translateX(3px);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.15em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            font-weight: normal;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0;
+        }
+
+        /* ELEMENTI AZIONE / DIRETTIVE DI COMANDO (Iniezione di Codice) */
+        .action-box {
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid #203a70;
+            border-left: 4px solid #c62828; /* Bordo rosso azione */
+            border-radius: 0 4px 4px 0;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .action-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1em;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .action-traits {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: #00bfff;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        /* GRIGLIA PER LE COMPETENZE INIZIALI */
+        .proficiencies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .prof-item {
+            background: rgba(6, 9, 19, 0.5);
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            border: 1px dashed #203a70;
+            color: #cdffff;
+            line-height: 1.4;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA -->
+    <h1 class="main-title">MYSTIC - PRIVILEGI DI CLASSE</h1>
+    <p class="subtitle">Tutte le capacità del Mistico organizzate cronologicamente e divise per livello di progressione.</p>
+
+    <!-- TIMELINE DEI LIVELLI -->
+    <div class="timeline-container">
+
+        <!-- LIVELLO 1 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 1</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Ancestry and Background <span class="feature-translation">(Ascendenza e Background)</span></div>
+                <p class="feature-text">In aggiunta a ciò che ottieni dalla tua classe al 1° livello, ottieni tutti i benefici dell'ascendenza e del background selezionati, come descritto nel Capitolo 2.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Aggiungi +1 alle seguenti statistiche: <span class="feature-translation">(Aumenti di Attributo)</span></div>
+                <p class="feature-text">In aggiunta a ciò che ottieni dalla tua classe al 1° livello, possiedi quattro aumenti di attributo gratuiti da applicare a quattro diversi modificatori di attributo.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Initial Proficiencies <span class="feature-translation">(Competenze Iniziali)</span></div>
+                <p class="feature-text">All'inizio del tuo addestramento guadagni i seguenti ranghi di competenza statistica. Sei non Trained ( T ) in tutto ciò che non è menzionato.</p>
+                <div class="proficiencies-grid">
+                    <div class="prof-item"><strong style="color: #00ffff;">Deception (Percezione):</strong> Trained ( T )</div>
+                    <div class="prof-item"><strong style="color: #8a2be2;">TIRI SALVEZZA:</strong> Fortitude (Tempra)(Trained ( T )), Reflex (Riflessi) (Trained ( T )), Will (Volontà) Expert ( E )</div>
+                    <div class="prof-item"><strong style="color: #00ffff;">ABILITÀ:</strong> Trained ( T ) in un'abilità specifica determinata dalla tua Connessione, più un numero di abilità aggiuntive pari a 3 + il tuo modificatore di Intelligenza.</div>
+                    <div class="prof-item"><strong style="color: #8a2be2;">ATTACCHI:</strong> Armi semplici (Trained ( T )), Attacchi disarmati (Trained ( T ))</div>
+                    <div class="prof-item"><strong style="color: #00ffff;">DIFESE:</strong> Armature leggere (Trained ( T )), Difesa senza armatura (Trained ( T ))</div>
+                    <div class="prof-item"><strong style="color: #8a2be2;">MAGIA E CD:</strong> Modificatore di attacco magico (Trained ( T )), CD di incantesimo (Trained ( T )), CD di classe del Mistico (Trained ( T ))</div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Connection <span class="feature-translation">(Connessione)</span></div>
+                <p class="feature-text">Tutti i mistici possiedono una connessione soprannaturale con una forza cosmica che concede loro poteri magici (una divinità, un concetto metafisico o la natura stessa). Al 1° livello scegli la tua Connessione: essa determina il tipo di incantesimi che lanci, la tradizione magica da cui attingi, un'abilità addestrata extra, le tue Epifanie (Epiphanies) e un effectto di Armonia che si attiva solitamente quando curi qualcuno tramite la tua rete vitale.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Initial Epiphany <span class="feature-translation">(Epifania Iniziale)</span></div>
+                <p class="feature-text">Scopri la verità fondamentale della tua connessione cosmica, apprendendo l'incantesimo epifanico iniziale della tua connessione. Gli incantesimi epifanici sono un tipo di <strong>Incantesimo di Focalizzazione (Focus Spell)</strong>. Costano 1 Punto Focalizzazione per essere lanciati e inizi con una riserva massima di 1 Punto Focalizzazione. Rigeneri la riserva durante i preparativi giornalieri e puoi recuperare 1 Punto Focalizzazione spendendo 10 minuti nell'attività di **Rifocalizzare (Refocus)** meditando con i tuoi alleati legati o riflettendo sulla natura della tua connessione. I focus spell sono automaticamente aumentati di livello (heightened) a metà del tuo livello arrotondato per eccesso e non consumano slot incantesimo.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Mystic Bond <span class="feature-translation">(Legame Mistico)</span></div>
+                <p class="feature-text">Formi un legame tra te e le tue creature compagne tramite un'attività di 10 minuti legata alla tua connessione stando adiacente al bersaglio. Puoi mantenere un legame contemporaneamente con un massimo di 10 creature consenzienti. Tu sei sempre considerato parte del tuo stesso legame (senza contare nel limite). Conosci sempre la distanza generale, la direzione, i Punti Ferita attuali e lo stato vitale (cosciente, svenuto, morente o morto) di tutti i tuoi compagni legati su questo piano astrale.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Vitality Network <span class="feature-translation">(Rete Vitale)</span></div>
+                <p class="feature-text">La tua anima alimenta una rete energetica che connette e cura i membri del legame. La tua Rete Vitale ha una capacità massima di Punti Ferita pari a **6 + 4 per livello**. Guadagni l'azione **Trasferire Vitalità (Transfer Vitality)** per prelevare PF dalla riserva della rete e curare te o i tuoi compagni. All'inizio di ogni tuo turno in combattimento, la rete vitale rigenera automaticamente 4 PF (6 PF se sei Maestro nella CD incantesimi; 8 PF se sei Leggendario). Quando effettui l'attività *Rifocalizzare*, la tua rete vitale rigenera istantaneamente tutti i suoi PF.</p>
+                
+                <div class="action-box">
+                    <div class="action-title">Transfer Vitality <span class="feature-translation">(Trasferire Vitalità)</span> <span style="color:#00ffff;">[1A]</span></div>
+                    <div class="action-traits">CONCENTRATE | HEALING | MYSTIC</div>
+                    <p class="feature-text">Trasferisci fino a 10 Punti Ferita (minimo 1) dalla tua Rete Vitale a te stesso o a una creatura legata che puoi percepire entro 60 piedi (18 mt). Funziona normalmente anche sulle creature con guarigione del vuoto (void healing). L'ammontare massimo trasferibile con una singola azione aumenta di 10 al 5°, 10°, 15° e 20° livello.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Mystic Spellcasting <span class="feature-translation">(Lancio di Incantesimi del Mistico)</span></div>
+                <p class="feature-text">Sei un incantatore a tutti gli effetti. Ogni giorno puoi lanciare fino a tre incantesimi di 1° livello usando i tuoi <strong>Slot Incantesimo</strong>. Poiché il tuo attributo chiave è la <strong>Saggezza</strong>, usi il tuo modificatore di Saggezza per calcolare la CD degli incantesimi e i modificatori di attacco magico. Puoi lanciare i trucchetti (Cantrips) a Will (Volontà) senza consumare slot incantesimo; i trucchetti scalano in automatico a un livello pari a metà del tuo livello arrotondato per eccesso.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Spell Repertoire <span class="feature-translation">(Repertorio di Incantesimi)</span></div>
+                <p class="feature-text">Al 1° livello impari due incantesimi di 1° livello a tua scelta, quattro trucchetti a scelta, più un incantesimo e un trucchetto addizionali forniti direttamente dalla tua Connessione. Ogni volta che ottieni un nuovo slot incantesimo per livello, aggiungi un incantesimo dello stesso livello al tuo repertorio. Quando ottieni l'accesso a un nuovo rango di incantesimi, il primo incantesimo appreso deve essere obbligatoriamente quello della tua Connessione. 
+                <br><small><strong>Sostituire Incantesimi:</strong> Ogni volta che aumenti di livello e impari nuovi incantesimi, puoi scambiare un vecchio incantesimo (o trucchetto) con uno nuovo dello stesso rango. Non puoi scambiare incantesimi di Connessione o Epifanie.</small></p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 2 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 2</div>
+            <div class="feature-card">
+                <div class="feature-title">Mystic Feats <span class="feature-translation">(Talenti del Mistico)</span></div>
+                <p class="feature-text">Guadagni un talento di classe del Mistico al 2° livello e a ogni livello pari successivo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Feats <span class="feature-translation">(Talenti di Abilità)</span></div>
+                <p class="feature-text">Guadagni un talento di abilità. Devi essere almeno Trained ( T ) nell'abilità corrispondente per poterlo selezionare.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 3 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 3</div>
+            <div class="feature-card">
+                <div class="feature-title">Group Chat <span class="feature-translation">(Chat di Gruppo / Comunicazione Mentale)</span></div>
+                <p class="feature-text">Le creature nel tuo legame mistico possono comunicare liberamente per via telepatica finché si trovano entro 120 piedi (36 mt) l'una dall'altra. Finché due creature collegate sono vive e sullo stesso piano di esistenza, rimangono pienamente consapevoli dello stato di salute altrui, della distanza e della direzione generale. Inoltre, guadagni l'azione di metamorfosi magica <strong>Incantesimo di Rete (Network Spell)</strong>.</p>
+                
+                <div class="action-box">
+                    <div class="action-title">Network Spell <span class="feature-translation">(Incantesimo di Rete)</span> <span style="color:#00ffff;">[1A]</span></div>
+                    <div class="action-traits">CONCENTRATE | MYSTIC | SPELLSHAPE</div>
+                    <p class="feature-text">Incanali la tua magia per farla manifestare da un tuo alleato invece che da te stesso. Se la tua azione successiva è Lanciare un Incantesimo che possiede un'area, una gittata o un bersaglio, l'incantesimo si origina dallo spazio occupato da uno dei tuoi alleati legati. La linea di vista e di effetto devono essere verificate sia da te che dal tuo alleato al momento del lancio. Se l'incantesimo possiede il tratto *sottile* (subtle), puoi farlo lanciare in modo che l'alleato sembri il vero autore senza che quel tratto si applichi a lui.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Reflex Expertise <span class="feature-translation">(Esperto in Reflex (Riflessi))</span></div>
+                <p class="feature-text">La tua connessione cosmica ti conferisce Reflex (Riflessi) pronti per schivare i pericoli. Il tuo rango di competenza nei tiri salvezza su <strong>Reflex (Riflessi)</strong> aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Signature Spells <span class="feature-translation">(Incantesimi Pregiati)</span></div>
+                <p class="feature-text">Seleziona un incantesimo del tuo repertorio per ciascun rango di incantesimi a cui hai accesso affinché diventi un incantesimo pregiato. Puoi aumentare o diminuire di livello (heighten) gli incantesimi pregiati in modo completamente libero utilizzando i tuoi slot disponibili, senza dover imparare le versioni amplificate separatamente.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increases <span class="feature-translation">(Incrementi di Abilità)</span></div>
+                <p class="feature-text">Guadagni un incremento di abilità. Puoi usarlo per diventare Trained ( T ) in una nuova abilità o esperto in una in cui sei già Trained ( T ).</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">General Feats <span class="feature-translation">(Talenti Generali)</span></div>
+                <p class="feature-text">Guadagni un talento generale a tua scelta tra quelli presenti nel Capitolo 5.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 4 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 4</div>
+            <div class="feature-card">
+                <div class="feature-title">Mystic Feat & Skill Feat</div>
+                <p class="feature-text">Ottieni un talento di classe del mistico e un talento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 5 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 5</div>
+            <div class="feature-card">
+                <div class="feature-title">Aggiungi +1 alle seguenti statistiche: <span class="feature-translation">(Aumenti di Attributo)</span></div>
+                <p class="feature-text">Ottieni quattro aumenti di attributo gratuiti da applicare a modificatori differenti. Un modificatore già pari a +4 o superiore richiede due aumenti completi per incrementare di 1.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Fortitude Expertise <span class="feature-translation">(Esperto in Tempra)</span></div>
+                <p class="feature-text">Il tuo corpo si fortifica contro le avversità. Il tuo rango di competenza nei tiri salvezza su <strong>Tempra</strong> aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Ancestry Feats <span class="feature-translation">(Talenti di Ascendenza)</span></div>
+                <p class="feature-text">Guadagni un talento di ascendenza legato alla tua razza di appartenenza.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increase</div>
+                <p class="feature-text">Ottieni un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 6 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 6</div>
+            <div class="feature-card">
+                <div class="feature-title">Mystic Feat & Skill Feat</div>
+                <p class="feature-text">Ottieni un talento di classe del mistico e un talento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 7 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 7</div>
+            <div class="feature-card">
+                <div class="feature-title">Expert Spellcaster <span class="feature-translation">(Incantatore Esperto)</span></div>
+                <p class="feature-text">Il tuo legame con la sorgente cosmica si solidifica. I tuoi ranghi di competenza per il <strong>Modificatore di attacco magico</strong> e per la <strong>CD degli incantesimi</strong> aumentano a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increases <span class="feature-translation">(Sblocco Grado Maestro)</span></div>
+                <p class="feature-text">Ottieni un incremento di abilità. Da questo livello puoi spendere gli incrementi per diventare <strong>Maestro</strong> nelle abilità in cui sei già Esperto.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">General Feat</div>
+                <p class="feature-text">Ottieni un talento generale.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 8 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 8</div>
+            <div class="feature-card">
+                <div class="feature-title">Mystic Feat & Skill Feat</div>
+                <p class="feature-text">Ottieni un talento di classe del mistico e un talento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 9 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 9</div>
+            <div class="feature-card">
+                <div class="feature-title">Resilient Soul <span class="feature-translation">(Anima Resiliente)</span></div>
+                <p class="feature-text">I legami intrecciati con la tua connessione e i compagni schermano la tua anima dai dubbi. La competenza nei tiri salvezza su <strong>Volontà</strong> aumenta a <strong>Maestro</strong>. Quando ottieni un successo in un TS Volontà, lo consideri automaticamente come un successo critico.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Ancestry Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di ascendenza e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 10 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 10</div>
+            <div class="feature-card">
+                <div class="feature-title">Aggiungi +1 alle seguenti statistiche: & Mystic Feat & Skill Feat</div>
+                <p class="feature-text">Ottieni quattro aumenti di attributo, un talento di classe del mistico e un talento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 11 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 11</div>
+            <div class="feature-card">
+                <div class="feature-title">Perception Expertise <span class="feature-translation">(Esperto in Deception (Percezione))</span></div>
+                <p class="feature-text">Rimani sempre all'erta contro le minacce. Il tuo rango di competenza in <strong>Deception (Percezione)</strong> aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Weapon Expertise <span class="feature-translation">(Esperto nelle Armi)</span></div>
+                <p class="feature-text">Impari a vincere i conflitti anche con strumenti base. La competenza nelle <strong>armi semplici</strong> e negli <strong>attacchi disarmati</strong> aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">General Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento generale e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 12 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 12</div>
+            <div class="feature-card">
+                <div class="feature-title">Mystic Feat & Skill Feat</div>
+                <p class="feature-text">Ottieni un talento di classe del mistico e un talento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 13 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 13</div>
+            <div class="feature-card">
+                <div class="feature-title">Armor Expertise <span class="feature-translation">(Esperto nelle Armature)</span></div>
+                <p class="feature-text">I legami magici ti proteggono come una barriera mistica. La tua competenza nelle <strong>armature leggere</strong> e nella <strong>difesa senza armatura</strong> aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Weapon Specialization <span class="feature-translation">(Specializzazione nelle Armi)</span></div>
+                <p class="feature-text">Impari a proteggere te e i tuoi alleati infliggendo più danni. Infliggi 2 danni addizionali con le armi e gli attacchi disarmati in cui sei Esperto (aumenta a 3 se sei Maestro, a 4 se Leggendario).</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Ancestry Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di ascendenza e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 14 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 14</div>
+            <div class="feature-card">
+                <div class="feature-title">Mystic Feat & Skill Feat</div>
+                <p class="feature-text">Ottieni un talento di classe del mistico e un talento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 15 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 15</div>
+            <div class="feature-card">
+                <div class="feature-title">Master Spellcaster <span class="feature-translation">(Incantatore Maestro)</span></div>
+                <p class="feature-text">Incanali imponenti flussi di magia cosmica. I tuoi ranghi di competenza per il <strong>Modificatore di attacco magico</strong> e per la <strong>CD degli incantesimi</strong> aumentano a <strong>Maestro</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increases <span class="feature-translation">(Sblocco Grado Leggendario)</span></div>
+                <p class="feature-text">Ottieni un incremento di abilità. Da questo livello puoi usare gli incrementi per diventare <strong>Leggendario</strong> nelle abilità in cui sei già Maestro.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Aggiungi +1 alle seguenti statistiche: & General Feat</div>
+                <p class="feature-text">Ottieni quattro aumenti di attributo e un talento generale.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 16 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 16</div>
+            <div class="feature-card">
+                <div class="feature-title">Mystic Feat & Skill Feat</div>
+                <p class="feature-text">Ottieni un talento di classe del mistico e un talento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 17 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 17</div>
+            <div class="feature-card">
+                <div class="feature-title">Ancestry Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di ascendenza e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 18 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 18</div>
+            <div class="feature-card">
+                <div class="feature-title">Mystic Feat & Skill Feat</div>
+                <p class="feature-text">Ottieni un talento di classe del mistico e un talento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 19 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 19</div>
+            <div class="feature-card">
+                <div class="feature-title">Legendary Spellcaster <span class="feature-translation">(Incantatore Leggendario)</span></div>
+                <p class="feature-text">La pura essenza della magia scorre libera attraverso ogni tuo poro. I tuoi ranghi di competenza per il <strong>Modificatore di attacco magico</strong> e per la <strong>CD degli incantesimi</strong> aumentano a <strong>Leggendario</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Perfect Harmony <span class="feature-translation">(Armonia Perfetta)</span></div>
+                <p class="feature-text">Scopri la verità ultima legata alla tua connessione e comprendi appieno il suo ruolo come fondamenta del cosmo. Apprendi l'effetto di Armonia Perfetta della tua specifica Connessione.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Transcendence <span class="feature-translation">(Trascendenza)</span></div>
+                <p class="feature-text">Diventi la personificazione vivente della tua connessione astrale. Guadagni un singolo <strong>Slot Incantesimo di 10° Livello</strong> e puoi lanciare un incantesimo preparato in questo slot. Non puoi incrementare il numero di questi slot con altre abilità base, a meno che tu non acquisisca lo specifico talento *Transcended Existence*.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">General Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento generale e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 20 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 20</div>
+            <div class="feature-card">
+                <div class="feature-title">Maximum Advancement <span class="feature-translation">(Progressione Finale)</span></div>
+                <p class="feature-text">Ottieni gli ultimi quattro aumenti di attributo gratuiti, un talento di classe del mistico di livello 20, un talento di abilità e l'ultimo incremento di abilità finale.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

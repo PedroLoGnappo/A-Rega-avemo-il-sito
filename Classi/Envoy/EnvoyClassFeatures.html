@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Envoy Privilegi di Classe</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 40px; /* Padding ottimizzato per la timeline centrale */
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            color: #a1b5cc;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 50px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* TIMELINE STRUTTURA */
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .level-section {
+            border-left: 4px solid #0052cc;
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+        .level-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3em;
+            color: #00ffff;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .level-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #0052cc, transparent);
+        }
+
+        /* SCHEDE IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.15em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            font-weight: normal;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0;
+        }
+
+        /* DIRETTIVE DI COMANDO / AZIONI */
+        .action-box {
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid #203a70;
+            border-left: 4px solid #ff3333; /* Accento rosso tattico */
+            border-radius: 0 4px 4px 0;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .action-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .action-traits {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: #00bfff;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        /* GRIGLIA PER COMPETENZE */
+        .proficiencies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .prof-item {
+            background-color: rgba(6, 9, 19, 0.5);
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            line-height: 1.4;
+            border: 1px dashed #203a70;
+            color: #cdffff;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE SULL'ASSE DESTRA */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA -->
+    <h1 class="main-title">ENVOY - PRIVILEGI DI CLASSE</h1>
+    <p class="subtitle">Tutte le capacità dell'Inviato organizzate cronologicamente e divise per livello di progressione neuronale.</p>
+
+    <!-- TIMELINE DEI LIVELLI -->
+    <div class="timeline-container">
+
+        <!-- LIVELLO 1 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 1</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Ancestry and Background <span class="feature-translation">(Ascendenza e Background)</span></div>
+                <p class="feature-text">In aggiunta a ciò che ottieni dalla tua classe al 1° livello, hai i benefici dell'ascendenza e del background selezionati, come descritto nel Capitolo 2.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Aggiungi +1 alle seguenti statistiche: <span class="feature-translation">(Aumenti di Attributo)</span></div>
+                <p class="feature-text">In aggiunta a ciò che ottieni dalla tua classe al 1° livello, possiedi quattro aumenti gratuiti da applicare a quattro diversi modificatori di attributo.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Initial Proficiencies <span class="feature-translation">(Competenze Iniziali)</span></div>
+                <p class="feature-text">Guadagni i ranghi di competenza elencati nelle seguenti statistiche. Sei non Trained ( T ) in tutto ciò che non è elencato a meno che tu non acquisisca un rango migliore in altro modo.</p>
+                <div class="proficiencies-grid">
+                    <div class="prof-item"><strong>Deception (Percezione):</strong> Trained ( T )</div>
+                    <div class="prof-item"><strong>Tiri Salvezza:</strong> Fortitude (Tempra)(Trained ( T )), Reflex (Riflessi) Expert ( E ), Will (Volontà) Expert ( E )</div>
+                    <div class="prof-item"><strong>Abilità:</strong> Trained ( T ) in una a scelta tra Raggirare, Diplomazia o Intimidire; una basata sullo Stile di Comando; abilità extra pari a 6 + modificatore INT.</div>
+                    <div class="prof-item"><strong>Attacchi:</strong> Armi semplici (Trained ( T )), Armi da guerra (Trained ( T )), Attacchi disarmati (Trained ( T ))</div>
+                    <div class="prof-item"><strong>Difese:</strong> Armature leggere (Trained ( T )), Difesa senza armatura (Trained ( T ))</div>
+                    <div class="prof-item"><strong>CD di Classe:</strong> Trained ( T ) nella CD di classe dell'Inviato</div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Envoy Directives <span class="feature-translation">(Direttive dell'Inviato)</span></div>
+                <p class="feature-text">Incoraggi i tuoi alleati con le direttive. Una direttiva è un ordine che conferisce benefici a chi lo segue. Puoi spendere più azioni per dare l'esempio (Lead by Example) ottenendo effetti maiores. Hanno il tratto uditivo o visivo. Puoi emettere una direttiva per round e i suoi effetti durano fino all'inizio del tuo prossimo turno. Cominci conoscendo la direttiva <strong>Addosso! (Get 'Em!)</strong>.</p>
+                
+                <div class="action-box">
+                    <div class="action-title">GET ’EM! <span class="feature-translation">(Addosso!)</span></div>
+                    <div class="action-traits">DIRECTIVE | ENVOY | [1 AZIONE] o [2 AZIONI]</div>
+                    <p class="feature-text">Seleziona un nemico entro 60 piedi che puoi vedere. Tu e i tuoi alleati guadagnate un bonus di status di +1 ai tiri per colpire contro quel bersaglio fino all'inizio del tuo prossimo turno.<br><br>
+                    <strong>Lead by Example:</strong> Se usi 2 azioni, effettua un Colpo (Strike) contro il bersaglio. Guadagni un bonus di status al tiro per i danni pari al tuo modificatore di Carisma. Che il Colpo vada a segno o meno, tu e i tuoi alleati ottenete un bonus di status di +1 ai danni su tutti i Colpi successivi contro quel nemico fino al tuo prossimo turno. Il bonus ai danni aumenta di 1 al 5°, 10°, 15° e 20° livello.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Leadership Style <span class="feature-translation">(Stile di Comando)</span></div>
+                <p class="feature-text">Seleziona uno stile di comando tra i seguenti. Diventi Trained ( T ) nell'abilità indicata, ottieni il privilegio bonus e la direttiva associata:</p>
+                
+                <!-- Sotto-stili -->
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
+                    <div style="border-left: 3px solid #00ffff; padding-left: 15px;">
+                        <strong style="color: #00ffff; font-family: 'Orbitron', sans-serif;">From the Front (Dalla Prima Linea):</strong> <span style="font-size:0.95em; color:#cdffff;">Abilità: Atletica. Privilegio: Trained ( T ) nelle armature medie (prosegue con Esperto e Maestro insieme alle leggere). Direttiva: <em>Into Position!</em></span>
+                        <div class="action-box">
+                            <div class="action-title">INTO POSITION!</div>
+                            <div class="action-traits">[1 AZIONE] o [2 AZIONI]</div>
+                            <p class="feature-text">Un nemico entro 60 piedi. Gli alleati a portata del bersaglio possono fare un Passo (Step) come reazione. Gli alleati entro 30 piedi da te possono fare una Corsa (Stride) come reazione se terminano più vicini al bersaglio.<br><br><strong>Lead by Example:</strong> Con 2 azioni, effettua un Colpo sul bersaglio; esso subisce una penalità di circostanza di -1 agli attacchi contro altre creature.</p>
+                        </div>
+                    </div>
+
+                    <div style="border-left: 3px solid #00ffff; padding-left: 15px;">
+                        <strong style="color: #00ffff; font-family: 'Orbitron', sans-serif;">From the Shadows (Dalle Ombre):</strong> <span style="font-size:0.95em; color:#cdffff;">Abilità: Furtività. Privilegio: Ottieni il talento <em>Assurance (Furtività)</em>.</span>
+                        <div class="action-box">
+                            <div class="action-title">COORDINATED AMBUSH!</div>
+                            <div class="action-traits">[1 AZIONE] o [2 AZIONI]</div>
+                            <p class="feature-text">Un nemico e un alleato entro 60 piedi. Se l'alleato è nascosto/non individuato dal nemico all'inizio del suo turno, considera il bersaglio come Impreparato (off-guard) fino alla fine del turno.<br><br><strong>Lead by Example:</strong> Con 2 azioni, effettua Nascondersi o Muoversi Furtivamente. Puoi usare una reazione per colpire il nemico la prima volta che l'alleato lo attacca.</p>
+                        </div>
+                    </div>
+
+                    <div style="border-left: 3px solid #00ffff; padding-left: 15px;">
+                        <strong style="color: #00ffff; font-family: 'Orbitron', sans-serif;">Guns Blazing (A Armi Spianate):</strong> <span style="font-size:0.95em; color:#cdffff;">Abilità: Acrobazia. Privilegio: Ottieni il talento <em>Iniziativa Incredibile</em>.</span>
+                        <div class="action-box">
+                            <div class="action-title">READY ARMS!</div>
+                            <div class="action-traits">[1 AZIONE] o [2 AZIONI]</div>
+                            <p class="feature-text">Tu e gli alleati entro 30 piedi potete Interagire per estrarre o scambiare armi come reazione.<br><br><strong>Lead by Example:</strong> Con 2 azioni, effettua un Colpo, Fuoco d'Area o Fuoco Automatico. Se colpisci o falliscono il tiro salvezza, un alleato può effettuare un Colpo sul bersaglio come reazione.</p>
+                        </div>
+                    </div>
+
+                    <div style="border-left: 3px solid #00ffff; padding-left: 15px;">
+                        <strong style="color: #00ffff; font-family: 'Orbitron', sans-serif;">In the Spotlight (Sotto i Riflettori):</strong> <span style="font-size:0.95em; color:#cdffff;">Abilità: Performance. Privilegio: Ottieni il talento <em>Impressive Performance</em>.</span>
+                        <div class="action-box">
+                            <div class="action-title">DANCE PARTNER!</div>
+                            <div class="action-traits">[1 AZIONE] o [2 AZIONI]</div>
+                            <p class="feature-text">Nomina te e un alleato entro 10 piedi. Fai una Corsa o un Passo, l'alleato può fare lo stesso come reazione finché finisce alla stessa distanza o più vicino a te.<br><br><strong>Lead by Example:</strong> Con 2 azioni, considerate i nemici minacciati da entrambi i lati come Fiancheggiati. L'alleato è occultato contro attacchi a distanza entro 10 piedi.</p>
+                        </div>
+                    </div>
+
+                    <div style="border-left: 3px solid #00ffff; padding-left: 15px;">
+                        <strong style="color: #00ffff; font-family: 'Orbitron', sans-serif;">Infosphere Director (Direttore dell'Infosfera):</strong> <span style="font-size:0.95em; color:#cdffff;">Abilità: Computer. Privilegio: Ottieni il talento <em>Digital Diversion</em>.</span>
+                        <div class="action-box">
+                            <div class="action-title">DIGITAL ASSESSMENT!</div>
+                            <div class="action-traits">[1 AZIONE] o [2 AZIONI]</div>
+                            <p class="feature-text">Scegli una creatura entro 100 piedi ed effettua Richiamare Conoscenze; se superi la prova scopri una resistenza o immunità.<br><br><strong>Lead by Example:</strong> Con 2 azioni, Colpisci il bersaglio. Ottenete +1 di circostanza alla CA contro di esso. Se ha il tratto tecnologico e fallisce un TS Tempra, diventa <em>glitching 1</em>.</p>
+                        </div>
+                    </div>
+
+                    <div style="border-left: 3px solid #00ffff; padding-left: 15px;">
+                        <strong style="color: #00ffff; font-family: 'Orbitron', sans-serif;">Through Desperate Times (In Tempi Disperati):</strong> <span style="font-size:0.95em; color:#cdffff;">Abilità: Medicina. Privilegio: Ottieni il talento <em>Medicina da Battaglia</em>.</span>
+                        <div class="action-box">
+                            <div class="action-title">KEEP ON KEEPING ON!</div>
+                            <div class="action-traits">[1 AZIONE] o [2 AZIONI]</div>
+                            <p class="feature-text">Un alleato entro 30 piedi aumenta la successiva guarigione ricevuta del tuo modificatore di Carisma + metà del tuo livello.<br><br><strong>Lead by Example:</strong> Con 2 azioni, usi Medicina da Battaglia sul bersaglio; la sua immunità a questa capacità dura solo 10 minuti invece di 1 giorno.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Envoy Feats <span class="feature-translation">(Talenti dell'Inviato)</span></div>
+                <p class="feature-text">Ottieni un talento di classe dell'Inviato al 1° livello e a ogni livello pari successivo.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 2 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 2</div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Feats <span class="feature-translation">(Talenti di Abilità)</span></div>
+                <p class="feature-text">Ottieni un talento di abilità. Devi essere almeno Trained ( T ) nell'abilità corrispondente.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increases <span class="feature-translation">(Incrementi di Abilità)</span></div>
+                <p class="feature-text">Ottieni un incremento di abilità. Usalo per diventare Trained ( T ) in una nuova abilità o esperto in una in cui sei già Trained ( T ).</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 3 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 3</div>
+            <div class="feature-card">
+                <div class="feature-title">Adaptive Talent <span class="feature-translation">(Talento Adattivo)</span></div>
+                <p class="feature-text">Durante i tuoi preparativi giornalieri, seleziona un talento di abilità di cui soddisfi i prerequisiti. Lo guadagni temporaneamente fino ai tuoi prossimi preparativi. Non puoi usarlo come prerequisito permanente.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">General Feats <span class="feature-translation">(Talenti Generali)</span></div>
+                <p class="feature-text">Guadagni un talento generale a tua scelta (vedi Capitolo 5).</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Wise to the Game <span class="feature-translation">(Esperto del Gioco)</span></div>
+                <p class="feature-text">Ottieni un bonus di status di +1 alla CD di Deception (Percezione) contro i tentativi di Fintare o Mentirti e di Creare una Diversione. Ottieni anche +1 di status alla CD di Will (Volontà) contro gli effetti di emozione.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increases <span class="feature-translation">(Incrementi di Abilità)</span></div>
+                <p class="feature-text">Ottieni un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 4 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 4</div>
+            <div class="feature-card">
+                <div class="feature-title">Envoy Feat & Skill Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di classe, un talento di abilità e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 5 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 5</div>
+            <div class="feature-card">
+                <div class="feature-title">Aggiungi +1 alle seguenti statistiche: <span class="feature-translation">(Aumenti di Attributo)</span></div>
+                <p class="feature-text">Ottieni quattro aumenti di attributo gratuiti applicabili a modificatori differenti. Se un attributo è già +4 o superiore, richiede due aumenti per incrementare di 1.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Ancestry Feats <span class="feature-translation">(Talenti di Ascendenza)</span></div>
+                <p class="feature-text">Guadagni un talento di ascendenza in base alla tua razza.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Improvised Mastery <span class="feature-translation">(Maestria Improvvisata)</span></div>
+                <p class="feature-text">Ottieni l'azione gratuita Maestria Improvvisata.</p>
+                <div class="action-box">
+                    <div class="action-title">IMPROVISED MASTERY</div>
+                    <div class="action-traits">ENVOY | [AZIONE GRATUITA] | FREQUENZA: 1 VOLTA AL GIORNO</div>
+                    <p class="feature-text"><strong>Innesco:</strong> Stai per tentare una prova di abilità in cui non hai il grado Maestro, prima di tirare.<br>Ottieni temporaneamente il grado <strong>Maestro</strong> nell'abilità innescante per quel singolo tiro.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Perception Expertise <span class="feature-translation">(Esperto in Deception (Percezione))</span></div>
+                <p class="feature-text">Il tuo rango di competenza in Deception (Percezione) aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Weapon Expertise <span class="feature-translation">(Esperto nelle Armi)</span></div>
+                <p class="feature-text">Il tuo rango di competenza per armi semplici, da guerra e attacchi disarmati aumenta a <strong>Esperto</strong>. Quando attacchi il bersaglio del tuo <em>Get ’Em!</em>, ottieni l'effetto di specializzazione critica di quelle armi.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increase</div>
+                <p class="feature-text">Ottieni un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 6 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 6</div>
+            <div class="feature-card">
+                <div class="feature-title">Envoy Feat & Skill Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di classe, un talento di abilità e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 7 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 7</div>
+            <div class="feature-card">
+                <div class="feature-title">Fortitude Expertise <span class="feature-translation">(Esperto in Tempra)</span></div>
+                <p class="feature-text">Il tuo rango di competenza nei tiri salvezza su Fortitude (Tempra)aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Leader’s Confidence <span class="feature-translation">(Sicurezza del Leader)</span></div>
+                <p class="feature-text">Non lasci mai che la squadra ti veda perdere la calma. Guadagni la direttiva <strong>Fatevi Forza! (Steel Yourselves!)</strong>.</p>
+                <div class="action-box">
+                    <div class="action-title">STEEL YOURSELVES! <span class="feature-translation">(Fatevi Forza!)</span></div>
+                    <div class="action-traits">DIRECTIVE | ENVOY | HEALING | [1 AZIONE] o [2 AZIONI] | FREQUENZA: 1 VOLTA ALL'ORA</div>
+                    <p class="feature-text">Gli alleati entro 60 piedi che possono percepirti possono spendere 1 azione nel proprio turno per Concentrarsi e Farsi Forza. Chi lo fa ottiene Punti Ferita Temporanei pari al tuo modificatore di Carisma + metà del tuo livello per 1 minuto.<br><br>
+                    <strong>Lead by Example:</strong> Se spendi 2 azioni, Ti Fai Forza anche tu. Tu e tutti gli alleati che si fanno forza prima del tuo prossimo turno ottenete un bonus di status di +1 ai tiri salvezza contro effetti che infliggono danni per 1 minuto.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Weapon Specialization <span class="feature-translation">(Specializzazione nelle Armi)</span></div>
+                <p class="feature-text">Infliggi 2 danni addizionali con le armi e gli attacchi disarmati in cui sei Esperto. Il danno aumenta a 3 se sei Maestro, e a 4 se sei Leggendario.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increases <span class="feature-translation">(Sblocco Grado Maestro)</span></div>
+                <p class="feature-text">Ottieni un incremento di abilità. Da questo livello puoi usare gli incrementi per diventare <strong>Maestro</strong> nelle abilità in cui sei già Esperto.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">General Feat</div>
+                <p class="feature-text">Ottieni un talento generale.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 8 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 8</div>
+            <div class="feature-card">
+                <div class="feature-title">Envoy Feat & Skill Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di classe, un talento di abilità e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 9 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 9</div>
+            <div class="feature-card">
+                <div class="feature-title">Adaptive Talent <span class="feature-translation">(Progressione)</span></div>
+                <p class="feature-text">Il numero di talenti di abilità temporanei che guadagni quotidianamente tramite Talento Adattivo aumenta di 1 (ora sono 2 totali).</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Envoy Expertise <span class="feature-translation">(Esperto di Classe)</span></div>
+                <p class="feature-text">Il rango di competenza della tua CD di classe dell'Inviato aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Hidden Agenda <span class="feature-translation">(Fini Secondari)</span></div>
+                <p class="feature-text">Quando una creatura ottiene un successo economico o critico in Percepire Intenzioni contro di te, o in prove per Raccogliere Informazioni/Richiamare Conoscenze sui tuoi segreti, ottiene invece solo un successo semplice. Quando ottieni un fallimento critico a un TS contro effetti che leggono i tuoi pensieri o emozioni, subisci invece solo un fallimento semplice.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Ancestry Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di ascendenza e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 10 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 10</div>
+            <div class="feature-card">
+                <div class="feature-title">Aggiungi +1 alle seguenti statistiche: & Envoy Feat & Skill Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni quattro aumenti di attributo, un talento di classe, un talento di abilità e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 11 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 11</div>
+            <div class="feature-card">
+                <div class="feature-title">Perception Mastery <span class="feature-translation">(Maestro in Deception (Percezione))</span></div>
+                <p class="feature-text">Il tuo rango di competenza in Deception (Percezione) aumenta a <strong>Maestro</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Resolve <span class="feature-translation">(Determinazione)</span></div>
+                <p class="feature-text">La tua competenza nei tiri salvezza su Will (Volontà) aumenta a <strong>Maestro</strong>. Quando ottieni un successo in un TS sulla Volontà, lo trasformi in un successo critico.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Savvy Improviser <span class="feature-translation">(Improvvisatore Scaltro)</span></div>
+                <p class="feature-text">Puoi utilizzare <em>Maestria Improvvisata</em> due volte al giorno. Inoltre, la prima volta al giorno che ottieni un 1 naturale su una prova di Raggirare, Diplomazia o Intimidire, non riduci automaticamente il grado di successo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">General Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento generale e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 12 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 12</div>
+            <div class="feature-card">
+                <div class="feature-title">Envoy Feat & Skill Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di classe, un talento di abilità e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 13 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 13</div>
+            <div class="feature-card">
+                <div class="feature-title">Light Armor Expertise <span class="feature-translation">(Esperto armature leggere)</span></div>
+                <p class="feature-text">La competenza nelle armature leggere e nella difesa senza armatura aumenta a <strong>Esperto</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Tactician <span class="feature-translation">(Tattico)</span></div>
+                <p class="feature-text">Alla fine di ciascuno dei tuoi turni guadagni una reazione addizionale, utilizzabile prima del tuo prossimo turno esclusivamente per le reazioni della classe Envoy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Weapon Mastery <span class="feature-translation">(Maestro nelle Armi)</span></div>
+                <p class="feature-text">La tua competenza con armi semplici, da guerra e attacchi disarmati aumenta a <strong>Maestro</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Ancestry Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di ascendenza e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 14 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 14</div>
+            <div class="feature-card">
+                <div class="feature-title">Envoy Feat & Skill Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di classe, un talento di abilità e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 15 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 15</div>
+            <div class="feature-card">
+                <div class="feature-title">Greater Weapon Specialization <span class="feature-translation">(Specializzazione Superiore)</span></div>
+                <p class="feature-text">I tuoi danni bonus da Specializzazione aumentano a 4 per le armi in cui sei Esperto, 6 se sei Maestro e 8 se sei Leggendario.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Adaptive Talent <span class="feature-translation">(Progressione Massima)</span></div>
+                <p class="feature-text">Aumenti il numero di talenti di abilità giornalieri temporanei a un totale di 3. Puoi usare i talenti temporanei come prerequisiti per altri talenti guadagnati via Adaptive Talent nello stesso giorno.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Legendary Improvisation <span class="feature-translation">(Improvvisazione Leggendaria)</span></div>
+                <p class="feature-text">L'azione <em>Maestria Improvvisata</em> ora si innesca anche su prove in cui non hai competenza Leggendaria (invece di Maestro) e ti conferisce temporaneamente il grado <strong>Leggendario</strong> per quella prova.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Reflex Mastery <span class="feature-translation">(Maestro in Reflex (Riflessi))</span></div>
+                <p class="feature-text">La tua competenza nei tiri salvezza su Reflex (Riflessi) aumenta a <strong>Maestro</strong>. Se ottieni un successo, si trasforma in un successo critico.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Skill Increases <span class="feature-translation">(Sblocco Grado Leggendario)</span></div>
+                <p class="feature-text">Ottieni un incremento di abilità. Da questo livello puoi usare gli incrementi per diventare <strong>Leggendario</strong> nelle abilità in cui sei già Maestro.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Aggiungi +1 alle seguenti statistiche: & General Feat</div>
+                <p class="feature-text">Ottieni quattro aumenti di attributo e un talento generale.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 16 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 16</div>
+            <div class="feature-card">
+                <div class="feature-title">Envoy Feat & Skill Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di classe, un talento di abilità e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 17 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 17</div>
+            <div class="feature-card">
+                <div class="feature-title">Greater Resolve <span class="feature-translation">(Determinazione Superiore)</span></div>
+                <p class="feature-text">La competenza nei TS Will (Volontà) aumenta a <strong>Leggendario</strong>. I successi diventano successi critici, i fallimenti critici diventano fallimenti semplici. Se fallisci un TS sulla Will (Volontà) contro un effetto che infligge danni, subisci solo metà danno.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Incredible Senses <span class="feature-translation">(Sensi Incredibili)</span></div>
+                <p class="feature-text">La tua competenza in Deception (Percezione) aumenta a <strong>Leggendario</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Inscrutable <span class="feature-translation">(Inscrutabile)</span></div>
+                <p class="feature-text">Se un nemico ottiene un successo o un successo critico in Percepire Intenzioni su di te o in prove per raccogliere informazioni sui tuoi segreti, ottiene invece un fallimento. Se subisci un fallimento o fallimento critico a un TS per proteggere i tuoi pensieri, ottieni invece un successo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Ancestry Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di ascendenza e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 18 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 18</div>
+            <div class="feature-card">
+                <div class="feature-title">Envoy Feat & Skill Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento di classe, un talento di abilità e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 19 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 19</div>
+            <div class="feature-card">
+                <div class="feature-title">Light Armor Mastery <span class="feature-translation">(Maestro armature leggere)</span></div>
+                <p class="feature-text">La competenza nelle armature leggere e nella difesa senza armatura aumenta a <strong>Maestro</strong>.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">Silver Tongue <span class="feature-translation">(Parlantina Sciolta)</span></div>
+                <p class="feature-text">Ottieni l'azione gratuita Parlantina Sciolta.</p>
+                <div class="action-box">
+                    <div class="action-title">SILVER TONGUE</div>
+                    <div class="action-traits">ENVOY | FORTUNE | [AZIONE GRATUITA] | FREQUENZA: 1 VOLTA AL GIORNO PER ABILITÀ</div>
+                    <p class="feature-text"><strong>Innesco:</strong> Effettui una prova di abilità in una delle seguenti abilità in cui sei Leggendario: Raggirare, Diplomazia, Intimidire o la tua abilità di comando (Leadership skill).<br>Puoi ripetere il tiro della prova appena effettuata e tenere il risultato migliore.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-title">General Feat & Skill Increase</div>
+                <p class="feature-text">Ottieni un talento generale e un incremento di abilità.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 20 -->
+        <div class="level-section">
+            <div class="level-header">LIVELLO 20</div>
+            <div class="feature-card">
+                <div class="feature-title">Maximum Advancement <span class="feature-translation">(Progressione Finale)</span></div>
+                <p class="feature-text">Ottieni gli ultimi quattro aumenti di attributo, un talento di classe finale dell'Inviato, un talento di abilità e l'ultimo incremento di abilità.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

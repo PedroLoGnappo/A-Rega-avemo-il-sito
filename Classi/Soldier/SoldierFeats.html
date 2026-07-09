@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Soldier Feats - Talenti di Classe</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 40px 40px 40px;
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico con Dropdown) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(10, 15, 30, 0.95);
+            min-width: 170px;
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.2);
+            border: 1px solid #0052cc;
+            border-radius: 4px;
+            z-index: 10000;
+            overflow: hidden;
+            margin-top: 5px;
+            padding: 5px 0;
+            backdrop-filter: blur(10px);
+        }
+        .dropdown-content a {
+            color: #cdffff !important;
+            padding: 10px 18px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85em;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        .dropdown-content a:hover {
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #00ffff !important;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        /* AVVISO CRITICO IN ROSSO QUANTISTICO */
+        .critical-notice {
+            max-width: 950px;
+            margin: 20px auto 40px auto;
+            background: rgba(183, 28, 28, 0.2);
+            color: #ff5252;
+            border: 1px solid #b71c1c;
+            border-radius: 4px;
+            padding: 15px 25px;
+            text-align: center;
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 1.05em;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            box-shadow: 0 0 20px rgba(183, 28, 28, 0.3);
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+        }
+
+        /* STRUTTURA TIMELINE DEI LIVELLI */
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .level-section {
+            border-left: 3px solid #0052cc;
+            padding-left: 25px;
+        }
+        .level-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .level-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #0052cc, transparent);
+        }
+
+        /* CARD IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.5);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 22px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .feature-card:hover {
+            transform: translateX(3px);
+            border-color: #0052cc;
+            background: rgba(20, 30, 58, 0.7);
+            box-shadow: 0 0 20px rgba(0, 82, 204, 0.2);
+        }
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.15em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .feature-translation {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85em;
+            color: #8da2bb;
+            font-weight: normal;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0;
+        }
+
+        /* METADATI DEI TALENTI (TRATTI, FREQUENZE, REQUISITI) */
+        .feat-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            color: #8da2bb;
+            line-height: 1.5;
+        }
+        .trait-badge {
+            background-color: rgba(0, 82, 204, 0.3);
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75em;
+            padding: 3px 10px;
+            border-radius: 2px;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 6px;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        .trait-badge.action {
+            background-color: rgba(183, 28, 28, 0.3);
+            color: #ff5252;
+            border-color: #b71c1c;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE SULL'ASSE DESTRA */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../../Razze/Razze.html" class="nav-pill">Razze</a> 
+		<a href="../../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../../Classi/Classi.html" class="nav-pill">Classi</a>
+		<div class="dropdown-content">
+                <a href="../Envoy/Envoy.html">ENVOY</a>
+                <a href="../Mystic/Mystic.html">MYSTIC</a>
+                <a href="../Operative/Operative.html">OPERATIVE</a>
+                <a href="../Solarian/Solarian.html">SOLARIAN</a>
+                <a href="../Soldier/Soldier.html">SOLDIER</a>
+                <a href="../Witchwarper/Witchwarper.html">WITCHWARPER</a>
+            </div>
+        <a href="../../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA -->
+    <h1 class="main-title">SOLDIER FEATS - TALENTI DI CLASSE</h1>
+    
+    <!-- BLOCCO AVVISO DI SISTEMA AD ALTO CONTRASTO -->
+    <div class="critical-notice">
+        ⚠ DIRETTIVA DI SISTEMA: Ogni volta che ottieni un talento di classe del Soldato, puoi selezionare una delle seguenti opzioni purché tu ne soddisfi i prerequisiti.
+    </div>
+
+    <!-- TIMELINE DEI LIVELLI -->
+    <div class="timeline-container">
+
+        <!-- LIVELLO 1 -->
+        <div class="level-section">
+            <div class="level-header">1° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">BURST OF STRENGTH <span class="feature-translation">(Raffica di Forza)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">FORTUNE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Frequenza:</strong> 1 volta all'ora<br>
+                    <strong>Innesco:</strong> Fallisci una prova di Atletica per Disarmare, Afferrare, Riposizionare, Spingere o Sbilanciare.
+                </div>
+                <p class="feature-text">Attingi alle tue riserve interiori e ti riprendi per riprovare. Ripeti il tiro della prova innescante, ma devi usare il nuovo risultato, anche se è peggiore.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">PIN DOWN <span class="feature-translation">(Inchiodare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Innesco:</strong> Una creatura che stai osservando ottiene un successo nel suo tiro salvezza contro il tuo attacco di Fuoco d'Area o Fuoco Automatico.
+                </div>
+                <p class="feature-text">Concentri il fuoco delle tue armi su un bersaglio resiliente per sopprimerlo con la pura ferocia del tuo assalto. Il bersaglio deve superare un TS sulla Will (Volontà) contro la tua CD di classe o diventare soppresso fino all'inizio del tuo prossimo turno.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">QUICK SWAP <span class="feature-translation">(Scambio Rapido)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Innesco:</strong> Impugni un'arma a due mani e una creatura nemica si muove in un quadretto adiacente a te.
+                </div>
+                <p class="feature-text">Puoi cambiare arma nelle situazioni di stress per prepararti rapidamente a punire i nemici in arrivo. Riponi l'arma attuale ed estrai un'altra arma a due mani. Se possiedi più set di braccia, puoi invece Scambiare Mano (Switch Hands).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">READY RELOAD <span class="feature-translation">(Ricarica Pronta)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 AZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma a distanza a due mani con ricarica pari o superiore a 2, e la tua ultima azione è stata un attacco che ha consumato munizioni da quell'arma.
+                </div>
+                <p class="feature-text">Masterizzi la ricarica nel bel mezzo del combattimento, iniziando mentre sei ancora nell'atto di fare fuoco. Riduci il costo di ricarica dell'arma di 1, poi Interagisci (Interact) per ricaricarla. A differenza della maggior parte delle azioni di Interagire, non hai bisogno di una mano libera per ricaricare un'arma a distanza in questo modo.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">WHIRLING SWIPE <span class="feature-translation">(Spazzata Rotante)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma da mischia a due mani.
+                </div>
+                <p class="feature-text">Compi un ampio fendente circolare per creare un arco letale. La tua arma guadagna i tratti *area (esplosione di 1,5 metri / 5 piedi)* e *ingombrante* (unwieldy) fino alla fine del turno. Se l'arma ha portata (reach), il raggio dell'esplosione diventa pari alla sua portata. Effettua un Fuoco d'Area con quell'arma, centrando l'esplosione su un angolo del quadretto che occupi. Sei escluso dall'area. Se usi un'arma con il tratto *backswing* o *sweep*, ottieni un bonus di circostanza di +1 alla CD del tiro salvezza dell'attacco. Se hai il privilegio Bersaglio Primario, il colpo correlato è un Colpo in mischia anziché a distanza.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 2 -->
+        <div class="level-section">
+            <div class="level-header">2° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">MENACING LAUGHTER <span class="feature-translation">(Risata Minacciosa)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 AZIONE</span><span class="trait-badge">AUDITORY</span><span class="trait-badge">SOLDIER</span>
+                </div>
+                <p class="feature-text">La tua risata (o altra vocalizzazione) risuona tonante sopra il frastuono dei tuoi spari. Effettua una prova di Intimidire per Demoralizzare (Demoralize) ciascuna creatura entro 30 piedi (9 metri) che si trova attualmente in condizione soppressa.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">RELENTLESS ENDURANCE <span class="feature-translation">(Resistenza Implacabile)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Frequenza:</strong> 1 volta all'ora | <strong>Innesco:</strong> Subisci danni.
+                </div>
+                <p class="feature-text">Ti riprendi più forte dopo aver incassato un colpo, ready a continuare la battaglia. Guadagni **1d8+4 Punti Ferita Temporanei** che durano per 1 minuto. Incrementi questo ammontare di un ulteriore 1d8+4 al 6° livello e ogni 4 livelli successivi.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">SHOT ON THE RUN <span class="feature-translation">(Tiro in Corsa)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><span class="trait-badge">TRAVERSAL</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">Preparando l'arma mentre ti sposti, ti rendi pronto a sparare una salva non appena sei in posizione. Compi una Corsa (Stride) fino alla tua Velocità, e successivamente esegui un Fuoco d'Area o un Fuoco Automatico.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">YOU’LL HAVE TO GO THROUGH ME! <span class="feature-translation">(Dovrete Passare Sul Mio Cadavere!)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span>
+                </div>
+                <p class="feature-text">Ti prepari saldamente a difendere gli alleati dietro di te. Effettua un Fuoco d'Area o un Fuoco Automatico. Fino all'inizio del tuo prossimo turno o finché non utilizzi un'azione di movimento, guadagni la reazione **Living Shield** e, se vieni spostato da un effetto di movimento forzato, ti muovi di 3 metri (10 piedi) in meno.
+                <br><strong>Living Shield [Reazione]:</strong> <em>Innesco:</em> Un alleato a cui stai fornendo copertura o adiacente a te viene danneggiato da un nemico. <em>Effetto:</em> Riduci il danno subito dall'alleato di un ammontare pari al tuo livello + il tuo modificatore di Costituzione. Subisci un ammontare di danno pari al danno negato.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 4 -->
+        <div class="level-section">
+            <div class="level-header">4° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">COLLATERAL WITNESS <span class="feature-translation">(Testimone Collaterale)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Innesco:</strong> Riduci il tuo bersaglio primario a 0 Punti Ferita usando Fuoco Automatico.
+                </div>
+                <p class="feature-text">Con un sottile cenno della tua arma e uno sguardo fisso, ricordi a un sopravvissuto della tua carneficina che ce n'è ancora per tutti. Demoralizzi una singola creatura che si trovava nell'area del tuo Fuoco Automatico; guadagni un bonus di circostanza di +2 a questa prova. Se hai competenza Leggendaria in Intimidire, o se hai lo stile Eroe d'Azione e il bersaglio è il nemico più vicino a te, puoi usare questa capacità come azione gratuita con lo stesso innesco.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">OVERWHELMING ASSAULT <span class="feature-translation">(Assalto Travolgente)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span>
+                </div>
+                <p class="feature-text">Travolgi le difese dei nemici che hai soppresso. La tua penalità di attacco multiplo (MAP) per gli attacchi contro i bersagli soppressi si riduce a <strong>–4</strong> (–3 con un'arma agile) sul tuo secondo attacco del turno invece di –5, e a <strong>–8</strong> (–7 con un'arma agile) sul tuo terzo attacco o successivi anziché –10.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">PUNISHING SALVO <span class="feature-translation">(Salva Punitiva)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 AZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> La tua ultima azione in questo turno è stata un attacco di Fuoco d'Area.
+                </div>
+                <p class="feature-text">Scatenare una pioggia continua di proiettili mette in ginocchio chiunque. Compi un Colpo di follow-up contro il tuo bersaglio primario usando la stessa arma, ignorandone il tratto *ingombrante* (unwieldy). Questo attacco non genera una nuova area ma viene considerato come un Colpo effettuato sfruttando Bersaglio Primario.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">SHOVING SHOT <span class="feature-translation">(Tiro Respingente)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">Sfrutti lo spostamento d'aria provocato dall'esplosione per respingere gli avversari. Effettua un Fuoco d'Area o Fuoco Automatico. Il tuo bersaglio primario deve tentare un TS Fortitude (Tempra)contro la tua CD di classe:<br>
+                • <em>Fallimento:</em> Il bersaglio viene spinto indietro di 3 metri (10 piedi). Se usi un'arma ad area (esplosione), viene spinto lontano dal centro dell'esplosione.<br>
+                • <em>Fallimento Critico:</em> Come sopra, ma viene spinto indietro di 4,5 metri (15 piedi).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">WIDEN AREA <span class="feature-translation">(Espandere l'Area)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 AZIONE</span><span class="trait-badge">MANIPULATE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">Regoli la dispersione dell'arma per colpire più bersagli. Se la tua azione successiva è Fuoco d'Area o Fuoco Automatico (in un'esplosione, cono o linea), o se usi Spazzata Rotante, aumenti l'area dell'attacco: aggiungi 1,5 metri (5 piedi) al raggio di un'esplosione di almeno 3 metri; aggiungi 1,5 metri alla lunghezza di coni o linee lunghi 4,5 metri o meno, e aggiungi 3 metri (10 piedi) alla lunghezza se l'area originale è più grande.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 6 -->
+        <div class="level-section">
+            <div class="level-header">6° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">COVERING FIRE <span class="feature-translation">(Fuoco di Copertura)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 o 2 AZIONI</span><span class="trait-badge">SOLDIER</span>
+                </div>
+                <p class="feature-text">Piazzi un colpo mirato o rilasci una pioggia di fuoco per coprire i tuoi alleati. Compi un Colpo a distanza contro un nemico e seleziona un alleato a portata dell'attacco. Se colpisci non infliggi danno, ma il nemico diventa soppresso e subisce una penalità di circostanza di –2 agli attacchi effettuati contro il tuo alleato fino alla fine del tuo prossimo turno.<br>
+                Puoi usare questa capacità come attività da 2 azioni per eseguire un Fuoco d'Area o Fuoco Automatico al posto del singolo Colpo, influenzando tutti i nemici che falliscono il TS.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">FOG OF WAR <span class="feature-translation">(Nebbia di Guerra)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">La vampa e il fumo dei tuoi spari forsennati ti occultano dai sopravvissuti. Effettua un Fuoco d'Area o Fuoco Automatico. Lasci dietro di te una nube di fumo e polvere all'interno dell'area che dura fino al termine del tuo prossimo turno (o finché non viene dissipata da un vento forte). Le creature nell'area sono occultate (concealed), e tutte le altre sono occultate per loro.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">I’LL BE BACK <span class="feature-translation">(Ritornerò)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">AZIONE GRATUITA</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Frequenza:</strong> 1 volta al giorno<br>
+                    <strong>Innesco:</strong> Riprendi conoscenza dopo essere stato svenuto.
+                </div>
+                <p class="feature-text">Anche quando vieni abbattuto, ritorni immediatamente nel vivo dell'azione non appena ti riprendi. Ti Alzi (Stand) e Interagisci (Interact) immediatamente per estrarre un'arma o raccogliere un'arma incustodita a terra.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">INTIMIDATING TAUNT <span class="feature-translation">(Provocazione Intimidatoria)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 AZIONE</span><span class="trait-badge">CONCENTRATE</span><span class="trait-badge">MENTAL</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Prerequisiti:</strong> Trained ( T ) in Intimidire (Intimidation)
+                </div>
+                <p class="feature-text">Provochi spietatamente il nemico, costringendolo a riconoscerti come una minaccia immediata. Effettua una prova di Intimidire confrontandola con la CD di Will (Volontà) di un nemico entro 60 piedi (18 metri). Ha il tratto uditivo o visivo a seconda di come lo schernisci.<br>
+                • <em>Successo Critico:</em> Il nemico è furioso. Fino al tuo prossimo turno, qualsiasi azione ostile che compie deve includere te come bersaglio o includerti nella sua area; in caso contrario subisce una penalità di circostanza di –2 ai tiri per colpire e alla CD dei suoi effetti.<br>
+                • <em>Successo:</em> Come sopra, ma influenza soltanto la prima azione ostile compiuta dal nemico.<br>
+                • <em>Fallimento:</em> Inefficace.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">OFFENSIVE DEFENSE <span class="feature-translation">(Difesa Offensiva)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Possiedi un upgrade del campo di forza (force field) nell'armatura o impugni uno scudo tecnologico.
+                </div>
+                <p class="feature-text">Sovraccarichi lo scudo per generare un'onda d'urto concussiva che respinge i nemici vicini. Effettua un Fuoco d'Area usando il campo o lo scudo, infliggendo 2d10 danni contundenti in un'esplosione con raggio di 1,5 metri centrata su un angolo del tuo quadretto. L'attacco ha il tratto *tracking +1* ed è nel gruppo scudi. Chi fallisce il TS viene spinto indietro di 1,5 metri. Se hai Bersaglio Primario, il colpo correlato usa lo scudo/campo.
+                <br>• Se l'oggetto è Superiore l'aggancio diventa +2 (+3 se Ultimo). Se è Élite il danno sale a 3d10 (4d10 se Mitico/Paragon).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">PUNITIVE STRIKE <span class="feature-translation">(Colpo Punitivo)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Innesco:</strong> Una creatura entro la tua portata usa un'azione di manipolazione, effettua un Colpo a distanza, usa un'azione di movimento o lascia un quadretto muovendosi.
+                </div>
+                <p class="feature-text">Il momentaneo cedimento delle difese nemiche ti offre un varco perfetto. Compi un Colpo (Strike) in mischia contro la creatura innescante, ignorando il tratto *ingombrante* (unwieldy) di qualsiasi arma tu stia impugnando per questo attacco. Questo Colpo non conta e non risente della MAP attuale.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 8 -->
+        <div class="level-section">
+            <div class="level-header">8° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">AMMO HOARDER <span class="feature-translation">(Accaparratore di Munizioni)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma automatica.
+                </div>
+                <p class="feature-text">Utilizzando raffiche controllate e metodiche, conservi le munizioni senza compromettere il potenziale distruttivo. Il tuo Fuoco Automatico consuma cariche (expend) pari al numero esatto di bersagli inclusi nell'area, anziché pari al numero di bersagli in quest'area × 2.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">BRING IT ON! <span class="feature-translation">(Fatti Sotto!)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 AZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma a due mani.
+                </div>
+                <p class="feature-text">La tua sfrontatezza sostiene le tue difese a dispetto della tua spericolatezza. Fino all'inizio del tuo prossimo turno, subisci una penalità di circostanza di –2 alla CA ma guadagni **resistenza a tutti i danni pari a metà del tuo livello**. Se possiedi lo stile Tempesta di Armature (Armor Storm), questa resistenza raddoppia contro gli attacchi sferrati da creature soppresse.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">CONCENTRATED SHOT <span class="feature-translation">(Tiro Concentrato)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma automatica.
+                </div>
+                <p class="feature-text">Concentrare il fuoco ti permette di isolare un nemico per l'annichilamento immediato. Compi un Colpo a distanza con l'arma automatica, consumando il triplo delle munizioni standard e guadagnando un **bonus di circostanza di +4 ai danni**. Questo bonus aumenta a +6 all'11° livello e a +8 al 15° livello.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">OVERWATCH <span class="feature-translation">(Osservazione di Copertura)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Innesco:</strong> Una creatura soppressa entro il primo incremento di gittata della tua arma compie un attacco a distanza o lascia un quadretto muovendosi.
+                </div>
+                <p class="feature-text">Concentri il fuoco su un bersaglio che opera nella zona di minaccia della tua arma. Compi un Colpo a distanza contro la creatura innescante, ignorando il tratto *ingombrante* (unwieldy) per questo attacco. Con un colpo critico, se l'azione attivante era un movimento, interrompi (disrupt) quell'azione.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">RUN HOT <span class="feature-translation">(Surriscaldamento)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">3 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area.
+                </div>
+                <p class="feature-text">Tieni premuto il grilletto spingendo le armi al limite assoluto con uno sbarramento incessante. Effettua due attacchi di Fuoco d'Area consecutivi con l'arma richiesta, ignorandone il tratto *ingombrante*. Le creature nell'area del secondo attacco guadagnano un bonus di circostanza di +2 al loro tiro salvezza. Dopo questa azione l'arma deve raffreddarsi: non può essere usata fino al termine del tuo prossimo turno o finché non subisce una qualsiasi quantità di danno da freddo.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 10 -->
+        <div class="level-section">
+            <div class="level-header">10° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">ANCHORING IMPACTS <span class="feature-translation">(Impatti Ancoranti)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span><span class="trait-badge">SUPPRESSED</span><br>
+                    <strong>Prerequisiti:</strong> Suppressing Fire
+                </div>
+                <p class="feature-text">I tuoi attacchi soppressivi inchiodano i nemici sul posto. Quando sopprimi un bersaglio con uno dei tuoi attacchi, incrementi la sua penalità alla velocità portandola a una **penalità de status di –6 metri (–20 piedi)** per la durata della condizione. Se l'effetto è causato da un colpo critico o il bersaglio fallisce criticamente il TS diventando soppresso, è anche **Stordito 1 (stunned)**.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">BRUTAL BARRAGE <span class="feature-translation">(Sbarramento Brutale)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 AZIONE</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">Prepari il colpo perfetto per dilaniare chi è vicino all'epicentro. Se la tua azione successiva è Fuoco d'Area, Fuoco Automatico o Spazzata Rotante, aggiungi **due dadi di danno dell'arma addizionali** contro i bersagli adiacenti al centro dell'impatto o situati entro i primi 3 metri (10 piedi) di un cono o di una linea.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">COME GET SOME! <span class="feature-translation">(Fatti Sotto!)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Frequenza:</strong> 1 volta al giorno | <strong>Innesco:</strong> Vieni ridotto a 0 Punti Ferita e staresti per cadere svenuto.
+                </div>
+                <p class="feature-text">Combatti fino all'ultimo respiro spingendoti a sferrare un attacco finale. Compi un Colpo (Strike) con una penalità di circostanza di –2, oppure esegui un Fuoco d'Area o Fuoco Automatico ignorando il tratto *ingombrante* (riducendo la CD del TS nemico di 2). Concluso l'attacco, cadi svenuto ed entri in condizione Morente (Dying).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">DANCE! <span class="feature-translation">(Balla!)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span><span class="trait-badge">SUPPRESSED</span><br>
+                    <strong>Prerequisiti:</strong> Suppressing Fire
+                </div>
+                <p class="feature-text">Costringi i nemici a schivare i colpi mirando alle gambe o ali per aggirarli meglio. Quando sopprimi un bersaglio con un attacco, esso diventa anche **Impreparato (off-guard)** fino all'inizio del suo turno. Inoltre, quando usi Fuoco Automatico in un cono che include un singolo bersaglio, esso subisce una penalità di circostanza di –1 al TS sui Reflex (Riflessi).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">SHELL SHOWER <span class="feature-translation">(Pioggia di Bossoli)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">AZIONE GRATUITA</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Frequenza:</strong> 1 volta per round
+                </div>
+                <p class="feature-text">Impari a reindirizzare i bossoli esausti o lo sfiato d'energia termica dell'arma mentre fai fuoco. Dopo aver compiuto un Fuoco d'Area o Fuoco Automatico, rendi un qualsiasi numero di **quadretti adiacenti a te terreno difficile**. Se un quadretto era già terreno difficile, diventa terreno molto difficile. I terreni creati rimangono finché non vengono ripuliti.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 12 -->
+        <div class="level-section">
+            <div class="level-header">12° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">BULLET HELL <span class="feature-translation">(Inferno di Proiettili)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma automatica o ad area (cono).
+                </div>
+                <p class="feature-text">Sferri raffiche sostenute per scatenare un diluvio costante che rende il terreno impraticabile. Effettua un Fuoco d'Area o Fuoco Automatico. Fino all'inizio del tuo prossimo turno, qualsiasi creatura che attraversa l'area colpita subisce **1d4 danni** dello stesso tipo dell'arma per ogni singolo quadretto attraversato (TS Reflex (Riflessi) base al termine di ogni azione di movimento). In caso di fallimento, la creatura gemstone soppressa.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">DEATH BLOSSOM <span class="feature-translation">(Bocciolo di Morte)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">3 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Prerequisiti:</strong> Run Hot | <strong>Requisiti:</strong> Impugni un'arma ad area o automatica con il caricatore pieno.
+                </div>
+                <p class="feature-text">Ruotando sul posto fai fuoco indiscriminatamente per ripulire la stanza. Effettua un Fuoco d'Area (anche se usi un'arma automatica) che influenza **ciascuna creatura in un'emanazione attorno a te** con raggio pari alla gittata dell'arma, esaurendo l'intero caricatore. Chi è nell'area subisce una penalità di circostanza di –1 al TS sui Reflex (Riflessi). Non designi un bersaglio primario.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">HAMMER THE NAIL <span class="feature-translation">(Martellare il Chiodo)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span><br>
+                    <strong>Prerequisiti:</strong> Shoving Shot
+                </div>
+                <p class="feature-text">Regoli l'angolo dello sbarramento per massimizzare l'impatto balistico sui corpi. Incrementi la distanza di spinta del tuo *Shoving Shot*: le creature vengono spinte indietro di 1,5 metri con un successo, di 3 metri con un fallimento e di 6 metri (20 piedi) con un fallimento critico. Inoltre, con un fallimento critico, il bersaglio cade anche **Prono**.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">LOAD-BEARING HERO <span class="feature-translation">(Eroe Portante)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Innesco:</strong> Tu e un alleato adiacente tentate un TS sui Reflex (Riflessi) o sulla Fortitude (Tempra)contro lo stesso identico effetto.
+                </div>
+                <p class="feature-text">Che si tratti di sorreggere un soffitto che crolla o di fare da scudo umano contro una palla di fuoco, ti interponi tra l'alleato e il pericolo. Il risultato del tuo tiro salvezza peggiora di un grado (un successo diventa fallimento), ma il risultato del tiro salvezza del tuo alleato migliora di un grado (un successo diventa successo critico).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">ROCKET JUMP <span class="feature-translation">(Salto a Propulsione / Rocket Jump)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area (esplosione).
+                </div>
+                <p class="feature-text">Fai fuoco mentre salti, usando la detonazione per proiettarti a nuove altezze o fuori dai guai. Effettui un Fuoco d'Area e poi Salti (Leap), usando la detonazione dell'arma per aggiungere un bonus de status alla distanza percorsa pari al **doppio del raggio dell'esplosione dell'arma**. Devi trovarti nell'area dell'attacco, ma sei immune agli effetti nocivi dei tuoi stessi spari. Il movimento non innesca reazioni (ma il Fuoco d'Area iniziale sì).</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 14 -->
+        <div class="level-section">
+            <div class="level-header">14° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">FAN THE HAMMER <span class="feature-translation">(Grilletto Continuo)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1 AZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Frequenza:</strong> 1 volta per round | <strong>Requisiti:</strong> La tua ultima azione in questo turno è stata Fuoco d'Area o Fuoco Automatico.
+                </div>
+                <p class="feature-text">Tieni premuto il grilletto e continui a fare fuoco. Effettui un Fuoco d'Area o un Fuoco Automatico ignorando il tratto *ingombrante* (unwieldy) della tua arma. Non selezioni un bersaglio primario e le creature danneggiate da questo attacco specifico non subiscono la condizione soppresso.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">RUN, COWARDS! <span class="feature-translation">(Scappate, Codardi!)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span>
+                </div>
+                <p class="feature-text">Usi la tua potenza di fuoco per disperdere i nemici in panico. Un nemico che fallisce criticamente il suo tiro salvezza contro un tuo attacco di Fuoco d'Area o Fuoco Automatico acquisisce la condizione **In Fuga (fleeing)** per 1 round.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">SCATTERING FIRE <span class="feature-translation">(Fuoco Disperdente)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Prerequisiti:</strong> Shoving Shot
+                </div>
+                <p class="feature-text">Il tuo assalto travolgente disperde i nemici come foglie al vento. Quando utilizzi il talento *Shoving Shot*, **tutte** le creature incluse nell'area dell'attacco devono tentare il tiro salvezza sulla Fortitude (Tempra)per evitare il movimento forzato all'indietro, anziché soltanto il tuo bersaglio primario.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">TERROR-FORMING <span class="feature-translation">(Terro-Formazione)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">Le tue bordate polverizzano il campo di battaglia riducendolo a un cumulo di macerie desolante. Effettua un Fuoco d'Area o Fuoco Automatico. Non designi un bersaglio primario, ma trasformi **ogni singolo quadretto dell'area colpita in terreno difficile**. Se un quadretto era già terreno difficile, diventa terreno molto difficile. I terreni creati non possono essere mutati senza magia o interventi ingegneristici estensivi.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">VECTOR REFLECTOR <span class="feature-translation">(Riflettore di Vettori)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Innesco:</strong> Una creatura soppressa ti infligge danni con un Colpo.
+                </div>
+                <p class="feature-text">La tua armatura assorbe parte dell'energia cinetica dell'assalto nemico. Guadagni **resistenza pari a metà del tuo livello** contro il danno innescante (o pari al tuo intero livello se possiedi lo stile Tempesta di Armature). Se la creatura attaccante si trova a portata, tenti immediatamente una prova di Atletica per Spingerla (Shove).</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 16 -->
+        <div class="level-section">
+            <div class="level-header">16° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">LIGHT ‘EM UP <span class="feature-translation">(Illuminateli!)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><span class="trait-badge">SUPPRESSED</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">I nemici possono correre, ma non nascondersi. Inondi di proiettili la direzione generale di un nemico occultato o nascosto per rivelarlo. Effettua un Fuoco d'Area o Fuoco Automatico. Se il bersaglio primario è occultato non devi tirare la prova statica (flat check), e se è nascosto la CD della prova statica si riduce a 5. Quando sopprimi una creatura occultata con questo attacco, i detriti sollevati ne rivelano la posizione azzerando le prove statiche; se è nascosta la CD diventa 5 e non può risultare non individuata (undetected) finché rimane soppressa.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">OVERKILL <span class="feature-translation">(Massacro Concentrato)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span><span class="trait-badge">SUPPRESSED</span>
+                </div>
+                <p class="feature-text">Non c'è modo migliore per assicurarsi il successo che bloccare un nemico indifeso con una pioggia di proiettili concentrata. Quando sopprimi una creatura con un Fuoco d'Area o Fuoco Automatico e quella creatura era l'unica presente nell'area d'attacco, oppure quando utilizzi il talento *Tiro Concentrato (Concentrated Shot)*, il bersaglio subisce **1d10 danni da sanguinamento persistente**. Se metti a segno un colpo critico con il Colpo di Bersaglio Primario, il danno sale a 2d10 danni da sanguinamento persistente.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">SOLDIER’S TRAINING <span class="feature-translation">(Addestramento del Soldato)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span>
+                </div>
+                <p class="feature-text">Le esercitazioni costanti ti lasciano Reflex (Riflessi) pronti a prendere decisioni immediate. Scegli un talento di classe del soldato in tuo possesso che conceda una reazione. All'inizio di ogni tuo turno, guadagni una **reazione addizionale** spendibile esclusivamente per attivare il talento selezionato (o un'azione concessa da esso). Puoi cambiare la reazione selezionata per questo talento ogni volta che compi i tuoi preparativi giornalieri.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 18 -->
+        <div class="level-section">
+            <div class="level-header">18° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">COORDINATED FIRE <span class="feature-translation">(Fuoco Coordinato)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">3 AZIONI</span><span class="trait-badge">AUDITORY</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">Con un ruggito possente scarichi l'arma per dare ai tuoi alleati la copertura necessaria a riorganizzarsi. Effettui un Fuoco d'Area o Fuoco Automatico senza selezionare un bersaglio primario. Impartisci un ordine verbale a gran voce come parte del fuoco, selezionando una voce tra: **Ricaricare (Reload), Colpire (Strike) o Ripararsi (Take Cover)**. Ogni alleato entro 30 piedi (9 metri) che può udire e comprendere l'ordine può eseguire immediatamente l'azione scelta spendendo la propria reazione.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">DAMORITOSH’S GRIP <span class="feature-translation">(Morsa di Damoritosh)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span>
+                </div>
+                <p class="feature-text">Sei diventato un soldato leggendario al pari dei santi guerrieri di Damoritosh, e non devi più scegliere tra la potenza distruttiva di un'arma pesante e l'onore del combattimento ravvicinato. D'ora in poi puoi impugnare ed utilizzare le **armi a due mani stringendole in una sola mano**.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">SPREAD THE LOVE <span class="feature-translation">(Distribuire l'Amore)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">Allinei magistralmente la traiettoria d'attacco per tempestare due nemici distinti all'interno della tua zona di impatto con pari letalità. Effettui un Fuoco d'Area o Fuoco Automatico selezionando **due differenti bersagli primari** (Primary Targets) contemporaneamente anziché uno solo.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 20 -->
+        <div class="level-section">
+            <div class="level-header">20° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">BULLET TYPHOON <span class="feature-translation">(Tifone di Proiettili)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLDIER</span>
+                </div>
+                <p class="feature-text">La tua potenza distruttiva distorce il campo e i nemici assistono terrorizzati al tuo sbarramento continuo. Il tuo controllo delle armi trascende i limiti standard: d'ora in poi puoi eseguire le azioni di Fuoco d'Area o Fuoco Automatico al costo di **una singola azione** anziché 2. Tuttavia, non puoi compiere più di due attacchi di questo tipo all'interno dello stesso round di combattimento.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">HYBRID TECHNIQUE <span class="feature-translation">(Tecnica Ibrida)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2 AZIONI</span><span class="trait-badge">SOLDIER</span><br>
+                    <strong>Requisiti:</strong> Impugni un'arma ad area o automatica.
+                </div>
+                <p class="feature-text">Combini diversi metodi tattici fondendoli in una letale nuova dottrina ibrida. Scegli due talenti da soldato in tuo possesso che richiedono 2 azioni, richiedono l'uso di un'arma ad area/automatica e che compiono un attacco di Fuoco d'Area o Fuoco Automatico como parte degli effetti. Effettui un **singolo attacco** di Fuoco d'Area o Fuoco Automatico applicando contemporaneamente i benefici extra e gli effetti speciali di **entrambi** i talenti selezionati.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

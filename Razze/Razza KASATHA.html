@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Razza Kasatha</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 380px; /* Margine sinistro per fare spazio alle immagini fisse */
+            letter-spacing: 0.5px;
+        }
+
+        /* IMAGES FISSE A SINISTRA */
+        .fixed-img-1 {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-2 {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-1:hover, .fixed-img-2:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI (EFFETTO QUANTISTICO) */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8em;
+            color: #8a2be2;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .main-desc {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #a1b5cc;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        /* BLOCCO STATISTICHE INIZIALI */
+        .stats-summary-box {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            background: rgba(15, 22, 42, 0.5);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .stats-row-top {
+            display: flex;
+            justify-content: space-around;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #203a70;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            color: #00ffff;
+        }
+        .stats-boosts-table {
+            width: 100%;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .boost-cell-left {
+            width: 50%;
+            vertical-align: top;
+            padding-right: 15px;
+            border-right: 1px solid #203a70;
+            color: #cdffff;
+        }
+        .boost-cell-right {
+            width: 50%;
+            vertical-align: top;
+            padding-left: 15px;
+            color: #cdffff;
+        }
+        .boost-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* GRIGLIA ORIZZONTALE DEI COMPONENTI */
+        .features-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 25px;
+        }
+
+        /* BLOCCHETTI IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6); /* Vetro scuro */
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2; /* Accento viola di base */
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff; /* Diventa ciano luminoso */
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        
+        /* VERSIONE TALENTI CON BORDO LATERALE PER LIVELLO */
+        .feat-lvl-1 { border-left-color: #c62828; }
+        .feat-lvl-5 { border-left-color: #e65100; }
+        .feat-lvl-9 { border-left-color: #f57c00; }
+        .feat-lvl-13 { border-left-color: #d84315; }
+        .feat-lvl-17 { border-left-color: #4f5b66; }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 4px 0;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+        }
+        .feature-text small {
+            color: #8da2bb;
+            line-height: 1.4;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* METADATI MECCANICHE ED EFFETTI */
+        .paradox-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .meta-label {
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        /* TRATTI COMPRESI */
+        .traits-container {
+            margin-bottom: 12px;
+        }
+        .trait-pill {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75em;
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            background: rgba(0, 82, 204, 0.15);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- IMMAGINI FISSE IN LATERALE SINISTRO -->
+    <img src="KASATHA.jpeg" alt="Kasatha" class="fixed-img-1">
+    <img src="KASATHA2.jpeg" alt="Kasatha 2" class="fixed-img-2">
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA RAZZA -->
+    <h1 class="main-title">Specie selezionata: KASATHA</h1>
+    
+    <!-- QUADRO SINTESI STATISTICHE E ATTRIBUTI -->
+    <div class="stats-summary-box">
+        <div class="stats-row-top">
+            <span>PUNTI FERITA (HP): 8</span>
+            <span>TAGLIA: Media</span>
+            <span>VELOCITÀ: 25 Piedi (7.5 mt)</span>
+        </div>
+        <table class="stats-boosts-table">
+            <tr>
+                <td class="boost-cell-left">
+                    <span class="boost-label" style="color: #00ff66;">Aggiungi +1 alle seguenti statistiche: (Attributi +):</span>
+                    Forza, Saggezza, Un aumento libero da assegnare.
+                </td>
+                <td class="boost-cell-right">
+                    <span class="boost-label" style="color: #ff3333;">Sottrai -1 alle seguenti statistiche:</span>
+                    Carisma.
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- CARATTERISTICHE DI SPECIE -->
+    <div class="backgrounds-grid" style="max-width: 1000px; margin: 0 auto 40px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 20px;">
+        
+        <!-- TRATTI E LINGUAGGI -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">DATI ANAGRAFICI DI FABBRICA</h2>
+                <div class="feature-translation">TRAITS & LANGUAGES</div>
+                <div class="traits-container">
+                    <span class="trait-pill">UMANOIDE</span>
+                    <span class="trait-pill">KASATHA</span>
+                </div>
+                <p class="feature-text">
+                    <strong>LANGUAGES:</strong> Comune, Kasatha.<br>
+                    <small>Una lingua regionale a tua scelta. Lingue aggiuntive pari al tuo modificatore di Intelligenza (se positivo). Scegli dalla lista delle lingue comuni e da qualsiasi altra lingua a cui hai accesso (come le lingue diffuse sul tuo pianeta d'origine).</small>
+                </p>
+            </div>
+        </div>
+
+        <!-- QUATTRO BRACCIA -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">FOUR-ARMED</h2>
+                <div class="feature-translation">Fisiologia Multi-Arto Kasathana</div>
+                <p class="feature-text">
+                    Possiedi quattro braccia, il che ti consente di impugnare e tenere fino a quattro mani di armi ed equipaggiamento. In qualsiasi momento, una coppia di mani è designata come mani attive.<br><br>
+                    Puoi cambiare questa designazione da una coppia di mani all'altra eseguendo l'azione <strong>Scambiare Mani (Switch Hands)</strong>, che richiede una singola azione. Puoi impugnare oggetti e combattere solo con le tue mani attive.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SEZIONE LIGNAGGI -->
+    <h2 class="section-divider">KASATHA HERITAGES ( PUOI SCEGLIERNE SOLO 1 )</h2>
+    <div class="section-subtitle">(Lignaggi Kasatha)</div>
+    <p class="main-desc">
+        Il retaggio di un kasatha può essere influenzato dagli ambienti che i loro antenati hanno abitato su Kasath, dalla stirpe in cui sono nati o dal ruolo dei loro progenitori nella migrazione interstellare.
+    </p>
+
+    <div class="features-grid">
+        <!-- AKITONIAN KASATHA -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Akitonian Kasatha</h2>
+                <div class="feature-translation">(Kasatha Akitoniano)</div>
+                <p class="feature-text">Tu o i tuoi antenati siete giunti sui Mondi del Patto a bordo dell'Idari e vi stelle stabiliti su Akiton. Probabilmente adori i rituali sportivi dei deserti.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> La gravità inferiore ti conferisce un netto vantaggio: guadagni il talento <strong>Balzo Rapido (Quick Jump)</strong> e non consideri la sabbia come terreno difficile.
+            </div>
+        </div>
+
+        <!-- KASATH SURVIVALIST -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Kasath Survivalist</h2>
+                <div class="feature-translation">(Sopravvissuto di Kasath)</div>
+                <p class="feature-text">I tuoi antenati scersero di non abbandonare il morente pianeta natale. Cammini tra lande desolate sotto cieli cupi alla ricerca di rifugi sicuri.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Puoi <strong>Sfrecciare (Hustle)</strong> per il doppio del tempo. In gruppo, aumenti il tempo totale di 10 min (20 min se sei di lvl 13+). Guadagni il talento <strong>Passo Leggero (Feather Step)</strong>.
+            </div>
+        </div>
+
+        <!-- SHIPBORN KASATHA -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Shipborn Kasatha</h2>
+                <div class="feature-translation">(Kasatha Nato sulla Nave)</div>
+                <p class="feature-text">Sei nato e cresciuto sulla nave-mondo Idari. La tua famiglia ha mantenuto vive la speranza e la tradizione sopportando le dure condizioni di un lungo viaggio spaziale.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Quando ottieni un successo in un tiro salvezza contro un effetto di <strong>emozione</strong>, ottieni invece un <strong>successo critico</strong>.
+            </div>
+        </div>
+
+        <!-- STELLAR NOMAD KASATHA -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Stellar Nomad Kasatha</h2>
+                <div class="feature-translation">(Kasatha Nomade Stellare)</div>
+                <p class="feature-text">Hai lasciato il luogo natio per viaggiare nel cosmo studiando costantemente le diverse fazioni, filosofie o religioni della galassia.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Nei preparativi giornalieri impari un editto/anatema: finché lo rispetti sei <strong>Trained ( T ) nella Conoscenza (Lore)</strong> associata (es: Vesk Lore) fino ai preparativi successivi.
+            </div>
+        </div>
+
+        <!-- TEMPERING -->
+        <div class="feature-card" style="grid-column: span 1;">
+            <div>
+                <h2 class="bg-title">Tempering</h2>
+                <div class="feature-translation">(La Tempra)</div>
+                <p class="feature-text">Stai affrontando la tua Tempra, il rito di crescita in cui un giovane kasatha viaggia rifiutando le tradizioni formali per sperimentare altri costumi estranei.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Diventi Trained ( T ) in <strong>Società (Society)</strong> e guadagni il talento d'abilità <strong>Scaltro nei Vicoli (Streetwise)</strong>.
+            </div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 1° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 1 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 1° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Calm before the Storm <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Mantieni un contegno rilassato e imperturbabile anche quando affronti un pericolo mortale.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Sotto la condizione spaventato (frightened), alla fine del tuo turno riduci il valore della condizione di 2 invece che di 1.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Crew Member <small style="display:inline; color:#8a2be2;">[R] - FEAT 1</small></h2>
+            <p class="feature-text"><strong>Innesco:</strong> Un alleato entro 30 piedi (9 mt) tenta di Aiutare (Aid) e ottiene un fallimento.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Effettui la stessa prova sostituendo il suo fallimento con il tuo risultato, anche se non ti eri preparato per Aiutare.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Kasatha Lore <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Hai studiato a fondo le antiche tradizioni kasathane di equilibrio e armonia cosmica.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trained ( T ) in Diplomazia e Società. Ottieni il talento Conoscenza Addizionale legato a Kasatha Lore.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Kasathan Weapon Familiarity <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Nutri un profondo rispetto per il combattimento ravvicinato e le armi cerimoniali.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Accesso alle armi non comuni con tratto *kasatha*. Consideri le armi da guerra (spada da duello/plasma, manganello d'urto, lancia cantilenante) come semplici e le avanzate come da guerra.</div>
+        </div>
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <h2 class="bg-title">Natural Grace <small style="display:inline; color:#8a2be2;">[F] - FEAT 1</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta al giorno | <strong>Innesco:</strong> Fallisci una prova di Acrobazia o un tiro salvezza su Reflex (Riflessi).</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Possiedi un controllo coordinato eccezionale. Puoi ripetere il tiro fallito, ma devi utilizzare obbligatoriamente il secondo risultato (effetto di fortuna).</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 5° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 5 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 5° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Double Draw <small style="display:inline; color:#e65100;">[1A] - FEAT 5</small></h2>
+            <p class="feature-text">L'uso coordinato e quotidiano di tutte e quattro le tue braccia ti consente di gestire i moduli con rapidità estrema.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Effettui l'azione Interagire due volte per estrarre, riporre o scambiare fino a due oggetti contemporaneamente.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Historian <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text">Sei un archivista meticoloso della cronologia galattica.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trained ( T ) in una Conoscenza (Lore). Spendendo 10 minuti puoi Richiamare Conoscenze su eventi storici con abilità Lore in cui sei non Trained ( T ), usando il modificatore Lore più alto.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Kasatha Weapon Elegance <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text">Hai imparato ad adattare la tua imponente presenza marziale per brandire armi esotiche o insolite.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Quando impugni un'arma in cui non sei competente, usi il tuo livello come bonus base. Al 11° livello diventi Trained ( T ) in tutte le armi.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Masked <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text">Il volto perennemente coperto impedisce agli estranei di scrutinare le tue espressioni micro-facciali.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Con la maschera tradizionale indosso, aumenti di +2 la CD avversaria per Percepire Intenzioni. Ottieni un bonus di circostanza di +1 per Mentire, fare Richieste o Fare Buona Impressione.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 9° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 9 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 9° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-9">
+            <h2 class="bg-title">All Hands on Deck <small style="display:inline; color:#f57c00;">[F] - FEAT 9</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta al giorno</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Coordini i quattro arti perfettamente. Fino al prossimo turno consideri una coppia extra di mani come mani attive. All'inizio del turno successivo decidi quale coppia torna stabile.</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="bg-title">History Buff <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Historian</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi lanciare *hypercognition* una volta al giorno come incantesimo innato occulto di 3° grado, usando il modificatore Lore di Historian per le prove.</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="bg-title">Uncanny Awareness <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <p class="feature-text">I tuoi quattro arti e la tua Deception (Percezione) sensoriale anticipano le minacce nell'aria.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Bonus di circostanza di +2 a Deception (Percezione) per l'iniziativa. Vinci sempre i pareggi d'iniziativa. La prima volta al giorno che tiri iniziativa con Deception (Percezione), tiri due volte e prendi il massimo.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 13° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 13 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 13° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Disciple of the Cycle <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <p class="feature-text">La devozione profonda al Ciclo cosmico ti permette di convogliare le energie planetarie e il fuoco delle stelle.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Guadagni gli incantesimi *entropy strike* ed *skyfire wings* ciascuno utilizzabile 1 volta al giorno come incantesimi innati occulti di 3° grado.</div>
+        </div>
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Perfectly Balanced <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <p class="feature-text">Hai trovato il perfetto bilanciamento biologico ed energetico per assorbire ed espellere sbalzi termici micidiali.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Resistenza 5 a freddo e fuoco. Ottieni la reazione **Reindirizzare Energia**: se subisci danni da fuoco/freddo mentre impugni un'arma da mischia, l'arma infligge +1d4 danni di quel tipo fino al turno dopo (ma perdi le resistenze passive per la durata).</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 17° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 17 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 17° Livello)</div>
+    <div class="features-grid" style="margin-bottom: 60px;">
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Cleanse Spirit <small style="display:inline; color:#4f5b66;">- FEAT 17</small></h2>
+            <p class="feature-text">Le tue profonde pratiche meditative e la conoscenza medica tradizionale purificano i corpi biologici corrotti.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi lanciare gli incantesimi *cleanse affliction* e *sound body* ciascuno una volta al giorno come incantesimi innati occulti di 4° grado.</div>
+        </div>
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Reliable Grace <small style="display:inline; color:#4f5b66;">- FEAT 17</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Natural Grace</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ottimizzi il controllo neuronale e motorio del corpo: puoi utilizzare l'abilità *Natural Grace* con una frequenza di una volta ogni ora invece che una volta al giorno.</div>
+        </div>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
