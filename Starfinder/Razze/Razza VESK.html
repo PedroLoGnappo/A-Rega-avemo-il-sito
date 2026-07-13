@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Razza Vesk</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 380px; /* Spazio per le immagini fisse a sinistra */
+            letter-spacing: 0.5px;
+        }
+
+        /* IMAGINI FISSE A SINISTRA */
+        .fixed-img-1 {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-2 {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-1:hover, .fixed-img-2:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8em;
+            color: #8a2be2;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .main-desc {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #a1b5cc;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        /* BLOCCO STATISTICHE INIZIALI */
+        .stats-summary-box {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            background: rgba(15, 22, 42, 0.5);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .stats-row-top {
+            display: flex;
+            justify-content: space-around;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #203a70;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            color: #00ffff;
+        }
+        .stats-boosts-table {
+            width: 100%;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .boost-cell-left {
+            width: 50%;
+            vertical-align: top;
+            padding-right: 15px;
+            border-right: 1px solid #203a70;
+            color: #cdffff;
+        }
+        .boost-cell-right {
+            width: 50%;
+            vertical-align: top;
+            padding-left: 15px;
+            color: #cdffff;
+        }
+        .boost-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* GRIGLIA COMPONENTI */
+        .features-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 25px;
+        }
+
+        /* SCHEDE IN STILE VETRO FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        
+        /* COLORI BORDI TALENTI PER LIVELLO */
+        .feat-lvl-1 { border-left-color: #c62828; }
+        .feat-lvl-5 { border-left-color: #e65100; }
+        .feat-lvl-9 { border-left-color: #f57c00; }
+        .feat-lvl-13 { border-left-color: #d84315; }
+        .feat-lvl-17 { border-left-color: #4f5b66; }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 4px 0;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+        }
+        .feature-text strong {
+            color: #ffffff;
+        }
+        .feature-text small {
+            color: #8da2bb;
+            line-height: 1.4;
+            display: block;
+            margin-top: 5px;
+        }
+        .feature-text ul {
+            font-family: 'Share Tech Mono', monospace;
+            padding-left: 20px;
+            color: #cdffff;
+            margin: 5px 0;
+        }
+
+        /* METADATI MECCANICHE ED EFFETTI */
+        .paradox-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .meta-label {
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        /* TRATTI */
+        .traits-container {
+            margin-bottom: 12px;
+        }
+        .trait-pill {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75em;
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            background: rgba(0, 82, 204, 0.15);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- IMMAGINI FISSE IN LATERALE SINISTRO -->
+    <img src="VESK.jpeg" alt="Vesk" class="fixed-img-1">
+    <img src="VESK2.jpeg" alt="Vesk 2" class="fixed-img-2">
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA RAZZA -->
+    <h1 class="main-title">Specie selezionata: VESK</h1>
+    
+    <!-- QUADRO SINTESI STATISTICHE E ATTRIBUTI -->
+    <div class="stats-summary-box">
+        <div class="stats-row-top">
+            <span>PUNTI FERITA (HP): 10</span>
+            <span>TAGLIA: Media</span>
+            <span>VELOCITÀ: 20 Piedi (6 mt)</span>
+        </div>
+        <table class="stats-boosts-table">
+            <tr>
+                <td class="boost-cell-left">
+                    <span class="boost-label" style="color: #00ff66;">Aggiungi +1 alle seguenti statistiche::</span>
+                    Costituzione, Forza, Un aumento libero da assegnare.
+                </td>
+                <td class="boost-cell-right">
+                    <span class="boost-label" style="color: #ff3333;">Sottrai -1 alle seguenti statistiche:</span>
+                    Saggezza.
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- CARATTERISTICHE DI SPECIE -->
+    <div style="max-width: 1000px; margin: 0 auto 40px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 20px;">
+        
+        <!-- TRATTI E LINGUAGGI -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">DATI ANAGRAFICI DI ORIGINE</h2>
+                <div class="feature-translation">TRAITS & LANGUAGES</div>
+                <div class="traits-container">
+                    <span class="trait-pill">VESK</span>
+                    <span class="trait-pill">UMANOIDE</span>
+                </div>
+                <p class="feature-text">
+                    <strong>LANGUAGES:</strong> Comune, Vesk.<br>
+                    <small>Una lingua regionale a tua scelta. Lingue aggiuntive pari al tuo modificatore di Intelligenza (se positivo). Scegli dalla lista delle lingue comuni e da qualsiasi altra lingua a cui hai accesso (come le lingue diffuse sul tuo pianeta d'origine).</small>
+                </p>
+            </div>
+        </div>
+
+        <!-- VISIONE CREPUSCOLARE -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">LOW-LIGHT VISION</h2>
+                <div class="feature-translation">Sistemi di Supporto Ottici Ancestrali</div>
+                <p class="feature-text">
+                    <strong>Visione Crepuscolare:</strong> Puoi vedere nella luce fioca come se fosse luce intensa, e ignori la condizione "occultato" (concealed) dovuta alla luce fioca.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SEZIONE LIGNAGGI -->
+    <h2 class="section-divider">VESK HERITAGES ( PUOI SCEGLIERNE SOLO 1 )</h2>
+    <div class="section-subtitle">(Lignaggi Vesk)</div>
+    <p class="main-desc">
+        Scegli una delle seguenti tipologie di Vesk per definire i tratti unici della tua stirpe e i bonus ereditati dai tuoi antenati.
+    </p>
+
+    <div class="features-grid">
+        <!-- BRISKWANDER -->
+        <div class="feature-card">
+            <div>
+                <h2 class="feature-title">Briskwander Vesk</h2>
+                <div class="feature-translation">(Vesk Viandante Rapido)</div>
+                <p class="feature-text">Proveni da una stirpe di vesk costantemente in movimento.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> La tua Velocità aumenta di 1,5 metri.
+            </div>
+        </div>
+
+        <!-- NIGHTSTALKER -->
+        <div class="feature-card">
+            <div>
+                <h2 class="feature-title">Nightstalker Vesk</h2>
+                <div class="feature-translation">(Vesk Predatore della Notte)</div>
+                <p class="feature-text">Ti sei adattato a vivere nell'oscurità, forse perché hai vissuto sottoterra, nei debolmente illuminati corridoi delle astronavi, sotto cieli oscurati dal fumo o su un pianeta lontano dal suo sole.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Ottieni la capacità di <strong>Scurovisione (Darkvision)</strong>.
+            </div>
+        </div>
+
+        <!-- PLATED -->
+        <div class="feature-card">
+            <div>
+                <h2 class="feature-title">Plated Vesk</h2>
+                <div class="feature-translation">(Vesk Corazzato)</div>
+                <p class="feature-text">I tuoi antenati erano tra gli esemplari di vesk più resistenti, avendo viaggiato in lungo e in largo sopportando ambienti ostili.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Le tue scaglie forniscono un bonus di oggetto di +3 alla CA (armatura media, gruppo piastre; limite Des +1, penalità –2, Forza +3, tratti <em>comfort</em> ed <em>exposed</em>). Il bonus sale a +4 al 5° livello. Puoi indossare una tuta da volo, ma non altre armature. Puoi incidere rune sulle scaglie, ma non installare potenziamenti.
+            </div>
+        </div>
+
+        <!-- VENOMTHOUGHT -->
+        <div class="feature-card">
+            <div>
+                <h2 class="feature-title">Venomthought Vesk</h2>
+                <div class="feature-translation">(Vesk dal Pensiero Velenoso)</div>
+                <p class="feature-text">Sei uno dei rari vesk nati con talenti psionici derivanti da un'antica società che modificò sé stessa tramite rituali occulti nelle caverne di Vesk Prime.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Puoi lanciare <em>stordimento mentale (daze)</em> come trucchetto innato occulto a Will (Volontà) (potenziato a metà del tuo livello, arrotondato per eccesso). Ottieni un bonus di circostanza di +1 alle prove di Occultismo per Richiamare Conoscenze su tradizioni psioniche.
+            </div>
+        </div>
+
+        <!-- WARBLOOD -->
+        <div class="feature-card" style="grid-column: span 2;">
+            <div>
+                <h2 class="feature-title">Warblood Vesk</h2>
+                <div class="feature-translation">(Vesk dal Sangue Guerriero)</div>
+                <p class="feature-text">Proveni da una stirpe di guerrieri rinomati e onorati che hanno affinato i loro corpi nel corso dei secoli fino a trasformarli in armi letali.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Ottieni due volte il talento di ascendenza <strong>Anatomia Brutale (Brutal Anatomy)</strong>.
+            </div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 1° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 1 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 1° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-1">
+            <h2 class="feature-title">Armor Ace <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Asso delle Armature)</div>
+            <p class="feature-text">Hai imparato, attraverso prove ed errori dolorosi, come ottenere il massimo dalla tua armatura, deviando i danni da esplosioni.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi conferire alla tua armatura il tratto <em>bulwark</em>. Se lo possiede già, aumenti il modificatore ai TS su Reflex (Riflessi) per evitare danni concesso dall'armatura a +4 (invece di +3).</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="feature-title">Brutal Anatomy <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Anatomia Brutale)</div>
+            <p class="feature-text">Sei un predatore naturale, Trained ( T ) a usare parte del tuo corpo come arma (gruppo rissa, specializzazione critica al 5° livello). Scegli uno tra:
+                <ul>
+                    <li><strong>Artiglio:</strong> 1d6 taglio (agile, finesse, unarmed, vesk)</li>
+                    <li><strong>Fauci:</strong> 1d6 perforante (grapple, unarmed, vesk)</li>
+                    <li><strong>Coda:</strong> 1d6 impatto (sweep, trip, unarmed, vesk)</li>
+                </ul>
+            </p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Guadagni l'attacco disarmato scelto. <small><strong>Speciale:</strong> Puoi acquisire questo talento tre volte, scegliendo un attacco diverso ogni volta.</small></div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="feature-title">Command Tactics <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Tattiche di Comando)</div>
+            <p class="feature-text">Sei un leader abile nell'orchestrare le manovre di supporto alleate.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Quando un alleato ti seleziona per Seguire l'Esperto (Follow the Expert), aumenta il bonus di circostanza di un ulteriore +1 (o +2 se sei maestro o superiore), per un totale di +3 esperto, +5 maestro e +6 leggendario.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="feature-title">Fearless <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Senza Paura)</div>
+            <p class="feature-text">Che derivi da un senso del dovere o dal desiderio di vincere, raramente esiti di fronte a nemici temibili.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Se ottieni un successo in un tiro salvezza contro un effetto di paura, lo trasformi automaticamente in un successo critico.</div>
+        </div>
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <h2 class="feature-title">Vesk Weapon Familiarity <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Familiarità nelle Armi Vesk)</div>
+            <p class="feature-text">Sei Trained ( T ) con tutti i doshko. Inoltre, guadagni l'accesso a tutte le armi non comuni con il tratto <em>vesk</em>.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Consideri le armi da guerra vesk come semplici e le avanzate come armi da guerra. Al 5° livello sblocchi l'effetto di specializzazione critica quando ottieni un colpo critico con esse.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 5° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 5 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 5° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-5">
+            <h2 class="feature-title">Blood Sense <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <div class="feature-translation">(Senso del Sangue)</div>
+            <p class="feature-text">Hai un acuto senso dell'olfatto e sei capace di rilevare ferite sanguinanti a distanza.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Guadagni il senso dell'olfatto per il sangue come senso impreciso entro 9 metri (30 piedi). Ti permette di localizzare esattamente creature viventi dotate di sangue che non siano al massimo dei loro PF.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="feature-title">Menacing Snarl <small style="display:inline; color:#e65100;">[F] - FEAT 5</small></h2>
+            <div class="feature-translation">(Ringhio Minaccioso)</div>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta all'ora | <strong>Innesco:</strong> Spaventi una creatura.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ringhi, rantoli o minacci la creatura bersaglio mentre la spaventi, aumentando di 1 il valore della sua condizione spaventato (frightened).</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="feature-title">Terrifying Bravado <small style="display:inline; color:#e65100;">[R] - FEAT 5</small></h2>
+            <div class="feature-translation">(Spavalderia Terrificante)</div>
+            <p class="feature-text"><strong>Innesco:</strong> Successo critico su un TS contro paura di una creatura, o quando un nemico fallisce una prova per Demoralizzarti.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ti ridi dei tentativi falliti del nemico di intimidirti, ribaltando la situazione: effettui immediatamente una prova di Intimidazione per Demoralizzare la creatura.</div>
+        </div>
+        <div class="feature-card feat-lvl-5" style="grid-column: span 3;">
+            <h2 class="feature-title">Damoritosh’s Claw <small style="display:inline; color:#e65100;">[1A] - FEAT 5</small></h2>
+            <div class="feature-translation">(Artiglio di Damoritosh)</div>
+            <p class="feature-text"><strong>Prerequisiti:</strong> riserva di focus (focus pool) | <strong>Frequenza:</strong> 1 volta al giorno | <strong>Requisiti:</strong> Sei impegnato in combattimento.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Preghi Damoritosh (o un santo guerriero) per ricevere una benedizione nel vivo della battaglia. Recuperi 1 Punto Focus, fino al tuo massimo normale.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 9° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 9 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 9° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-9">
+            <h2 class="feature-title">Eager Combatant <small style="display:inline; color:#f57c00;">[F] - FEAT 9</small></h2>
+            <div class="feature-translation">(Combattente Impaziente)</div>
+            <p class="feature-text"><strong>Innesco:</strong> Tiri Atletica o Intimidazione per l'iniziativa.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ti lanci con foga in battaglia, senza pensare alle conseguenze: effettui un Passo (Stride) in linea retta puntando direttamente verso un nemico.</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="feature-title">Opening Roar <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <div class="feature-translation">(Ruggito d'Apertura)</div>
+            <p class="feature-text"><strong>Prerequisiti:</strong> esperto in Intimidazione</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> All'inizio di un combattimento, se sei consapevole dei nemici e non usi Furtività, puoi effettuare la prova di Intimidazione per l'iniziativa e usare il risultato per Demoralizzare un nemico osservato.</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="feature-title">Plated Deflection <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <div class="feature-translation">(Deviazione Corazzata)</div>
+            <p class="feature-text"><strong>Prerequisiti:</strong> lignaggio Plated Vesk oppure Armor Ace</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ottieni la reazione <strong>Deviazione Corazzata [R]</strong> (Frequenza: 1 volta al giorno; Innesco: Sei colpito da un colpo critico): devii l'attacco verso una parte protetta, annullando il raddoppio dei danni critici (subisci comunque gli altri effetti).</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 13° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 13 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 13° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-13">
+            <h2 class="feature-title">Advantageous Assault <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <div class="feature-translation">(Assalto Vantaggioso)</div>
+            <p class="feature-text">Quando il tuo nemico è debole, tu premi l'attacco sferrando colpi spietati.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Quando metti a segno un Colpo (Strike) da mischia o a distanza su una creatura spaventata (frightened) o con sanguinamento persistente, guadagni un bonus di circostanza ai danni pari al numero di dadi di danno dell'arma.</div>
+        </div>
+        <div class="feature-card feat-lvl-13">
+            <h2 class="feature-title">Overcome Shame <small style="display:inline; color:#d84315;">[F] - FEAT 13</small></h2>
+            <div class="feature-translation">(Superare la Vergogna)</div>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta ogni 10 minuti | <strong>Innesco:</strong> Fallisci criticamente un Colpo (Strike) contro un nemico.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Al prossimo Colpo sferrato prima della fine del turno con la stessa arma sul medesimo bersaglio, tiri due volte tenendo il risultato più alto. Se manchi, diventi sbilanciato (off-guard) fino alla fine del tuo prossimo turno.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 17° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 17 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 17° Livello)</div>
+    <div class="features-grid" style="margin-bottom: 60px;">
+        <div class="feature-card feat-lvl-17">
+            <h2 class="feature-title">Battle Saint <small style="display:inline; color:#4f5b66;">- FEAT 17</small></h2>
+            <div class="feature-translation">(Santo Guerriero)</div>
+            <p class="feature-text">Sei asceso al rango di santo guerriero vivente, consacrato alla gloria del divino Damoritosh.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi lanciare gli incantesimi <em>blessed boundary</em> e <em>divine decree</em> come incantesimi innati divini di 7° grado, ciascuno lanciabile una volta al giorno.</div>
+        </div>
+        <div class="feature-card feat-lvl-17">
+            <h2 class="feature-title">Bolstered by Battle <small style="display:inline; color:#4f5b66;">[F] - FEAT 17</small></h2>
+            <div class="feature-translation">(Sostenuto dalla Battaglia)</div>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta all'ora | <strong>Innesco:</strong> Infliggi il colpo mortale a un nemico.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Il brivido della vittoria ti rinvigorisce: guadagni immediatamente Punti Ferita temporanei pari al tuo livello, duraturi per 1 minuto o fino al termine dell'incontro.</div>
+        </div>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../HomeStarfinder.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

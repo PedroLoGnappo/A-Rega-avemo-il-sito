@@ -1,0 +1,2909 @@
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Talenti Generali</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px;
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONE PRINCIPALE */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* GRIGLIA DELLE CARD */
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* STRUTTURA DELLE CARD */
+        .feat-card {
+            background: rgba(15, 22, 42, 0.6);
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            cursor: help;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            z-index: 1;
+            border: 1px solid #203a70;
+            border-top: 4px solid #00ffff;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.05);
+        }
+        .feat-card:hover {
+            z-index: 9999;
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            background: rgba(20, 30, 58, 0.8);
+        }
+
+        .feat-name {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.95em;
+            letter-spacing: 1px;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        .feat-card:hover .feat-name {
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+        }
+
+        .feat-type-tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7em;
+            color: #8a9fc4;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .feat-prereq {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7em;
+            color: #ffcc66;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* CONTAINER DEI TAG CATEGORIA */
+        .feat-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+        }
+        .tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65em;
+            padding: 2px 6px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #00ffff;
+            border-radius: 2px;
+            text-transform: uppercase;
+        }
+
+        /* TOOLTIP CON DESCRIZIONE COMPLETA AL PASSAGGIO DEL CURSORE */
+        .feat-info-popup {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            background: rgba(6, 10, 25, 0.98);
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+            padding: 15px;
+            border-radius: 6px;
+            text-align: left;
+            z-index: 100000;
+            font-size: 0.82em;
+            color: #e0e6ed;
+            backdrop-filter: blur(10px);
+        }
+        .feat-info-popup::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: #00ffff transparent transparent transparent;
+        }
+        .feat-card:hover .feat-info-popup,
+        .feat-info-popup:hover {
+            display: block;
+        }
+
+        .popup-meta {
+            font-family: 'Share Tech Mono', monospace;
+            color: #00bfff;
+            border-bottom: 1px dashed rgba(0, 255, 255, 0.3);
+            padding-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+            line-height: 1.4em;
+        }
+        .popup-desc {
+            line-height: 1.4;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px;
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9);
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px);
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+
+        /* AREA DI CONTROLLO INTERATTIVA (RICERCA E FILTRI) */
+        .search-filter-panel {
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            background: rgba(12, 21, 43, 0.7);
+            border: 1px solid #0052cc;
+            box-shadow: 0 0 20px rgba(0, 82, 204, 0.2);
+            padding: 20px;
+            border-radius: 6px;
+            backdrop-filter: blur(8px);
+        }
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .cyber-input {
+            flex: 1;
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid #00ffff;
+            color: #ffffff;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 10px 15px;
+            font-size: 1em;
+            border-radius: 4px;
+            outline: none;
+            box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.2);
+            min-width: 150px;
+        }
+        .cyber-select {
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid #8a2be2;
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            padding: 10px;
+            font-size: 0.85em;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            min-width: 150px;
+        }
+        .cyber-select option {
+            background: #060913;
+            color: #ffffff;
+        }
+        #activeTags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 25px;
+            padding-top: 5px;
+            border-top: 1px dashed rgba(0, 82, 204, 0.4);
+        }
+        .active-tag {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.2);
+            transition: all 0.2s ease-in-out;
+        }
+        .active-tag:hover {
+            background: rgba(255, 51, 102, 0.2);
+            border-color: #ff3366;
+            box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
+        }
+        .active-tag .remove {
+            color: #ff3366;
+            margin-left: 4px;
+            font-weight: bold;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .filter-row {
+                flex-direction: column;
+            }
+            .cyber-input, .cyber-select {
+                width: 100%;
+                min-width: unset;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 6px;
+                top: 10px;
+                right: 10px;
+            }
+            .nav-pill {
+                font-size: 0.6em;
+                padding: 4px 10px;
+            }
+            .feat-grid {
+                grid-template-columns: 1fr;
+            }
+            .feat-info-popup {
+                width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+    <div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- TITOLO PRINCIPALE -->
+    <h2 class="main-title">Talenti Generali e di Abilità</h2>
+
+    <!-- AREA DI CONTROLLO INTERATTIVA (RICERCA E FILTRI) -->
+    <div class="search-filter-panel">
+        <div class="filter-row">
+            <input type="text" id="featSearch" class="cyber-input" placeholder="CERCA TALENTO...">
+
+            <select id="typeFilter" class="cyber-select">
+                <option value="all">TUTTI I TIPI</option>
+                <option value="general">Generali</option>
+                <option value="skill">Abilità</option>
+            </select>
+
+            <select id="skillFilter" class="cyber-select">
+                <option value="all">TUTTE LE ABILITÀ</option>
+                <option value="Acrobatics">Acrobazia</option>
+                <option value="Arcana">Arcano</option>
+                <option value="Athletics">Atletica</option>
+                <option value="Computers">Informatica</option>
+                <option value="Crafting">Artigianato</option>
+                <option value="Deception">Raggirare</option>
+                <option value="Diplomacy">Diplomazia</option>
+                <option value="Intimidation">Intimidire</option>
+                <option value="Lore">Sapere</option>
+                <option value="Medicine">Medicina</option>
+                <option value="Nature">Natura</option>
+                <option value="Occultism">Occultismo</option>
+                <option value="Performance">Esibizione</option>
+                <option value="Piloting">Pilotare</option>
+                <option value="Religion">Religione</option>
+                <option value="Society">Società</option>
+                <option value="Stealth">Furtività</option>
+                <option value="Survival">Sopravvivenza</option>
+                <option value="Thievery">Furto</option>
+                <option value="Miscellaneous">Varie</option>
+            </select>
+        </div>
+        <div id="activeTags"></div>
+    </div>
+
+    <!-- GRIGLIA DELLE CARD DEI TALENTI -->
+    <div class="feat-grid" id="featGrid">
+
+        <!-- ============================================================ -->
+        <!-- TALENTI GENERALI -->
+        <!-- ============================================================ -->
+
+        <!-- ADOPTED ANCESTRY -->
+        <div class="feat-card" data-name="Adopted Ancestry" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">ADOPTED ANCESTRY</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Sei completamente immerso nella cultura e nelle tradizioni di un'altra ascendenza. Scegli un'ascendenza comune o un'altra ascendenza a cui hai accesso. Puoi selezionare i talenti di ascendenza dall'ascendenza che hai scelto, in aggiunta ai talenti di ascendenza del tuo personaggio, purché non richiedano caratteristiche fisiologiche di cui sei privo.</div>
+            </div>
+        </div>
+
+        <!-- ANCESTRAL PARAGON -->
+        <div class="feat-card" data-name="Ancestral Paragon" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">ANCESTRAL PARAGON</span>
+            <span class="feat-type-tag">Talento Generale 3</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Guadagni un talento di ascendenza di 1° livello.</div>
+            </div>
+        </div>
+
+        <!-- ARMOR PROFICIENCY -->
+        <div class="feat-card" data-name="Armor Proficiency" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">ARMOR PROFICIENCY</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Diventi Trained ( T ) in un tipo di armatura a tua scelta.</div>
+            </div>
+        </div>
+
+        <!-- AUGMENTED BODY -->
+        <div class="feat-card" data-name="Augmented Body" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">AUGMENTED BODY</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Guadagni un potenziamento gratuito per il tuo corpo.</div>
+            </div>
+        </div>
+
+        <!-- BARRICADE -->
+        <div class="feat-card" data-name="Barricade" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">BARRICADE</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Puoi creare una copertura fragile utilizzando rottami o materiali presenti nelle vicinanze.</div>
+            </div>
+        </div>
+
+        <!-- BREATH CONTROL -->
+        <div class="feat-card" data-name="Breath Control" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">BREATH CONTROL</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Puoi respirare anche in aria pericolosa o rarefatta. Puoi trattenere il respiro per 25 volte più a lungo del normale. Guadagni +1 ai TS contro minacce inalate e i successi diventano critici.</div>
+            </div>
+        </div>
+
+        <!-- CANNY ACUMEN -->
+        <div class="feat-card" data-name="Canny Acumen" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">CANNY ACUMEN</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Scegli Tempra, Reflex (Riflessi), Will (Volontà) o Deception (Percezione). Diventi esperto nella tua scelta. Al 17° livello, diventi maestro.</div>
+            </div>
+        </div>
+
+        <!-- DIEGHARD -->
+        <div class="feat-card" data-name="Diehard" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">DIEGHARD</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Muori per la condizione morente a morente 5, invece che a morente 4.</div>
+            </div>
+        </div>
+
+        <!-- EXPEDITIOUS SEARCH -->
+        <div class="feat-card" data-name="Expeditious Search" data-type="general" data-skill="Miscellaneous" data-prereq="Deception (Percezione) (maestro)">
+            <span class="feat-name">EXPEDITIOUS SEARCH</span>
+            <span class="feat-type-tag">Talento Generale 7</span>
+            <span class="feat-prereq">Prerequisiti: Deception (Percezione) (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Quando Cerchi, impieghi la metà del tempo normale. Durante l'esplorazione, raddoppi la Velocità con cui puoi muoverti assicurandoti di aver Cercato. Se sei leggendario, cerchi quattro volte più rapidamente.</div>
+            </div>
+        </div>
+
+        <!-- FAST RECOVERY -->
+        <div class="feat-card" data-name="Fast Recovery" data-type="general" data-skill="Miscellaneous" data-prereq="Costituzione +2">
+            <span class="feat-name">FAST RECOVERY</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Costituzione +2</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Recuperi il doppio dei PF dal riposo. I successi contro malattie/veleni riducono lo stadio di 2 (o di 1 per quelli virulenti). Riduci la condizione Risucchiato di 2 per notte invece di 1.</div>
+            </div>
+        </div>
+
+        <!-- FEATHER STEP -->
+        <div class="feat-card" data-name="Feather Step" data-type="general" data-skill="Miscellaneous" data-prereq="Destrezza +2">
+            <span class="feat-name">FEATHER STEP</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Destrezza +2</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Puoi Fare un Passo nel terreno difficile.</div>
+            </div>
+        </div>
+
+        <!-- FLEET -->
+        <div class="feat-card" data-name="Fleet" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">FLEET</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">La tua Velocità aumenta di 5 piedi.</div>
+            </div>
+        </div>
+
+        <!-- INCREDIBLE INITIATIVE -->
+        <div class="feat-card" data-name="Incredible Initiative" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">INCREDIBLE INITIATIVE</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Guadagni un bonus di circostanza +2 ai tiri per l'iniziativa.</div>
+            </div>
+        </div>
+
+        <!-- PRESCIENT CONSUMABLE -->
+        <div class="feat-card" data-name="Prescient Consumable" data-type="general" data-skill="Miscellaneous" data-prereq="Prescient Planner">
+            <span class="feat-name">PRESCIENT CONSUMABLE</span>
+            <span class="feat-type-tag">Talento Generale 7</span>
+            <span class="feat-prereq">Prerequisiti: Prescient Planner</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Puoi prevedere in anticipo quali oggetti consumabili potresti avere bisogno. Quando usi Prescient Planner, puoi procurarti un oggetto consumabile comune di livello non superiore alla metà del tuo livello.</div>
+            </div>
+        </div>
+
+        <!-- PRESCIENT PLANNER -->
+        <div class="feat-card" data-name="Prescient Planner" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">PRESCIENT PLANNER</span>
+            <span class="feat-type-tag">Talento Generale 3</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Una volta tra un acquisto e l'altro, puoi tirare fuori dallo zaino un oggetto da avventura comune di livello ≤ metà del tuo livello che non avevi dichiarato di aver comprato. (Costo: prezzo dell'oggetto.)</div>
+            </div>
+        </div>
+
+        <!-- RIDE -->
+        <div class="feat-card" data-name="Ride" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">RIDE</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Quando Comandi un Animale su cui sei montato di compiere un'azione di movimento, ottieni automaticamente un successo. L'animale agisce nel tuo turno come un servitore.</div>
+            </div>
+        </div>
+
+        <!-- SHIELD BLOCK -->
+        <div class="feat-card" data-name="Shield Block" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">SHIELD BLOCK</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Quando hai lo scudo alzato e subiresti danni fisici da un attacco, puoi parare. Il tuo scudo ti impedisce di subire danni fino alla sua Durezza. Tu e lo scudo subite il resto.</div>
+            </div>
+        </div>
+
+        <!-- TOUGHNESS -->
+        <div class="feat-card" data-name="Toughness" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">TOUGHNESS</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Aumenta i tuoi PF massimi del tuo livello. Riduci la CD delle prove di recupero di 1.</div>
+            </div>
+        </div>
+
+        <!-- UNTRAINED IMPROVISATION -->
+        <div class="feat-card" data-name="Untrained Improvisation" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">UNTRAINED IMPROVISATION</span>
+            <span class="feat-type-tag">Talento Generale 3</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Il tuo bonus di competenza per le prove senza addestramento è pari al tuo livello - 2 (migliora a livello -1 al 5°, e a livello pieno al 7°).</div>
+            </div>
+        </div>
+
+        <!-- WEAPON PROFICIENCY -->
+        <div class="feat-card" data-name="Weapon Proficiency" data-type="general" data-skill="Miscellaneous" data-prereq="Nessuno">
+            <span class="feat-name">WEAPON PROFICIENCY</span>
+            <span class="feat-type-tag">Talento Generale 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Generale</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Generale</div>
+                <div class="popup-desc">Diventi Trained ( T ) in tutte le armi marziali (o in un'arma avanzata a scelta). Se sei almeno di 11° livello, diventi anche esperto in queste armi. Selezionabile più volte.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: ASSURANCE -->
+        <!-- ============================================================ -->
+
+        <!-- ASSURANCE -->
+        <div class="feat-card" data-name="Assurance" data-type="skill" data-skill="Miscellaneous" data-prereq="Trained ( T ) in almeno un'abilità">
+            <span class="feat-name">ASSURANCE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in almeno un'abilità</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Varie</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Abilità</div>
+                <div class="popup-desc">Puoi rinunciare a tirare una prova di abilità per ricevere invece 10 + il tuo bonus di competenza (senza altri modificatori).</div>
+            </div>
+        </div>
+
+        <!-- DUBIOUS KNOWLEDGE -->
+        <div class="feat-card" data-name="Dubious Knowledge" data-type="skill" data-skill="Miscellaneous" data-prereq="Trained ( T ) in un'abilità con Ricordare Conoscenze">
+            <span class="feat-name">DUBIOUS KNOWLEDGE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in un'abilità con Ricordare Conoscenze</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Varie</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Abilità</div>
+                <div class="popup-desc">Quando fallisci (non criticamente) un Ricordare Conoscenze, impari la risposta corretta e una errata, ma non sai distinguere quale sia quale.</div>
+            </div>
+        </div>
+
+        <!-- QUICK IDENTIFICATION -->
+        <div class="feat-card" data-name="Quick Identification" data-type="skill" data-skill="Miscellaneous" data-prereq="Trained ( T ) in Arcano, Natura, Occultismo o Religione">
+            <span class="feat-name">QUICK IDENTIFICATION</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Arcano, Natura, Occultismo o Religione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Varie</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Tipo:</strong> Abilità</div>
+                <div class="popup-desc">Identifichi la Magia in 1 minuto invece di 10. Se maestro, richiede 3 azioni; se leggendario, 1 azione.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: ACROBAZIA -->
+        <!-- ============================================================ -->
+
+        <!-- CAT FALL -->
+        <div class="feat-card" data-name="Cat Fall" data-type="skill" data-skill="Acrobatics" data-prereq="Trained ( T ) in Acrobazia">
+            <span class="feat-name">CAT FALL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Acrobazia</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Acrobazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Acrobazia</div>
+                <div class="popup-desc">Consideri le cadute più corte di 10 piedi (25 se esperto, 50 se maestro). Se leggendario, atterri sempre in piedi e non subisci danni da caduta.</div>
+            </div>
+        </div>
+
+        <!-- CLOUD JUMP -->
+        <div class="feat-card" data-name="Cloud Jump" data-type="skill" data-skill="Athletics" data-prereq="Atletica (leggendario)">
+            <span class="feat-name">CLOUD JUMP</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Atletica (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Triplica la distanza che salti con un Salto in Lungo. Puoi saltare più della tua Velocità spendendo azioni extra.</div>
+            </div>
+        </div>
+
+        <!-- CROWD SURFING -->
+        <div class="feat-card" data-name="Crowd Surfing" data-type="skill" data-skill="Acrobatics" data-prereq="Trained ( T ) in Acrobazia">
+            <span class="feat-name">CROWD SURFING</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Acrobazia</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Acrobazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Acrobazia</div>
+                <div class="popup-desc">Ti muovi attraverso le folle senza rallentare. Le aree gremite di persone sono terreno difficile, non molto difficile.</div>
+            </div>
+        </div>
+
+        <!-- DIVE FOR COVER -->
+        <div class="feat-card" data-name="Dive for Cover" data-type="skill" data-skill="Acrobatics" data-prereq="Acrobazia Expert ( E )">
+            <span class="feat-name">DIVE FOR COVER</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Acrobazia Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Acrobazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Acrobazia</div>
+                <div class="popup-desc">Effettui un Balzo, cadi prono e immediatamente Prendi Copertura per ottenere copertura maggiore contro gli attacchi a distanza.</div>
+            </div>
+        </div>
+
+        <!-- KIPUP -->
+        <div class="feat-card" data-name="Kip Up" data-type="skill" data-skill="Acrobatics" data-prereq="Acrobazia (maestro)">
+            <span class="feat-name">KIP UP</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Acrobazia (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Acrobazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Acrobazia</div>
+                <div class="popup-desc">Ti alzi in piedi. Questo movimento non innesca reazioni.</div>
+            </div>
+        </div>
+
+        <!-- NIMBLE CRAWL -->
+        <div class="feat-card" data-name="Nimble Crawl" data-type="skill" data-skill="Acrobatics" data-prereq="Acrobazia Expert ( E )">
+            <span class="feat-name">NIMBLE CRAWL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Acrobazia Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Acrobazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Acrobazia</div>
+                <div class="popup-desc">Puoi Strisciare fino alla metà della tua Velocità. Se maestro, a piena Velocità; se leggendario, non sei impreparato mentre sei prono.</div>
+            </div>
+        </div>
+
+        <!-- QUICK SQUEEZE -->
+        <div class="feat-card" data-name="Quick Squeeze" data-type="skill" data-skill="Acrobatics" data-prereq="Trained ( T ) in Acrobazia">
+            <span class="feat-name">QUICK SQUEEZE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Acrobazia</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Acrobazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Acrobazia</div>
+                <div class="popup-desc">Ti Insinui di 5 piedi per round (10 con successo critico). Se leggendario, a piena Velocità.</div>
+            </div>
+        </div>
+
+        <!-- STEADY BALANCE -->
+        <div class="feat-card" data-name="Steady Balance" data-type="skill" data-skill="Acrobatics" data-prereq="Trained ( T ) in Acrobazia">
+            <span class="feat-name">STEADY BALANCE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Acrobazia</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Acrobazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Acrobazia</div>
+                <div class="popup-desc">I successi nel Bilanciarsi diventano successi critici. Non sei impreparato mentre ti bilanci su superfici strette.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: ARCANO -->
+        <!-- ============================================================ -->
+
+        <!-- QUICK RECOGNITION -->
+        <div class="feat-card" data-name="Quick Recognition" data-type="skill" data-skill="Arcana" data-prereq="Maestro in Arcano, Natura, Occultismo o Religione; Riconoscere Incantesimo">
+            <span class="feat-name">QUICK RECOGNITION</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Maestro in Arcano, Natura, Occultismo o Religione; Riconoscere Incantesimo</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Arcano</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Arcano</div>
+                <div class="popup-desc">Una volta per round, puoi Riconoscere un Incantesimo usando un'abilità in cui sei maestro come azione gratuita.</div>
+            </div>
+        </div>
+
+        <!-- RECOGNIZE SPELL -->
+        <div class="feat-card" data-name="Recognize Spell" data-type="skill" data-skill="Arcana" data-prereq="Trained ( T ) in Arcano, Natura, Occultismo o Religione">
+            <span class="feat-name">RECOGNIZE SPELL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Arcano, Natura, Occultismo o Religione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Arcano</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Arcano</div>
+                <div class="popup-desc">Identifichi automaticamente incantesimi comuni fino a un certo rango (2 se Trained ( T ), 4 esperto, 6 maestro, 10 leggendario). Il GM tira segretamente; con successo critico ottieni +1 al TS/CA contro di esso.</div>
+            </div>
+        </div>
+
+        <!-- UNIFIED THEORY -->
+        <div class="feat-card" data-name="Unified Theory" data-type="skill" data-skill="Arcana" data-prereq="Arcano (leggendario)">
+            <span class="feat-name">UNIFIED THEORY</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Arcano (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Arcano</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Arcano</div>
+                <div class="popup-desc">Puoi usare Arcano al posto di Natura, Occultismo o Religione per qualsiasi azione di abilità. Non subisci più penalità per l'uso di Arcano su altre tradizioni magiche.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: ATLETICA -->
+        <!-- ============================================================ -->
+
+        <!-- COMBAT CLIMBER -->
+        <div class="feat-card" data-name="Combat Climber" data-type="skill" data-skill="Athletics" data-prereq="Trained ( T ) in Atletica">
+            <span class="feat-name">COMBAT CLIMBER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Atletica</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Non sei impreparato mentre ti Arrampichi e puoi Arrampicarti con una mano occupata.</div>
+            </div>
+        </div>
+
+        <!-- HEFTY HAULER -->
+        <div class="feat-card" data-name="Hefty Hauler" data-type="skill" data-skill="Athletics" data-prereq="Trained ( T ) in Atletica">
+            <span class="feat-name">HEFTY HAULER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Atletica</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Aumenta i tuoi limiti di Ingombro massimo e ingombrato di 2.</div>
+            </div>
+        </div>
+
+        <!-- POWERFUL LEAP -->
+        <div class="feat-card" data-name="Powerful Leap" data-type="skill" data-skill="Athletics" data-prereq="Atletica Expert ( E )">
+            <span class="feat-name">POWERFUL LEAP</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Atletica Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Puoi saltare 5 piedi verso l'alto con un Balzo senza fare un Salto in Alto. Aumenti la distanza orizzontale dei Balzi di 5 piedi.</div>
+            </div>
+        </div>
+
+        <!-- QUICK CLIMB -->
+        <div class="feat-card" data-name="Quick Climb" data-type="skill" data-skill="Athletics" data-prereq="Atletica (maestro)">
+            <span class="feat-name">QUICK CLIMB</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Atletica (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Quando ti Arrampichi, ti muovi di 5 piedi in più (10 con critico). Se leggendario, hai Velocità di scalata pari alla tua Velocità.</div>
+            </div>
+        </div>
+
+        <!-- QUICK JUMP -->
+        <div class="feat-card" data-name="Quick Jump" data-type="skill" data-skill="Athletics" data-prereq="Trained ( T ) in Atletica">
+            <span class="feat-name">QUICK JUMP</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Atletica</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Puoi usare Salto in Alto e Salto in Lungo come una singola azione invece di 2.</div>
+            </div>
+        </div>
+
+        <!-- QUICK SWIM -->
+        <div class="feat-card" data-name="Quick Swim" data-type="skill" data-skill="Athletics" data-prereq="Atletica (maestro)">
+            <span class="feat-name">QUICK SWIM</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Atletica (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Nuoti 5 piedi più lontano (10 con critico). Se leggendario, hai Velocità di nuoto pari alla tua Velocità.</div>
+            </div>
+        </div>
+
+        <!-- RAPID MANTEL -->
+        <div class="feat-card" data-name="Rapid Mantel" data-type="skill" data-skill="Athletics" data-prereq="Atletica Expert ( E )">
+            <span class="feat-name">RAPID MANTEL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Atletica Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Puoi tirare su sul bordo di una superficie come parte dell'azione di Arrampicata o Balzo. Puoi usare Atletica invece di Reflex (Riflessi) per Afferrare un Bordo.</div>
+            </div>
+        </div>
+
+        <!-- TITAN WRESTLER -->
+        <div class="feat-card" data-name="Titan Wrestler" data-type="skill" data-skill="Athletics" data-prereq="Trained ( T ) in Atletica">
+            <span class="feat-name">TITAN WRESTLER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Atletica</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Puoi tentare manovre di combattimento contro creature fino a due taglie più grandi di te (tre se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- WALL JUMP -->
+        <div class="feat-card" data-name="Wall Jump" data-type="skill" data-skill="Athletics" data-prereq="Atletica (maestro)">
+            <span class="feat-name">WALL JUMP</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Atletica (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Atletica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Atletica</div>
+                <div class="popup-desc">Se sei adiacente a un muro alla fine di un salto, non cadi se la tua prossima azione è un altro salto. Puoi usare Salto in Alto/Lungo come azione singola. Usabile una volta per turno (illimitato se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: INFORMATICA -->
+        <!-- ============================================================ -->
+
+        <!-- COMBAT HACK -->
+        <div class="feat-card" data-name="Combat Hack" data-type="skill" data-skill="Computers" data-prereq="Informatica Expert ( E )">
+            <span class="feat-name">COMBAT HACK</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Informatica Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Informatica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Informatica</div>
+                <div class="popup-desc">Tenta di Hackerare una creatura o oggetto tecnologico adiacente. Successo critico: Malfunzionante 2 per 1 round. Successo: Malfunzionante 1 per 1 round. Il bersaglio è immune per 10 minuti.</div>
+            </div>
+        </div>
+
+        <!-- DIGITAL DIVERSION -->
+        <div class="feat-card" data-name="Digital Diversion" data-type="skill" data-skill="Computers" data-prereq="Trained ( T ) in Informatica">
+            <span class="feat-name">DIGITAL DIVERSION</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Informatica</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Informatica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Informatica</div>
+                <div class="popup-desc">Puoi Creare una Diversione usando Informatica invece di Raggirare su un bersaglio adiacente che trasporta/indossa/impugna un oggetto tecnologico.</div>
+            </div>
+        </div>
+
+        <!-- FOOL THE CAMERA -->
+        <div class="feat-card" data-name="Fool the Camera" data-type="skill" data-skill="Computers" data-prereq="Informatica (maestro)">
+            <span class="feat-name">FOOL THE CAMERA</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Informatica (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Informatica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Informatica</div>
+                <div class="popup-desc">Quando usi Evitare il Notato, Nascondersi o Furtivo, sei sempre considerato come se prendessi precauzioni contro i sensi speciali tecnologici. Guadagni +2 alla CD di Furtività contro telecamere e pericoli tecnologici.</div>
+            </div>
+        </div>
+
+        <!-- HOLOGRAM SKEPTIC -->
+        <div class="feat-card" data-name="Hologram Skeptic" data-type="skill" data-skill="Computers" data-prereq="Trained ( T ) in Informatica">
+            <span class="feat-name">HOLOGRAM SKEPTIC</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Informatica</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Informatica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Informatica</div>
+                <div class="popup-desc">Anche se non stai Cercando, tenti sempre una prova per dubitare degli ologrammi e degli effetti con i tratti illusione e tecnologia.</div>
+            </div>
+        </div>
+
+        <!-- PHISHING EXPERTISE -->
+        <div class="feat-card" data-name="Phishing Expertise" data-type="skill" data-skill="Computers" data-prereq="Trained ( T ) in Informatica">
+            <span class="feat-name">PHISHING EXPERTISE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Informatica</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Informatica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Informatica</div>
+                <div class="popup-desc">Puoi Creare un Falso usando Informatica invece di Società. I falsi digitali vengono confrontati con la tua CD di Informatica.</div>
+            </div>
+        </div>
+
+        <!-- PHREAKER -->
+        <div class="feat-card" data-name="Phreaker" data-type="skill" data-skill="Computers" data-prereq="Trained ( T ) in Informatica">
+            <span class="feat-name">PHREAKER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Informatica</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Informatica</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Informatica</div>
+                <div class="popup-desc">Puoi usare Informatica per Disattivare un Dispositivo o Hackerare usando qualsiasi computer/terminale. Se esperto e l'equipaggiamento è di 3° livello, guadagni +1 di oggetto.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: ARTIGIANATO -->
+        <!-- ============================================================ -->
+
+        <!-- COMMUNAL CRAFTING -->
+        <div class="feat-card" data-name="Communal Crafting" data-type="skill" data-skill="Crafting" data-prereq="Artigianato Expert ( E )">
+            <span class="feat-name">COMMUNAL CRAFTING</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Artigianato Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Puoi fare in modo che altri PG ti aiutino ad Artigliare. Ogni aiutante effettua una prova con un'abilità rilevante per ridurre il costo delle materie prime.</div>
+            </div>
+        </div>
+
+        <!-- CRAFT ANYTHING -->
+        <div class="feat-card" data-name="Craft Anything" data-type="skill" data-skill="Crafting" data-prereq="Artigianato (leggendario)">
+            <span class="feat-name">CRAFT ANYTHING</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Artigianato (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Ignori quasi tutti i requisiti per Artigliare (ascendenza, incantesimi, ecc.) purché tu abbia il talento di Artigianato appropriato e il livello/competenza. Non puoi ignorare i requisiti di artefatti.</div>
+            </div>
+        </div>
+
+        <!-- ELECTRICAL ENGINEER -->
+        <div class="feat-card" data-name="Electrical Engineer" data-type="skill" data-skill="Crafting" data-prereq="Trained ( T ) in Artigianato">
+            <span class="feat-name">ELECTRICAL ENGINEER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Artigianato</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Puoi alimentare dispositivi a batteria da fonti di energia in 1 minuto. Se maestro, 3 azioni; se leggendario, 1 azione.</div>
+            </div>
+        </div>
+
+        <!-- IMPECCABLE CRAFTING -->
+        <div class="feat-card" data-name="Impeccable Crafting" data-type="skill" data-skill="Crafting" data-prereq="Artigianato (maestro), Artigianato Specializzato">
+            <span class="feat-name">IMPECCABLE CRAFTING</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Artigianato (maestro), Artigianato Specializzato</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Quando ottieni un successo in una prova di Artigianato per creare un oggetto del tipo scelto con Artigianato Specializzato, ottieni invece un successo critico.</div>
+            </div>
+        </div>
+
+        <!-- INVENTOR -->
+        <div class="feat-card" data-name="Inventor" data-type="skill" data-skill="Crafting" data-prereq="Artigianato Expert ( E )">
+            <span class="feat-name">INVENTOR</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Artigianato Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Puoi spendere tempo di pausa per inventare una formula comune che non conosci, funzionando come Artigliare ma per la ricerca e lo sviluppo.</div>
+            </div>
+        </div>
+
+        <!-- MAGICAL CRAFTING -->
+        <div class="feat-card" data-name="Magical Crafting" data-type="skill" data-skill="Crafting" data-prereq="Artigianato Expert ( E )">
+            <span class="feat-name">MAGICAL CRAFTING</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Artigianato Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Puoi Artigliare oggetti magici. Quando selezioni questo talento, guadagni le formule per quattro oggetti magici comuni di 2° livello o inferiore.</div>
+            </div>
+        </div>
+
+        <!-- PERCUSSIVE MAINTENANCE -->
+        <div class="feat-card" data-name="Percussive Maintenance" data-type="skill" data-skill="Crafting" data-prereq="Artigianato Expert ( E )">
+            <span class="feat-name">PERCUSSIVE MAINTENANCE</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Artigianato Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Tenti di riparare un oggetto tecnologico malfunzionante colpendolo contro una superficie. Prova pura CD 10: critico riduce Malfunzionante di 2, successo di 1.</div>
+            </div>
+        </div>
+
+        <!-- QUICK INSTALL -->
+        <div class="feat-card" data-name="Quick Install" data-type="skill" data-skill="Crafting" data-prereq="Trained ( T ) in Artigianato">
+            <span class="feat-name">QUICK INSTALL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Artigianato</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Impieghi solo 1 minuto per Installare un Potenziamento. Se leggendario, 3 azioni.</div>
+            </div>
+        </div>
+
+        <!-- QUICK REPAIR -->
+        <div class="feat-card" data-name="Quick Repair" data-type="skill" data-skill="Crafting" data-prereq="Trained ( T ) in Artigianato">
+            <span class="feat-name">QUICK REPAIR</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Artigianato</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Riparare richiede 1 minuto invece di 10. Se maestro, 3 azioni; se leggendario, 1 azione.</div>
+            </div>
+        </div>
+
+        <!-- SEASONED -->
+        <div class="feat-card" data-name="Seasoned" data-type="skill" data-skill="Crafting" data-prereq="Trained ( T ) in Sapere (Alcol, Cucina) o Artigianato">
+            <span class="feat-name">SEASONED</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Sapere (Alcol, Cucina) o Artigianato</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">+1 alle prove per Artigliare cibo e bevande (inclusi sieri se hai Artigianato dei Sieri). Se maestro, +2.</div>
+            </div>
+        </div>
+
+        <!-- SERUM CRAFTING -->
+        <div class="feat-card" data-name="Serum Crafting" data-type="skill" data-skill="Crafting" data-prereq="Trained ( T ) in Artigianato">
+            <span class="feat-name">SERUM CRAFTING</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Artigianato</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Puoi Artigliare sieri e oggetti medici consumabili. Guadagni le formule per quattro sieri comuni di 2° livello o inferiore.</div>
+            </div>
+        </div>
+
+        <!-- SPECIALTY CRAFTING -->
+        <div class="feat-card" data-name="Specialty Crafting" data-type="skill" data-skill="Crafting" data-prereq="Trained ( T ) in Artigianato">
+            <span class="feat-name">SPECIALTY CRAFTING</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Artigianato</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Scegli una specialità (armature, arte, veicoli, ecc.). +1 alle prove di Artigianato per quel tipo (+2 se maestro).</div>
+            </div>
+        </div>
+
+        <!-- TECH CRAFTING -->
+        <div class="feat-card" data-name="Tech Crafting" data-type="skill" data-skill="Crafting" data-prereq="Artigianato Expert ( E )">
+            <span class="feat-name">TECH CRAFTING</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Artigianato Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Artigianato</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Artigianato</div>
+                <div class="popup-desc">Puoi Artigliare oggetti tecnologici. Guadagni le formule per quattro oggetti tecnologici comuni di 2° livello o inferiore.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: RAGGIRARE -->
+        <!-- ============================================================ -->
+
+        <!-- CHARMING LIAR -->
+        <div class="feat-card" data-name="Charming Liar" data-type="skill" data-skill="Deception" data-prereq="Trained ( T ) in Raggirare">
+            <span class="feat-name">CHARMING LIAR</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Raggirare</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Quando ottieni un successo critico nel Mentire, l'atteggiamento del bersaglio migliora di un passo.</div>
+            </div>
+        </div>
+
+        <!-- CONFABULATOR -->
+        <div class="feat-card" data-name="Confabulator" data-type="skill" data-skill="Deception" data-prereq="Raggirare Expert ( E )">
+            <span class="feat-name">CONFABULATOR</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Raggirare Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Riduci il bonus che un bersaglio guadagna per i tuoi precedenti tentativi di Creare una Diversione o Mentire da +4 a +2 (a +1 se maestro, a 0 se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- FACE IN THE CROWD -->
+        <div class="feat-card" data-name="Face in the Crowd" data-type="skill" data-skill="Deception" data-prereq="Trained ( T ) in Raggirare">
+            <span class="feat-name">FACE IN THE CROWD</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Raggirare</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">In una folla di almeno 10 creature, +2 alle prove di Furtività per Nasconderti (o +4 con 100 creature).</div>
+            </div>
+        </div>
+
+        <!-- FAVORED DISGUISE -->
+        <div class="feat-card" data-name="Favored Disguise" data-type="skill" data-skill="Deception" data-prereq="Trained ( T ) in Raggirare">
+            <span class="feat-name">FAVORED DISGUISE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Raggirare</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Puoi creare un travestimento preferito. Con olo-pelle o Cambiare Forma, puoi sempre adottarlo quando ti Impersoni. I fallimenti critici diventano fallimenti.</div>
+            </div>
+        </div>
+
+        <!-- FEIGN DEATH -->
+        <div class="feat-card" data-name="Feign Death" data-type="skill" data-skill="Deception" data-prereq="Raggirare Expert ( E )">
+            <span class="feat-name">FEIGN DEATH</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Raggirare Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Reazione quando subisci danni. Cadi prono e ti Impersoni come un cadavere. Le creature devono superare la tua CD di Raggirare per vedere oltre.</div>
+            </div>
+        </div>
+
+        <!-- KISS IT BETTER -->
+        <div class="feat-card" data-name="Kiss It Better" data-type="skill" data-skill="Deception" data-prereq="Raggirare Expert ( E )">
+            <span class="feat-name">KISS IT BETTER</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Raggirare Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Tenta una prova di Raggirare per convincere un alleato che si è ripreso. Con successo, il bersaglio guadagna PF temporanei pari alla metà di quelli di Curare Ferite per 1 round. Immune 24 ore.</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY TROLL -->
+        <div class="feat-card" data-name="Legendary Troll" data-type="skill" data-skill="Deception" data-prereq="Raggirare (leggendario)">
+            <span class="feat-name">LEGENDARY TROLL</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Raggirare (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Puoi trollare una creatura tramite comm unit, infliggendo 6d6 danni mentali. Con successo, il bersaglio è impreparato per 1 round; con critico, confuso per 1 round. Immune 24 ore.</div>
+            </div>
+        </div>
+
+        <!-- LENGTHY DIVERSION -->
+        <div class="feat-card" data-name="Lengthy Diversion" data-type="skill" data-skill="Deception" data-prereq="Trained ( T ) in Raggirare">
+            <span class="feat-name">LENGTHY DIVERSION</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Raggirare</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Quando ottieni un successo critico nel Creare una Diversione, rimani nascosto dopo la fine del tuo turno per almeno 1 round aggiuntivo.</div>
+            </div>
+        </div>
+
+        <!-- LIE TO ME -->
+        <div class="feat-card" data-name="Lie to Me" data-type="skill" data-skill="Deception" data-prereq="Trained ( T ) in Raggirare">
+            <span class="feat-name">LIE TO ME</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Raggirare</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Se qualcuno tenta di Mentirti in una conversazione, usa la tua CD di Raggirare se è più alta della tua CD di Deception (Percezione).</div>
+            </div>
+        </div>
+
+        <!-- QUICK DISGUISE -->
+        <div class="feat-card" data-name="Quick Disguise" data-type="skill" data-skill="Deception" data-prereq="Raggirare Expert ( E )">
+            <span class="feat-name">QUICK DISGUISE</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Raggirare Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Allestisci un travestimento in 1 minuto (invece di 10). Se maestro, 3 azioni; se leggendario, 1 azione.</div>
+            </div>
+        </div>
+
+        <!-- SLIPPERY SECRETS -->
+        <div class="feat-card" data-name="Slippery Secrets" data-type="skill" data-skill="Deception" data-prereq="Raggirare (maestro)">
+            <span class="feat-name">SLIPPERY SECRETS</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Raggirare (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Raggirare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Raggirare</div>
+                <div class="popup-desc">Quando un effetto magico tenta di leggere la tua mente, rilevare bugie o rivelare la tua identità, puoi tentare una prova di Raggirare contro la CD dell'effetto. Se hai successo, non rivela nulla.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: DIPLOMAZIA -->
+        <!-- ============================================================ -->
+
+        <!-- BARGAIN HUNTER -->
+        <div class="feat-card" data-name="Bargain Hunter" data-type="skill" data-skill="Diplomacy" data-prereq="Trained ( T ) in Diplomazia">
+            <span class="feat-name">BARGAIN HUNTER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Diplomazia</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Diplomazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Diplomazia</div>
+                <div class="popup-desc">Guadagni un Reddito cercando affari.</div>
+            </div>
+        </div>
+
+        <!-- CROWD CONTROL -->
+        <div class="feat-card" data-name="Crowd Control" data-type="skill" data-skill="Diplomacy" data-prereq="Diplomazia Expert ( E )">
+            <span class="feat-name">CROWD CONTROL</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Diplomazia Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Diplomazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Diplomazia</div>
+                <div class="popup-desc">+2 alle prove di Diplomazia contro le folle. Puoi tentare di spostare una folla con una prova di Diplomazia CD 20 mentre ti muovi.</div>
+            </div>
+        </div>
+
+        <!-- GLAD-HAND -->
+        <div class="feat-card" data-name="Glad-Hand" data-type="skill" data-skill="Diplomacy" data-prereq="Diplomazia Expert ( E )">
+            <span class="feat-name">GLAD-HAND</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Diplomazia Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Diplomazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Diplomazia</div>
+                <div class="popup-desc">Quando incontri qualcuno, puoi immediatamente Fare un'Impressione invece di dover conversare per 1 minuto. Se fallisci, puoi conversare e riprovare.</div>
+            </div>
+        </div>
+
+        <!-- GROUP IMPRESSION -->
+        <div class="feat-card" data-name="Group Impression" data-type="skill" data-skill="Diplomacy" data-prereq="Trained ( T ) in Diplomazia">
+            <span class="feat-name">GROUP IMPRESSION</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Diplomazia</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Diplomazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Diplomazia</div>
+                <div class="popup-desc">Quando Fai un'Impressione, puoi confrontare il risultato con le CD di Will (Volontà) di fino a 10 bersagli (20 se esperto, 50 se maestro, 100 se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- HOBNOBBER -->
+        <div class="feat-card" data-name="Hobnobber" data-type="skill" data-skill="Diplomacy" data-prereq="Trained ( T ) in Diplomazia">
+            <span class="feat-name">HOBNOBBER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Diplomazia</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Diplomazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Diplomazia</div>
+                <div class="popup-desc">Raccogliere Informazioni richiede la metà del tempo (tipicamente 1 ora). Se maestro, i fallimenti critici diventano fallimenti.</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY NEGOTIATION -->
+        <div class="feat-card" data-name="Legendary Negotiation" data-type="skill" data-skill="Diplomacy" data-prereq="Diplomazia (leggendario)">
+            <span class="feat-name">LEGENDARY NEGOTIATION</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Diplomazia (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Diplomazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Diplomazia</div>
+                <div class="popup-desc">Puoi tentare di Fare un'Impressione e Richiedere al tuo avversario di cessare le ostilità con una penalità di -5 alla prova di Diplomazia.</div>
+            </div>
+        </div>
+
+        <!-- NO CAUSE FOR ALARM -->
+        <div class="feat-card" data-name="No Cause for Alarm" data-type="skill" data-skill="Diplomacy" data-prereq="Trained ( T ) in Diplomazia">
+            <span class="feat-name">NO CAUSE FOR ALARM</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Diplomazia</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Diplomazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Diplomazia</div>
+                <div class="popup-desc">Tenti di ridurre il panico in un'emanazione di 10 piedi. Confronta Diplomazia con la CD di Will (Volontà) delle creature spaventate. Immune 1 ora.</div>
+            </div>
+        </div>
+
+        <!-- SHAMELESS REQUEST -->
+        <div class="feat-card" data-name="Shameless Request" data-type="skill" data-skill="Diplomacy" data-prereq="Diplomazia (maestro)">
+            <span class="feat-name">SHAMELESS REQUEST</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Diplomazia (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Diplomazia</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Diplomazia</div>
+                <div class="popup-desc">Riduci di 2 l'aumento della CD per richieste oltraggiose. I fallimenti critici diventano fallimenti.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: INTIMIDIRE -->
+        <!-- ============================================================ -->
+
+        <!-- BATTLE CRY -->
+        <div class="feat-card" data-name="Battle Cry" data-type="skill" data-skill="Intimidation" data-prereq="Intimidire (maestro)">
+            <span class="feat-name">BATTLE CRY</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Intimidire (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">Puoi Demoralizzare i nemici quando tiri per l'iniziativa.</div>
+            </div>
+        </div>
+
+        <!-- GROUP COERCION -->
+        <div class="feat-card" data-name="Group Coercion" data-type="skill" data-skill="Intimidation" data-prereq="Trained ( T ) in Intimidire">
+            <span class="feat-name">GROUP COERCION</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Intimidire</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">Quando Coarci, puoi confrontare il risultato con le CD di Will (Volontà) di fino a 5 bersagli (10 esperto, 25 maestro, 50 leggendario).</div>
+            </div>
+        </div>
+
+        <!-- INTIMIDATING GLARE -->
+        <div class="feat-card" data-name="Intimidating Glare" data-type="skill" data-skill="Intimidation" data-prereq="Trained ( T ) in Intimidire">
+            <span class="feat-name">INTIMIDATING GLARE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Intimidire</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">Puoi Demoralizzare con un semplice sguardo (perde il tratto uditivo, guadagna visivo). Non subisci penalità se il bersaglio non comprende la tua lingua.</div>
+            </div>
+        </div>
+
+        <!-- INTIMIDATING PROWESS -->
+        <div class="feat-card" data-name="Intimidating Prowess" data-type="skill" data-skill="Intimidation" data-prereq="Forza +3, Intimidire Expert ( E )">
+            <span class="feat-name">INTIMIDATING PROWESS</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Forza +3, Intimidire Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">+1 alle prove di Intimidire quando minacci fisicamente il bersaglio, ignori la penalità linguistica. Se Forza +5 e maestro, +2.</div>
+            </div>
+        </div>
+
+        <!-- INTIMIDATING SHOT -->
+        <div class="feat-card" data-name="Intimidating Shot" data-type="skill" data-skill="Intimidation" data-prereq="Trained ( T ) in Intimidire">
+            <span class="feat-name">INTIMIDATING SHOT</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Intimidire</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">Tenti di Demoralizzare un nemico sparando in aria. Usa la gittata massima dell'arma invece di 30 piedi. Nessuna penalità linguistica.</div>
+            </div>
+        </div>
+
+        <!-- LASTING COERCION -->
+        <div class="feat-card" data-name="Lasting Coercion" data-type="skill" data-skill="Intimidation" data-prereq="Intimidire Expert ( E )">
+            <span class="feat-name">LASTING COERCION</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Intimidire Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">Quando Coarci con successo, il tempo massimo di obbedienza aumenta a una settimana (a un mese se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- QUICK COERCION -->
+        <div class="feat-card" data-name="Quick Coercion" data-type="skill" data-skill="Intimidation" data-prereq="Trained ( T ) in Intimidire">
+            <span class="feat-name">QUICK COERCION</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Intimidire</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">Puoi Coartare una creatura dopo 1 round di conversazione invece di 1 minuto.</div>
+            </div>
+        </div>
+
+        <!-- SCARE TO DEATH -->
+        <div class="feat-card" data-name="Scare to Death" data-type="skill" data-skill="Intimidation" data-prereq="Intimidire (leggendario)">
+            <span class="feat-name">SCARE TO DEATH</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Intimidire (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">Tenta Intimidire contro la CD di Will (Volontà) di una creatura entro 30 piedi. Con successo critico, il bersaglio deve fare Fortitude (Tempra)contro la tua CD o morire. Con successo, diventa Spaventato 2. Immune 1 minuto.</div>
+            </div>
+        </div>
+
+        <!-- TERRIFIED RETREAT -->
+        <div class="feat-card" data-name="Terrified Retreat" data-type="skill" data-skill="Intimidation" data-prereq="Intimidire (maestro)">
+            <span class="feat-name">TERRIFIED RETREAT</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Intimidire (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Intimidire</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Intimidire</div>
+                <div class="popup-desc">Se ottieni un successo critico nel Demoralizzare un bersaglio di livello inferiore al tuo, il bersaglio è in fuga per 1 round.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: SAPERE -->
+        <!-- ============================================================ -->
+
+        <!-- ADDITIONAL LORE -->
+        <div class="feat-card" data-name="Additional Lore" data-type="skill" data-skill="Lore" data-prereq="Nessuno">
+            <span class="feat-name">ADDITIONAL LORE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Nessuno</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sapere</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sapere</div>
+                <div class="popup-desc">Diventi Trained ( T ) in una sottocategoria di Sapere. A 3°, 7° e 15° livello guadagni un aumento di abilità aggiuntivo per quella sottocategoria. Selezionabile più volte.</div>
+            </div>
+        </div>
+
+        <!-- EXPERIENCED PROFESSIONAL -->
+        <div class="feat-card" data-name="Experienced Professional" data-type="skill" data-skill="Lore" data-prereq="Trained ( T ) in Sapere">
+            <span class="feat-name">EXPERIENCED PROFESSIONAL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Sapere</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sapere</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sapere</div>
+                <div class="popup-desc">I fallimenti critici nel Guadagnare un Reddito con Sapere diventano fallimenti. Se esperto, guadagni il doppio da una prova fallita.</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY PROFESSIONAL -->
+        <div class="feat-card" data-name="Legendary Professional" data-type="skill" data-skill="Lore" data-prereq="Sapere (leggendario)">
+            <span class="feat-name">LEGENDARY PROFESSIONAL</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Sapere (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sapere</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sapere</div>
+                <div class="popup-desc">La tua fama si è diffusa. Guadagni lavori di livello più elevato quando Guadagni un Reddito con Sapere.</div>
+            </div>
+        </div>
+
+        <!-- UNMISTAKABLE LORE -->
+        <div class="feat-card" data-name="Unmistakable Lore" data-type="skill" data-skill="Lore" data-prereq="Sapere Expert ( E )">
+            <span class="feat-name">UNMISTAKABLE LORE</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Sapere Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sapere</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sapere</div>
+                <div class="popup-desc">I fallimenti critici nel Ricordare Conoscenze con Sapere Trained ( T ) diventano fallimenti. Se maestro, i successi critici danno più informazioni.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: MEDICINA -->
+        <!-- ============================================================ -->
+
+        <!-- ADVANCED FIRST AID -->
+        <div class="feat-card" data-name="Advanced First Aid" data-type="skill" data-skill="Medicine" data-prereq="Medicina (maestro)">
+            <span class="feat-name">ADVANCED FIRST AID</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Medicina (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Medicina</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Medicina</div>
+                <div class="popup-desc">Con il Primo Soccorso puoi ridurre Spaventato o Nauseato di 2 (o rimuoverle con successo critico).</div>
+            </div>
+        </div>
+
+        <!-- BATTLE MEDICINE -->
+        <div class="feat-card" data-name="Battle Medicine" data-type="skill" data-skill="Medicine" data-prereq="Trained ( T ) in Medicina">
+            <span class="feat-name">BATTLE MEDICINE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Medicina</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Medicina</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Medicina</div>
+                <div class="popup-desc">Puoi Curare Ferite in combattimento. Il bersaglio è immune alla tua Medicina da Battaglia per 1 giorno.</div>
+            </div>
+        </div>
+
+        <!-- CONTINUAL RECOVERY -->
+        <div class="feat-card" data-name="Continual Recovery" data-type="skill" data-skill="Medicine" data-prereq="Medicina Expert ( E )">
+            <span class="feat-name">CONTINUAL RECOVERY</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Medicina Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Medicina</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Medicina</div>
+                <div class="popup-desc">Quando Curi Ferite, il paziente diventa immune per soli 10 minuti invece di 1 ora.</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY MEDIC -->
+        <div class="feat-card" data-name="Legendary Medic" data-type="skill" data-skill="Medicine" data-prereq="Medicina (leggendario)">
+            <span class="feat-name">LEGENDARY MEDIC</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Medicina (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Medicina</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Medicina</div>
+                <div class="popup-desc">Una volta al giorno per bersaglio, puoi tentare di rimuovere una malattia o condizioni (abbagliato, sordo, condannato, risucchiato) con 1 ora di trattamento.</div>
+            </div>
+        </div>
+
+        <!-- ROBUST RECOVERY -->
+        <div class="feat-card" data-name="Robust Recovery" data-type="skill" data-skill="Medicine" data-prereq="Medicina Expert ( E )">
+            <span class="feat-name">ROBUST RECOVERY</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Medicina Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Medicina</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Medicina</div>
+                <div class="popup-desc">Quando Curi una Malattia o Veleno, il bonus di circostanza del paziente con successo è +4, e i successi diventano critici.</div>
+            </div>
+        </div>
+
+        <!-- UNUSUAL TREATMENT -->
+        <div class="feat-card" data-name="Unusual Treatment" data-type="skill" data-skill="Medicine" data-prereq="Medicina Expert ( E )">
+            <span class="feat-name">UNUSUAL TREATMENT</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Medicina Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Medicina</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Medicina</div>
+                <div class="popup-desc">Con successo in Curare Ferite (CD 20), riduci di 1 Goffo, Indebolito o Stupefatto. Se maestro, CD 30 per Risucchiato. Se leggendario, riduci di 2.</div>
+            </div>
+        </div>
+
+        <!-- WARD MEDIC -->
+        <div class="feat-card" data-name="Ward Medic" data-type="skill" data-skill="Medicine" data-prereq="Medicina Expert ( E )">
+            <span class="feat-name">WARD MEDIC</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Medicina Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Medicina</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Medicina</div>
+                <div class="popup-desc">Quando usi Curare Malattia o Curare Ferite, puoi trattare fino a 2 bersagli (4 se maestro, 8 se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: NATURA -->
+        <!-- ============================================================ -->
+
+        <!-- PREDATOR'S EYE -->
+        <div class="feat-card" data-name="Predator's Eye" data-type="skill" data-skill="Nature" data-prereq="Natura (maestro)">
+            <span class="feat-name">PREDATOR'S EYE</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Natura (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Natura</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Natura</div>
+                <div class="popup-desc">Puoi regolare la tua vista per Cercare una creatura specifica con +2, o perlustrare un quadretto di 10 piedi fino a 100 piedi di distanza. Non subisci penalità di distanza fino a 2 miglia.</div>
+            </div>
+        </div>
+
+        <!-- TRAIN ANIMAL -->
+        <div class="feat-card" data-name="Train Animal" data-type="skill" data-skill="Nature" data-prereq="Trained ( T ) in Natura">
+            <span class="feat-name">TRAIN ANIMAL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Natura</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Natura</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Natura</div>
+                <div class="popup-desc">Spendi tempo per insegnare a un animale un'azione base. Con successo, l'animale impara l'azione e può essere comandato senza prova.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: OCCULTISMO -->
+        <!-- ============================================================ -->
+
+        <!-- AKASHIC SYNC -->
+        <div class="feat-card" data-name="Akashic Sync" data-type="skill" data-skill="Occultism" data-prereq="Occultismo (maestro)">
+            <span class="feat-name">AKASHIC SYNC</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Occultismo (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Occultismo</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Occultismo</div>
+                <div class="popup-desc">Una volta ogni 10 minuti, puoi sintonizzarti con il Registro Akashico per ottenere +2 di circostanza a una singola prova di abilità.</div>
+            </div>
+        </div>
+
+        <!-- BIZARRE MAGIC -->
+        <div class="feat-card" data-name="Bizarre Magic" data-type="skill" data-skill="Occultism" data-prereq="Occultismo (maestro)">
+            <span class="feat-name">BIZARRE MAGIC</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Occultismo (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Occultismo</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Occultismo</div>
+                <div class="popup-desc">Le CD per Riconoscere gli Incantesimi che lanci e Identificare la Magia che usi aumentano di 5.</div>
+            </div>
+        </div>
+
+        <!-- BREAK CURSE -->
+        <div class="feat-card" data-name="Break Curse" data-type="skill" data-skill="Occultism" data-prereq="Occultismo o Religione (maestro)">
+            <span class="feat-name">BREAK CURSE</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Occultismo o Religione (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Occultismo</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Occultismo</div>
+                <div class="popup-desc">Spendi 8 ore per indebolire una maledizione. Tenta di contrastarla usando Occultismo o Religione. Se leggendario, richiede solo 10 minuti.</div>
+            </div>
+        </div>
+
+        <!-- ODDITY IDENTIFICATION -->
+        <div class="feat-card" data-name="Oddity Identification" data-type="skill" data-skill="Occultism" data-prereq="Trained ( T ) in Occultismo">
+            <span class="feat-name">ODDITY IDENTIFICATION</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Occultismo</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Occultismo</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Occultismo</div>
+                <div class="popup-desc">Quando vedi un effetto magico, puoi determinare se è mentale, di fortuna/sfortuna, o di rivelazione. Puoi usare Occultismo per Identificare la Magia senza penalità e con +2 di circostanza.</div>
+            </div>
+        </div>
+
+        <!-- SCHOOLED IN SECRETS -->
+        <div class="feat-card" data-name="Schooled in Secrets" data-type="skill" data-skill="Occultism" data-prereq="Trained ( T ) in Occultismo">
+            <span class="feat-name">SCHOOLED IN SECRETS</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Occultismo</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Occultismo</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Occultismo</div>
+                <div class="popup-desc">Puoi usare Occultismo al posto di Diplomazia per Raccogliere Informazioni su società segrete, e al posto di Raggirare per Impersonare un membro. Riconosci automaticamente i membri del tuo gruppo.</div>
+            </div>
+        </div>
+
+        <!-- TRICK MAGIC ITEM -->
+        <div class="feat-card" data-name="Trick Magic Item" data-type="skill" data-skill="Occultism" data-prereq="Trained ( T ) in Arcano, Natura, Occultismo o Religione">
+            <span class="feat-name">TRICK MAGIC ITEM</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Arcano, Natura, Occultismo o Religione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Occultismo</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Occultismo</div>
+                <div class="popup-desc">Tenta di attivare un oggetto magico che normalmente non potresti usare. Con successo, puoi attivarlo per il resto del turno. CD basata sul livello dell'oggetto.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: ESIBIZIONE -->
+        <!-- ============================================================ -->
+
+        <!-- FASCINATING PERFORMANCE -->
+        <div class="feat-card" data-name="Fascinating Performance" data-type="skill" data-skill="Performance" data-prereq="Trained ( T ) in Esibizione">
+            <span class="feat-name">FASCINATING PERFORMANCE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Esibizione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Esibizione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Esibizione</div>
+                <div class="popup-desc">Quando ti Esibisci, puoi affascinare un osservatore per 1 round (critico in combattimento). Il bersaglio è immune 1 ora. Più bersagli in base al grado di competenza.</div>
+            </div>
+        </div>
+
+        <!-- IMPRESSIVE PERFORMANCE -->
+        <div class="feat-card" data-name="Impressive Performance" data-type="skill" data-skill="Performance" data-prereq="Trained ( T ) in Esibizione">
+            <span class="feat-name">IMPRESSIVE PERFORMANCE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Esibizione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Esibizione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Esibizione</div>
+                <div class="popup-desc">Puoi Fare un'Impressione usando Esibizione invece di Diplomazia. Dopo un'esibizione di 10 minuti, puoi colpire fino a 10 membri del pubblico (più per esibizioni più lunghe).</div>
+            </div>
+        </div>
+
+        <!-- JUST KIDDING -->
+        <div class="feat-card" data-name="Just Kidding" data-type="skill" data-skill="Performance" data-prereq="Trained ( T ) in Esibizione">
+            <span class="feat-name">JUST KIDDING</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Esibizione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Esibizione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Esibizione</div>
+                <div class="popup-desc">Reazione quando un alleato fallisce criticamente una prova sociale. Tenta Esibizione contro la stessa CD per trasformare il fallimento critico in fallimento.</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY PERFORMER -->
+        <div class="feat-card" data-name="Legendary Performer" data-type="skill" data-skill="Performance" data-prereq="Esibizione (leggendario), Virtuoso Performer">
+            <span class="feat-name">LEGENDARY PERFORMER</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Esibizione (leggendario), Virtuoso Performer</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Esibizione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Esibizione</div>
+                <div class="popup-desc">La tua fama si è diffusa. Le creature che hanno Società hanno sentito parlare di te e il loro atteggiamento è migliore di un passo. Quando Guadagni un Reddito, attiri un pubblico di livello più elevato.</div>
+            </div>
+        </div>
+
+        <!-- VIRTUOSIC PERFORMER -->
+        <div class="feat-card" data-name="Virtuoso Performer" data-type="skill" data-skill="Performance" data-prereq="Trained ( T ) in Esibizione">
+            <span class="feat-name">VIRTUOSIC PERFORMER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Esibizione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Esibizione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Esibizione</div>
+                <div class="popup-desc">Scegli un tipo di esibizione (recitazione, danza, canto, ecc.). +1 di circostanza alle prove di Esibizione di quel tipo (+2 se maestro).</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: PILOTARE -->
+        <!-- ============================================================ -->
+
+        <!-- EXPRESS DRIVER -->
+        <div class="feat-card" data-name="Express Driver" data-type="skill" data-skill="Piloting" data-prereq="Trained ( T ) in Pilotare">
+            <span class="feat-name">EXPRESS DRIVER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Pilotare</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Pilotare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Pilotare</div>
+                <div class="popup-desc">Durante i viaggi a lungo termine, puoi tentare Pilotare per raddoppiare la Velocità di viaggio del veicolo per la giornata.</div>
+            </div>
+        </div>
+
+        <!-- FLY ANYTHING -->
+        <div class="feat-card" data-name="Fly Anything" data-type="skill" data-skill="Piloting" data-prereq="Pilotare (leggendario)">
+            <span class="feat-name">FLY ANYTHING</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Pilotare (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Pilotare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Pilotare</div>
+                <div class="popup-desc">Puoi pilotare veicoli fisiologicamente impossibili. Puoi usare Pilotare invece di Artigianato per riparare veicoli/astronavi/mech (-2), e invece di Informatica per hackerarli (-2).</div>
+            </div>
+        </div>
+
+        <!-- POWER SLIDE -->
+        <div class="feat-card" data-name="Power Slide" data-type="skill" data-skill="Piloting" data-prereq="Pilotare Expert ( E )">
+            <span class="feat-name">POWER SLIDE</span>
+            <span class="feat-type-tag">Talento di Abilità 3</span>
+            <span class="feat-prereq">Prerequisiti: Pilotare Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Pilotare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Pilotare</div>
+                <div class="popup-desc">Lanci il veicolo in una sbandata controllata (-2 alla prova). Alla fine del movimento, puoi voltare fino a 90° (180° con critico).</div>
+            </div>
+        </div>
+
+        <!-- PUSH IT -->
+        <div class="feat-card" data-name="Push It" data-type="skill" data-skill="Piloting" data-prereq="Pilotare (maestro)">
+            <span class="feat-name">PUSH IT</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Pilotare (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Pilotare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Pilotare</div>
+                <div class="popup-desc">Ogni volta che hai successo in una prova di Pilotare, il veicolo guadagna +10 piedi a tutte le Velocità fino alla fine del tuo turno (+15 con critico).</div>
+            </div>
+        </div>
+
+        <!-- STUNTMANEUVER -->
+        <div class="feat-card" data-name="Stuntmaneuver" data-type="skill" data-skill="Piloting" data-prereq="Pilotare Expert ( E )">
+            <span class="feat-name">STUNTMANEUVER</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Pilotare Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Pilotare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Pilotare</div>
+                <div class="popup-desc">Rimuovi il tratto spericolato quando tenti un'Acrobazia con penalità di -1 (o fino a -2 se maestro, qualsiasi se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- TAKE THE WHEEL -->
+        <div class="feat-card" data-name="Take the Wheel" data-type="skill" data-skill="Piloting" data-prereq="Pilotare Expert ( E )">
+            <span class="feat-name">TAKE THE WHEEL</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Pilotare Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Pilotare</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Pilotare</div>
+                <div class="popup-desc">Sali a bordo e Prendi il Controllo di un veicolo adiacente.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: RELIGIONE -->
+        <!-- ============================================================ -->
+
+        <!-- DIVINE GUIDANCE -->
+        <div class="feat-card" data-name="Divine Guidance" data-type="skill" data-skill="Religion" data-prereq="Religione (leggendario)">
+            <span class="feat-name">DIVINE GUIDANCE</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Religione (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Religione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Religione</div>
+                <div class="popup-desc">Spendi 10 minuti a Decifrare Scritture religiose mentre pensi a un problema. Con successo, trovi un passo o parabola rilevante che può aiutarti.</div>
+            </div>
+        </div>
+
+        <!-- DIVINE HEROISM -->
+        <div class="feat-card" data-name="Divine Heroism" data-type="skill" data-skill="Religion" data-prereq="Religione (maestro), seguace di una religione">
+            <span class="feat-name">DIVINE HEROISM</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Religione (maestro), seguace di una religione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Religione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Religione</div>
+                <div class="popup-desc">Se segui gli editti della tua divinità, guadagni il loro incantesimo concesso di 1° rango come innato divino una volta al giorno (aumentato a 3° rango se maestro, a 4° se leggendario). La violazione degli anatemi fa perdere l'abilità.</div>
+            </div>
+        </div>
+
+        <!-- RELIGIOUS TALISMAN -->
+        <div class="feat-card" data-name="Religious Talisman" data-type="skill" data-skill="Religion" data-prereq="Religione (maestro), seguace di una religione">
+            <span class="feat-name">RELIGIOUS TALISMAN</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Religione (maestro), seguace di una religione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Religione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Religione</div>
+                <div class="popup-desc">Costruisci un talismano religioso della tua divinità in 10 minuti. Finché segui gli editti, +1 di stato ai tiri per l'iniziativa. Se violi l'anatema, viene distrutto e subisci -1.</div>
+            </div>
+        </div>
+
+        <!-- STUDENT OF THE CANON -->
+        <div class="feat-card" data-name="Student of the Canon" data-type="skill" data-skill="Religion" data-prereq="Trained ( T ) in Religione">
+            <span class="feat-name">STUDENT OF THE CANON</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Religione</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Religione</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Religione</div>
+                <div class="popup-desc">I fallimenti critici in Religione per Decifrare Scritture o Ricordare Conoscenze su fedi diventano fallimenti. Per la tua fede, i fallimenti diventano successi e i successi critici.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: SOCIETÀ -->
+        <!-- ============================================================ -->
+
+        <!-- BLEND IN -->
+        <div class="feat-card" data-name="Blend In" data-type="skill" data-skill="Society" data-prereq="Trained ( T ) in Società">
+            <span class="feat-name">BLEND IN</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Società</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">In una folla, puoi usare Società invece di Furtività per Evitare il Notato. In un insediamento, puoi usare Società invece di Raggirare per Impersonare un individuo non specifico.</div>
+            </div>
+        </div>
+
+        <!-- DIGITAL AMBASSADOR -->
+        <div class="feat-card" data-name="Digital Ambassador" data-type="skill" data-skill="Society" data-prereq="Trained ( T ) in Società">
+            <span class="feat-name">DIGITAL AMBASSADOR</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Società</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Quando comunichi tramite comm unit/datapad/computer, tira una prova pura CD 15. Con successo, le azioni linguistiche funzionano come se la creatura comprendesse la lingua (CD 10 se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY CODEBREAKER -->
+        <div class="feat-card" data-name="Legendary Codebreaker" data-type="skill" data-skill="Society" data-prereq="Società (leggendario)">
+            <span class="feat-name">LEGENDARY CODEBREAKER</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Società (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Puoi Decifrare Scritture mentre leggi a velocità normale. Se rallenti e ottieni successo, diventa critico; se ottieni critico a velocità normale, ottieni comprensione quasi parola per parola.</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY LINGUIST -->
+        <div class="feat-card" data-name="Legendary Linguist" data-type="skill" data-skill="Society" data-prereq="Società (leggendario), Multilingual">
+            <span class="feat-name">LEGENDARY LINGUIST</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Società (leggendario), Multilingual</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Puoi creare un pidgin istantaneo per comunicare con qualsiasi creatura che abbia un linguaggio, creando una lingua semplificata.</div>
+            </div>
+        </div>
+
+        <!-- MANAGEMENT MATERIAL -->
+        <div class="feat-card" data-name="Management Material" data-type="skill" data-skill="Society" data-prereq="Trained ( T ) in Società">
+            <span class="feat-name">MANAGEMENT MATERIAL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Società</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Puoi usare Società per Fare un'Impressione su un professionista o Impersonare un professionista. Se usi le abilità normali, ottieni +1 di circostanza.</div>
+            </div>
+        </div>
+
+        <!-- MULTILINGUAL -->
+        <div class="feat-card" data-name="Multilingual" data-type="skill" data-skill="Society" data-prereq="Trained ( T ) in Società">
+            <span class="feat-name">MULTILINGUAL</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Società</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Impari due nuove lingue (più una se maestro, un'altra se leggendario). Selezionabile più volte.</div>
+            </div>
+        </div>
+
+        <!-- PLANT RUMOR -->
+        <div class="feat-card" data-name="Plant Rumor" data-type="skill" data-skill="Society" data-prereq="Trained ( T ) in Società">
+            <span class="feat-name">PLANT RUMOR</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Società</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Reazione quando percepisci una prova sociale contro la CD di Will (Volontà) di un'altra creatura. Il bersaglio ottiene +2 alla sua CD di Will (Volontà) per quella prova.</div>
+            </div>
+        </div>
+
+        <!-- READ LIPS -->
+        <div class="feat-card" data-name="Read Lips" data-type="skill" data-skill="Society" data-prereq="Trained ( T ) in Società">
+            <span class="feat-name">READ LIPS</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Società</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Puoi leggere le labbra di altri in una lingua che conosci. In modalità incontro o per compiti difficili, sei affascinato e impreparato e devi superare una prova di Società.</div>
+            </div>
+        </div>
+
+        <!-- SIGN LANGUAGE -->
+        <div class="feat-card" data-name="Sign Language" data-type="skill" data-skill="Society" data-prereq="Trained ( T ) in Società">
+            <span class="feat-name">SIGN LANGUAGE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Società</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Impari le lingue dei segni associate alle lingue che conosci. Sono visive e richiedono entrambe le mani.</div>
+            </div>
+        </div>
+
+        <!-- STREETWISE -->
+        <div class="feat-card" data-name="Streetwise" data-type="skill" data-skill="Society" data-prereq="Trained ( T ) in Società">
+            <span class="feat-name">STREETWISE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Società</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Società</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Società</div>
+                <div class="popup-desc">Puoi usare Società invece di Diplomazia per Raccogliere Informazioni. In insediamenti familiari, puoi Ricordare Conoscenze con Società per informazioni locali.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: FURTIVITÀ -->
+        <!-- ============================================================ -->
+
+        <!-- EXPERIENCED SMUGGLER -->
+        <div class="feat-card" data-name="Experienced Smuggler" data-type="skill" data-skill="Stealth" data-prereq="Trained ( T ) in Furtività">
+            <span class="feat-name">EXPERIENCED SMUGGLER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Furtività</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furtività</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furtività</div>
+                <div class="popup-desc">Il GM usa 10 come risultato del tuo tiro per nascondere un piccolo oggetto a osservatori passivi (15 se maestro, automatico se leggendario).</div>
+            </div>
+        </div>
+
+        <!-- FOIL SENSES -->
+        <div class="feat-card" data-name="Foil Senses" data-type="skill" data-skill="Stealth" data-prereq="Furtività (maestro)">
+            <span class="feat-name">FOIL SENSES</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Furtività (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furtività</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furtività</div>
+                <div class="popup-desc">Sei sempre considerato come se prendessi precauzioni contro i sensi speciali quando usi Evitare il Notato, Nascondersi o Furtivo.</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY SNEAK -->
+        <div class="feat-card" data-name="Legendary Sneak" data-type="skill" data-skill="Stealth" data-prereq="Furtività (leggendario), Furtività Rapida">
+            <span class="feat-name">LEGENDARY SNEAK</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Furtività (leggendario), Furtività Rapida</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furtività</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furtività</div>
+                <div class="popup-desc">Ti muovi sempre furtivamente anche senza copertura. Quando usi altre tattiche di esplorazione, guadagni anche i benefici di Evitare il Notato.</div>
+            </div>
+        </div>
+
+        <!-- QUIET ALLIES -->
+        <div class="feat-card" data-name="Quiet Allies" data-type="skill" data-skill="Stealth" data-prereq="Furtività Expert ( E )">
+            <span class="feat-name">QUIET ALLIES</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Furtività Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furtività</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furtività</div>
+                <div class="popup-desc">Quando state Evitando il Notato, tu e gli alleati che Seguono l'Esperto potete tirare una singola prova di Furtività usando il modificatore più basso.</div>
+            </div>
+        </div>
+
+        <!-- SWIFT SNEAK -->
+        <div class="feat-card" data-name="Swift Sneak" data-type="skill" data-skill="Stealth" data-prereq="Furtività (maestro)">
+            <span class="feat-name">SWIFT SNEAK</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Furtività (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furtività</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furtività</div>
+                <div class="popup-desc">Puoi Muoverti Furtivamente a piena Velocità. Puoi usare Furtività Rapida con altri tipi di movimento se ne possiedi la Velocità.</div>
+            </div>
+        </div>
+
+        <!-- TERRAIN STALKER -->
+        <div class="feat-card" data-name="Terrain Stalker" data-type="skill" data-skill="Stealth" data-prereq="Trained ( T ) in Furtività">
+            <span class="feat-name">TERRAIN STALKER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Furtività</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furtività</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furtività</div>
+                <div class="popup-desc">Scegli un tipo di terreno difficile (macerie, neve, sottobosco). In quel terreno, puoi Muoverti Furtivamente senza prova se non ti muovi per più di 5 piedi e non passi entro 10 piedi da un nemico.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: SOPRAVVIVENZA -->
+        <!-- ============================================================ -->
+
+        <!-- EXPERIENCED TRACKER -->
+        <div class="feat-card" data-name="Experienced Tracker" data-type="skill" data-skill="Survival" data-prereq="Trained ( T ) in Sopravvivenza">
+            <span class="feat-name">EXPERIENCED TRACKER</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Sopravvivenza</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sopravvivenza</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sopravvivenza</div>
+                <div class="popup-desc">Puoi Seguire Tracce a piena Velocità con -5 (-0 se maestro). Se leggendario, non devi tirare ogni ora, solo ai cambiamenti significativi.</div>
+            </div>
+        </div>
+
+        <!-- LEGENDARY SURVIVALIST -->
+        <div class="feat-card" data-name="Legendary Survivalist" data-type="skill" data-skill="Survival" data-prereq="Sopravvivenza (leggendario)">
+            <span class="feat-name">LEGENDARY SURVIVALIST</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Sopravvivenza (leggendario)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sopravvivenza</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sopravvivenza</div>
+                <div class="popup-desc">Puoi sopravvivere indefinitamente senza cibo o acqua e sopportare freddo/caldo severo, estremo e incredibile senza danni.</div>
+            </div>
+        </div>
+
+        <!-- MONSTER CRAFTING -->
+        <div class="feat-card" data-name="Monster Crafting" data-type="skill" data-skill="Survival" data-prereq="Sopravvivenza (maestro)">
+            <span class="feat-name">MONSTER CRAFTING</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Sopravvivenza (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sopravvivenza</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sopravvivenza</div>
+                <div class="popup-desc">Puoi usare parti di mostri per Artigliare oggetti, usando Sopravvivenza invece di Artigianato. Puoi spenderle come materie prime.</div>
+            </div>
+        </div>
+
+        <!-- PLANAR SURVIVAL -->
+        <div class="feat-card" data-name="Planar Survival" data-type="skill" data-skill="Survival" data-prereq="Sopravvivenza (maestro)">
+            <span class="feat-name">PLANAR SURVIVAL</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Sopravvivenza (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sopravvivenza</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sopravvivenza</div>
+                <div class="popup-desc">Puoi Sussistere su piani diversi, anche privi di risorse. Un successo previene anche i danni inflitti dal piano a te e a chi sostieni.</div>
+            </div>
+        </div>
+
+        <!-- SURVEY WILDLIFE -->
+        <div class="feat-card" data-name="Survey Wildlife" data-type="skill" data-skill="Survival" data-prereq="Trained ( T ) in Sopravvivenza">
+            <span class="feat-name">SURVEY WILDLIFE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Sopravvivenza</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sopravvivenza</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sopravvivenza</div>
+                <div class="popup-desc">Spendi 10 minuti a valutare l'area per segni di creature. Con successo, puoi Ricordare Conoscenze con -2 (-0 se maestro).</div>
+            </div>
+        </div>
+
+        <!-- TERRAIN EXPERTISE -->
+        <div class="feat-card" data-name="Terrain Expertise" data-type="skill" data-skill="Survival" data-prereq="Trained ( T ) in Sopravvivenza">
+            <span class="feat-name">TERRAIN EXPERTISE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Sopravvivenza</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sopravvivenza</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sopravvivenza</div>
+                <div class="popup-desc">Scegli un tipo di terreno (acquatico, artico, deserto, foresta, montagna, pianura, cielo, spazio, palude, sotterraneo). +1 alle prove di Sopravvivenza in quel terreno. Selezionabile più volte.</div>
+            </div>
+        </div>
+
+        <!-- URBAN SURVIVALIST -->
+        <div class="feat-card" data-name="Urban Survivalist" data-type="skill" data-skill="Survival" data-prereq="Trained ( T ) in Sopravvivenza">
+            <span class="feat-name">URBAN SURVIVALIST</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Sopravvivenza</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Sopravvivenza</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Sopravvivenza</div>
+                <div class="popup-desc">Puoi usare Sopravvivenza al posto di Società per Sussistere in città. Puoi usarla invece di Deception (Percezione) per notare pericoli urbani e invece di Furtività per Disattivare il Dispositivo.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: FURTO -->
+        <!-- ============================================================ -->
+
+        <!-- LEGENDARY THIEF -->
+        <div class="feat-card" data-name="Legendary Thief" data-type="skill" data-skill="Thievery" data-prereq="Furto (leggendario), Borsaiolo">
+            <span class="feat-name">LEGENDARY THIEF</span>
+            <span class="feat-type-tag">Talento di Abilità 15</span>
+            <span class="feat-prereq">Prerequisiti: Furto (leggendario), Borsaiolo</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furto</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furto</div>
+                <div class="popup-desc">Puoi tentare di Rubare oggetti impugnati o evidenti (come armature) con almeno 1 minuto di lavoro. Se estremamente evidente, gli astanti noteranno la sparizione.</div>
+            </div>
+        </div>
+
+        <!-- PICKPOCKET -->
+        <div class="feat-card" data-name="Pickpocket" data-type="skill" data-skill="Thievery" data-prereq="Trained ( T ) in Furto">
+            <span class="feat-name">PICKPOCKET</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Furto</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furto</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furto</div>
+                <div class="popup-desc">Puoi Rubare o Celare un Oggetto strettamente sorvegliato senza la penalità di -5. Se maestro, puoi Rubare in combattimento come 2 azioni con -5.</div>
+            </div>
+        </div>
+
+        <!-- QUICK UNLOCK -->
+        <div class="feat-card" data-name="Quick Unlock" data-type="skill" data-skill="Thievery" data-prereq="Furto (maestro)">
+            <span class="feat-name">QUICK UNLOCK</span>
+            <span class="feat-type-tag">Talento di Abilità 7</span>
+            <span class="feat-prereq">Prerequisiti: Furto (maestro)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furto</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furto</div>
+                <div class="popup-desc">Puoi Scassinare una Serratura usando 1 azione invece di 2.</div>
+            </div>
+        </div>
+
+        <!-- SUBTLE THEFT -->
+        <div class="feat-card" data-name="Subtle Theft" data-type="skill" data-skill="Thievery" data-prereq="Trained ( T ) in Furto">
+            <span class="feat-name">SUBTLE THEFT</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Furto</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furto</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furto</div>
+                <div class="popup-desc">Quando Rubi, gli osservatori subiscono -2 alle loro CD di Deception (Percezione). Creare una Diversione prima di Rubare non termina la tua condizione non individuato.</div>
+            </div>
+        </div>
+
+        <!-- WARY DISARMAMENT -->
+        <div class="feat-card" data-name="Wary Disarmament" data-type="skill" data-skill="Thievery" data-prereq="Furto Expert ( E )">
+            <span class="feat-name">WARY DISARMAMENT</span>
+            <span class="feat-type-tag">Talento di Abilità 2</span>
+            <span class="feat-prereq">Prerequisiti: Furto Expert ( E )</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Furto</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Furto</div>
+                <div class="popup-desc">Se inneschi un dispositivo o una trappola mentre lo disarmi, guadagni +2 alla CA/TS contro quell'innesco.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TALENTI DI ABILITÀ: VARIE -->
+        <!-- ============================================================ -->
+
+        <!-- SKILL TRAINING -->
+        <div class="feat-card" data-name="Skill Training" data-type="skill" data-skill="Miscellaneous" data-prereq="Intelligenza +1">
+            <span class="feat-name">SKILL TRAINING</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Intelligenza +1</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Varie</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Varie</div>
+                <div class="popup-desc">Diventi Trained ( T ) nell'abilità a tua scelta. Selezionabile più volte.</div>
+            </div>
+        </div>
+
+        <!-- WITHOUT A TRACE -->
+        <div class="feat-card" data-name="Without a Trace" data-type="skill" data-skill="Miscellaneous" data-prereq="Trained ( T ) in Raggirare, Furtività o Sapere (Malavita)">
+            <span class="feat-name">WITHOUT A TRACE</span>
+            <span class="feat-type-tag">Talento di Abilità 1</span>
+            <span class="feat-prereq">Prerequisiti: Trained ( T ) in Raggirare, Furtività o Sapere (Malavita)</span>
+            <div class="feat-tags">
+                <span class="tag">Abilità</span>
+                <span class="tag">Varie</span>
+            </div>
+            <div class="feat-info-popup">
+                <div class="popup-meta"><strong>Abilità:</strong> Varie</div>
+                <div class="popup-desc">Sei esperto nel distruggere prove. Quando Copri le Tracce, usa la CD più alta tra Raggirare, Furtività o Sapere (Malavita). Con 10 minuti di pulizia, la stessa CD si applica a chi indaga sulla scena.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../HomeStarfinder.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT PER IL FILTRAGGIO E I TAG ATTIVI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('featSearch');
+            const typeFilter = document.getElementById('typeFilter');
+            const skillFilter = document.getElementById('skillFilter');
+            const activeTagsContainer = document.getElementById('activeTags');
+            const featCards = document.querySelectorAll('.feat-card');
+
+            function filterFeats() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const selectedType = typeFilter.value;
+                const selectedSkill = skillFilter.value;
+
+                featCards.forEach(card => {
+                    const name = (card.getAttribute('data-name') || '').toLowerCase();
+                    const type = card.getAttribute('data-type') || '';
+                    const skill = card.getAttribute('data-skill') || '';
+
+                    const matchesSearch = searchTerm === '' || name.includes(searchTerm);
+                    const matchesType = selectedType === 'all' || type === selectedType;
+                    const matchesSkill = selectedSkill === 'all' || skill === selectedSkill;
+
+                    if (matchesSearch && matchesType && matchesSkill) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                updateActiveTagsUI(searchTerm, selectedType, selectedSkill);
+            }
+
+            function updateActiveTagsUI(searchTerm, selectedType, selectedSkill) {
+                activeTagsContainer.innerHTML = '';
+
+                if (searchTerm) {
+                    createTagBubble(`TEXT: ${searchTerm.toUpperCase()}`, () => {
+                        searchInput.value = '';
+                        filterFeats();
+                    });
+                }
+
+                if (selectedType !== 'all') {
+                    const typeText = typeFilter.options[typeFilter.selectedIndex].text;
+                    createTagBubble(typeText, () => {
+                        typeFilter.value = 'all';
+                        filterFeats();
+                    });
+                }
+
+                if (selectedSkill !== 'all') {
+                    const skillText = skillFilter.options[skillFilter.selectedIndex].text;
+                    createTagBubble(skillText, () => {
+                        skillFilter.value = 'all';
+                        filterFeats();
+                    });
+                }
+            }
+
+            function createTagBubble(text, onClickCallback) {
+                const tagDiv = document.createElement('div');
+                tagDiv.className = 'active-tag';
+                tagDiv.innerHTML = `${text} <span class="remove">✕</span>`;
+                tagDiv.addEventListener('click', onClickCallback);
+                activeTagsContainer.appendChild(tagDiv);
+            }
+
+            searchInput.addEventListener('input', filterFeats);
+            typeFilter.addEventListener('change', filterFeats);
+            skillFilter.addEventListener('change', filterFeats);
+        });
+    </script>
+
+</body>
+</html>

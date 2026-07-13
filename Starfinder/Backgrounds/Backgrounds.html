@@ -1,0 +1,1425 @@
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Backgrounds</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #060913;
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONE PRINCIPALE */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        /* AVVISO DI SISTEMA AD ALTO CONTRASTO (ALLARME DI BORDO) */
+        .critical-notice {
+            max-width: 1000px;
+            margin: 30px auto 40px auto;
+            background: rgba(183, 28, 28, 0.2);
+            color: #ff5252;
+            border: 2px dashed #ff1744;
+            border-radius: 4px;
+            padding: 18px 25px;
+            text-align: left;
+            font-size: 0.95em;
+            line-height: 1.6;
+            box-shadow: 0 0 20px rgba(183, 28, 28, 0.3), inset 0 0 15px rgba(183, 28, 28, 0.2);
+        }
+        .critical-notice strong {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+
+        /* AREA DI CONTROLLO INTERATTIVA (RICERCA E FILTRI) - STILE CYBER */
+        .search-filter-panel {
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            background: rgba(12, 21, 43, 0.7);
+            border: 1px solid #0052cc;
+            box-shadow: 0 0 20px rgba(0, 82, 204, 0.2);
+            padding: 20px;
+            border-radius: 6px;
+            backdrop-filter: blur(8px);
+        }
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .cyber-input {
+            flex: 1;
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid #00ffff;
+            color: #ffffff;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 10px 15px;
+            font-size: 1em;
+            border-radius: 4px;
+            outline: none;
+            box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.2);
+            min-width: 150px;
+        }
+        .cyber-select {
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid #8a2be2;
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            padding: 10px;
+            font-size: 0.85em;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            min-width: 150px;
+        }
+        .cyber-select option {
+            background: #060913;
+            color: #ffffff;
+        }
+        #activeTags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 25px;
+            padding-top: 5px;
+            border-top: 1px dashed rgba(0, 82, 204, 0.4);
+        }
+        .active-tag {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.2);
+            transition: all 0.2s ease-in-out;
+        }
+        .active-tag:hover {
+            background: rgba(255, 51, 102, 0.2);
+            border-color: #ff3366;
+            box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
+        }
+        .active-tag .remove {
+            color: #ff3366;
+            margin-left: 4px;
+            font-weight: bold;
+        }
+
+        /* GRIGLIA ORIZZONTALE DEI COMPONENTI BACKGROUND */
+        .backgrounds-grid {
+            max-width: 1200px;
+            margin: 0 auto 80px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 25px;
+        }
+
+        /* BLOCCHETTI IN STILE MONOLITE FUMÉ */
+        .bg-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .bg-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        .bg-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.25em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 6px 0;
+            text-transform: uppercase;
+        }
+        .bg-rarity {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #ffaa00;
+            letter-spacing: 1px;
+            background: rgba(255, 170, 0, 0.1);
+            padding: 2px 8px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+        .bg-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 18px 0;
+            flex-grow: 1;
+        }
+
+        /* MECCANICHE INTERNE (METADATI) */
+        .bg-mechanics {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .mech-row {
+            margin-bottom: 4px;
+            position: relative;
+        }
+        .mech-row:last-child {
+            margin-bottom: 0;
+        }
+        .mech-label {
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        /* STILE PER I TOOLTIP DEI TALENTI */
+        .feat-tooltip-trigger {
+            color: #00ffff;
+            cursor: help;
+            border-bottom: 1px dashed #00ffff;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        .feat-tooltip-trigger:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            border-bottom-color: #ffffff;
+        }
+
+        .feat-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 340px;
+            background: rgba(6, 10, 25, 0.98);
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.05);
+            padding: 16px 18px;
+            border-radius: 6px;
+            text-align: left;
+            z-index: 100000;
+            font-size: 0.82em;
+            color: #e0e6ed;
+            backdrop-filter: blur(12px);
+            margin-bottom: 8px;
+            pointer-events: none;
+            line-height: 1.5;
+        }
+        .feat-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -8px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: #00ffff transparent transparent transparent;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+        }
+        .feat-tooltip .tooltip-header {
+            font-family: 'Share Tech Mono', monospace;
+            color: #00bfff;
+            border-bottom: 1px dashed rgba(0, 255, 255, 0.3);
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+        .feat-tooltip .tooltip-header strong {
+            color: #00ffff;
+        }
+        .feat-tooltip .tooltip-desc {
+            line-height: 1.5;
+            font-family: 'Rajdhani', sans-serif;
+            color: #cdffff;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px;
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9);
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px);
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .filter-row {
+                flex-direction: column;
+            }
+            .cyber-input, .cyber-select {
+                width: 100%;
+                min-width: unset;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 6px;
+                top: 10px;
+                right: 10px;
+            }
+            .nav-pill {
+                font-size: 0.6em;
+                padding: 4px 10px;
+            }
+            .backgrounds-grid {
+                grid-template-columns: 1fr;
+            }
+            .feat-tooltip {
+                width: 260px;
+                left: 0;
+                transform: none;
+            }
+            .feat-tooltip::after {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+    <div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PRINCIPALE -->
+    <h1 class="main-title">Seleziona un background</h1>
+
+    <!-- REGOLAMENTO RIASSUNTO ED EVIDENZIATO IN ALLARME DI BORDO -->
+    <div class="critical-notice">
+        <strong>ALERTA REGOLE CREAZIONE PERSONAGGIO:</strong>
+        La scelta del Background al 1° livello è <strong>permanente</strong> e non può essere modificata successivamente.
+        Ogni background garantisce: <strong>2 Aumenti di Attributo</strong> (uno vincolato e uno libero), 1 Talento di Abilità, e la competenza <strong>Trained ( T ) in 2 Abilità</strong> (di cui una di Sapienza/Lore).
+        <br><br>
+        <em>Nota sulla sovrapposizione:</em> Se ottieni la competenza Trained ( T ) in un'abilità dal background che riceveresti anche dalla classe al 1° livello, diventi invece Trained ( T ) in un'altra abilità a tua scelta.
+    </div>
+
+    <!-- AREA DI CONTROLLO INTERATTIVA (RICERCA E FILTRI) -->
+    <div class="search-filter-panel">
+        <div class="filter-row">
+            <input type="text" id="bgSearch" class="cyber-input" placeholder="CERCA BACKGROUND...">
+
+            <select id="attributeFilter" class="cyber-select">
+                <option value="all">TUTTI GLI ATTRIBUTI</option>
+                <!-- Attributi principali -->
+                <option value="Forza">Forza</option>
+                <option value="Destrezza">Destrezza</option>
+                <option value="Costituzione">Costituzione</option>
+                <option value="Intelligenza">Intelligenza</option>
+                <option value="Saggezza">Saggezza</option>
+                <option value="Carisma">Carisma</option>
+                <!-- Attributi combinati (per quelli che hanno scelte) -->
+                <option value="Forza o Destrezza">Forza o Destrezza</option>
+                <option value="Forza o Costituzione">Forza o Costituzione</option>
+                <option value="Forza o Saggezza">Forza o Saggezza</option>
+                <option value="Forza o Carisma">Forza o Carisma</option>
+                <option value="Forza o Intelligenza">Forza o Intelligenza</option>
+                <option value="Destrezza o Carisma">Destrezza o Carisma</option>
+                <option value="Destrezza o Saggezza">Destrezza o Saggezza</option>
+                <option value="Destrezza o Intelligenza">Destrezza o Intelligenza</option>
+                <option value="Destrezza o Costituzione">Destrezza o Costituzione</option>
+                <option value="Costituzione o Intelligenza">Costituzione o Intelligenza</option>
+                <option value="Costituzione o Saggezza">Costituzione o Saggezza</option>
+                <option value="Costituzione o Carisma">Costituzione o Carisma</option>
+                <option value="Intelligenza o Saggezza">Intelligenza o Saggezza</option>
+                <option value="Intelligenza o Carisma">Intelligenza o Carisma</option>
+                <option value="Saggezza o Carisma">Saggezza o Carisma</option>
+                <option value="+2 Liberi">+2 Liberi</option>
+            </select>
+
+            <select id="skillFilter" class="cyber-select">
+                <option value="all">TUTTE LE ABILITÀ</option>
+                <!-- Abilità generali -->
+                <option value="Artigianato (Crafting)">Artigianato (Crafting)</option>
+                <option value="Atletica (Athletics)">Atletica (Athletics)</option>
+                <option value="Computer (Computers)">Computer (Computers)</option>
+                <option value="Diplomazia (Diplomacy)">Diplomazia (Diplomacy)</option>
+                <option value="Esibizione (Performance)">Esibizione (Performance)</option>
+                <option value="Furtività (Stealth)">Furtività (Stealth)</option>
+                <option value="Intimidire (Intimidation)">Intimidire (Intimidation)</option>
+                <option value="Medicina (Medicine)">Medicina (Medicine)</option>
+                <option value="Occultismo (Occultism)">Occultismo (Occultism)</option>
+                <option value="Pilotare (Piloting)">Pilotare (Piloting)</option>
+                <option value="Raggirare (Deception)">Raggirare (Deception)</option>
+                <option value="Società (Society)">Società (Society)</option>
+                <option value="Sopravvivenza (Survival)">Sopravvivenza (Survival)</option>
+                <!-- Sapienze (Lore) -->
+                <option value="Sapienza Artistica (Art Lore)">Sapienza Artistica (Art Lore)</option>
+                <option value="Sapienza Sportiva (Sports Lore)">Sapienza Sportiva (Sports Lore)</option>
+                <option value="Sapienza Malavita (Underworld Lore)">Sapienza Malavita (Underworld Lore)</option>
+                <option value="Sapienza dell'insediamento scelto">Sapienza dell'insediamento scelto</option>
+                <option value="Sapienza dei Media (Media Lore)">Sapienza dei Media (Media Lore)</option>
+                <option value="Sapienza Culinaria (Cooking Lore)">Sapienza Culinaria (Cooking Lore)</option>
+                <option value="Sapienza Aziendale (Corporate Lore)">Sapienza Aziendale (Corporate Lore)</option>
+                <option value="Sapienza degli Innesti (Augmentation Lore)">Sapienza degli Innesti (Augmentation Lore)</option>
+                <option value="Sapienza del pianeta scelto">Sapienza del pianeta scelto</option>
+                <option value="Sapienza Scienze Biologiche (Life Science Lore)">Sapienza Scienze Biologiche (Life Science Lore)</option>
+                <option value="Sapienza Scienze Fisiche (Physical Science Lore)">Sapienza Scienze Fisiche (Physical Science Lore)</option>
+                <option value="Sapienza dei Giochi (Games Lore)">Sapienza dei Giochi (Games Lore)</option>
+                <option value="Sapienza dell'Infosfera (Infosphere Lore)">Sapienza dell'Infosfera (Infosphere Lore)</option>
+                <option value="Sapienza del Lavoro Fisico (Labor Lore)">Sapienza del Lavoro Fisico (Labor Lore)</option>
+                <option value="Sapienza Mineraria (Mining Lore)">Sapienza Mineraria (Mining Lore)</option>
+                <option value="Sapienza sulla Pirateria (Piracy Lore)">Sapienza sulla Pirateria (Piracy Lore)</option>
+                <option value="Sapienza del Drift (Drift Lore)">Sapienza del Drift (Drift Lore)</option>
+                <option value="Sapienza Accademica (Academia Lore)">Sapienza Accademica (Academia Lore)</option>
+                <option value="Sapienza Storica (History Lore)">Sapienza Storica (History Lore)</option>
+                <option value="Sapienza Bellica (Warfare Lore)">Sapienza Bellica (Warfare Lore)</option>
+                <option value="Sapienza dei Videogiochi (Vidgame Lore)">Sapienza dei Videogiochi (Vidgame Lore)</option>
+                <option value="Sapienza Commerciale (Business Lore)">Sapienza Commerciale (Business Lore)</option>
+                <option value="Sapienza dell'argomento metafisico scelto">Sapienza dell'argomento metafisico scelto</option>
+                <option value="Sapienza della professione che fingi di conoscere">Sapienza della professione che fingi di conoscere</option>
+                <option value="Sapienza legata alla tua vita precedente">Sapienza legata alla tua vita precedente</option>
+                <option value="Sapienza del tuo campo di ricerca">Sapienza del tuo campo di ricerca</option>
+                <option value="Sapienza del tuo pianeta natale">Sapienza del tuo pianeta natale</option>
+                <option value="Sapienza religiosa correlata">Sapienza religiosa correlata</option>
+            </select>
+        </div>
+        <div id="activeTags"></div>
+    </div>
+
+    <!-- GRIGLIA ORIZZONTALE DEI BLOCCHETTI BACKGROUND -->
+    <div class="backgrounds-grid" id="bgGrid">
+
+        <!-- ARTIST -->
+        <div class="bg-card" data-name="Artist" data-attribute="Destrezza o Carisma" data-skill="Artigianato (Crafting), Sapienza Artistica (Art Lore)">
+            <div>
+                <h2 class="bg-title">Artist</h2>
+                <p class="bg-text">L'arte è la tua più grande passione, in qualunque forma si esprima. L'avventura potrebbe aiutarti a trovare l'ispirazione per le tue creazioni o essere un modo per sopravvivere finché non diventerai famoso.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Artigianato (Crafting), Sapienza Artistica (Art Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Specialty Crafting</div>
+            </div>
+        </div>
+
+        <!-- ATHLETE -->
+        <div class="bg-card" data-name="Athlete" data-attribute="Forza o Destrezza" data-skill="Atletica (Athletics), Sapienza Sportiva (Sports Lore)">
+            <div>
+                <h2 class="bg-title">Athlete</h2>
+                <p class="bg-text">Hai rafforzato il tuo corpo con allenamenti costanti per superare i tuoi record personali, sia come campione delle arene che come atleta di squadre competitive.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Destrezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Atletica (Athletics), Sapienza Sportiva (Sports Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Deadlift</div>
+            </div>
+        </div>
+
+        <!-- BOUNTY HUNTER -->
+        <div class="bg-card" data-name="Bounty Hunter" data-attribute="Forza o Costituzione" data-skill="Sopravvivenza (Survival), Sapienza Malavita (Underworld Lore)">
+            <div>
+                <h2 class="bg-title">Bounty Hunter</h2>
+                <p class="bg-text">Cacci persone in cambio di crediti, lavorando per corporazioni, eserciti o organizzazioni indipendenti.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Costituzione; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Sopravvivenza (Survival), Sapienza Malavita (Underworld Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Experienced Tracker</div>
+            </div>
+        </div>
+
+        <!-- BRUTARIS PLAYER -->
+        <div class="bg-card" data-name="Brutaris Player" data-attribute="Forza o Costituzione" data-skill="Atletica (Athletics), Sapienza Sportiva (Sports Lore)">
+            <div>
+                <h2 class="bg-title">Brutaris Player</h2>
+                <p class="bg-text">Il boato della folla ti elettrizza ancora al ricordo dei tuoi giorni di gloria come giocatore di brutaris. Sei sempre pronto per la prossima grande partita.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Costituzione; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Atletica (Athletics), Sapienza Sportiva (Sports Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Quick Jump oppure Titan Wrestler</div>
+            </div>
+        </div>
+
+        <!-- CITY SLICKER -->
+        <div class="bg-card" data-name="City Slicker" data-attribute="Destrezza o Carisma" data-skill="Raggirare (Deception), Sapienza dell'insediamento scelto">
+            <div>
+                <h2 class="bg-title">City Slicker</h2>
+                <p class="bg-text">Sai come muoverti nei grandi insediamenti per evitare guai o per pedinare sospetti, dileguandoti facilmente tra la folla.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Raggirare (Deception), Sapienza dell'insediamento scelto</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Face in the Crowd</div>
+            </div>
+        </div>
+
+        <!-- CLEANER -->
+        <div class="bg-card" data-name="Cleaner" data-attribute="Destrezza o Carisma" data-skill="Raggirare (Deception), Sapienza Malavita (Underworld Lore)">
+            <div>
+                <h2 class="bg-title">Cleaner</h2>
+                <p class="bg-text">Sai come ripulire ogni traccia di un crime, lavorando sia per loschi boss della malavita che sotto banco per clienti legittimi come la AbadarCorp.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Raggirare (Deception), Sapienza Malavita (Underworld Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Without a Trace</div>
+            </div>
+        </div>
+
+        <!-- COMEDIAN -->
+        <div class="bg-card" data-name="Comedian" data-attribute="Saggezza o Carisma" data-skill="Esibizione (Performance), Sapienza dei Media (Media Lore)">
+            <div>
+                <h2 class="bg-title">Comedian</h2>
+                <p class="bg-text">Che tu sia il burlone dell'ufficio, un comico professionista o un troll dell'infosfera, hai sempre la battuta pronta a costo di finire nei guai.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Saggezza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Esibizione (Performance), Sapienza dei Media (Media Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Just Kidding</div>
+            </div>
+        </div>
+
+        <!-- COOK -->
+        <div class="bg-card" data-name="Cook" data-attribute="Costituzione o Intelligenza" data-skill="Sopravvivenza (Survival), Sapienza Culinaria (Cooking Lore)">
+            <div>
+                <h2 class="bg-title">Cook</h2>
+                <p class="bg-text">Cresciuto nelle cucine di taverne o ristoranti, sei un cuoco eccezionale. È ora di uscire allo scoperto e vedere il mondo.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Costituzione o Intelligenza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Sopravvivenza (Survival), Sapienza Culinaria (Cooking Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Seasoned</div>
+            </div>
+        </div>
+
+        <!-- CORPORATE AGENT -->
+        <div class="bg-card" data-name="Corporate Agent" data-attribute="Intelligenza o Carisma" data-skill="Società (Society), Sapienza Aziendale (Corporate Lore)">
+            <div>
+                <h2 class="bg-title">Corporate Agent</h2>
+                <p class="bg-text">Sei un negoziatore, un creatore di accordi o una spia aziendale focalizzata sull'avanzamento dei piani di una specifica corporazione.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Intelligenza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Società (Society), Sapienza Aziendale (Corporate Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Management Material</div>
+            </div>
+        </div>
+
+        <!-- CYBERBORN -->
+        <div class="bg-card" data-name="Cyberborn" data-attribute="Forza o Costituzione" data-skill="Artigianato (Crafting), Sapienza degli Innesti (Augmentation Lore)">
+            <div>
+                <h2 class="bg-title">Cyberborn</h2>
+                <span class="bg-rarity">NON COMUNE</span>
+                <p class="bg-text">Il tuo corpo è un tempio del cambiamento tecnologico. Fin da giovane hai aggiornato la tua anatomia con innesti cibernetici per andare oltre i limiti biologici.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Costituzione; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Artigianato (Crafting), Sapienza degli Innesti (Augmentation Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Augmented Body (Feat)</div>
+            </div>
+        </div>
+
+        <!-- DETECTIVE -->
+        <div class="bg-card" data-name="Detective" data-attribute="Intelligenza o Saggezza" data-skill="Società (Society), Sapienza Malavita (Underworld Lore)">
+            <div>
+                <h2 class="bg-title">Detective</h2>
+                <p class="bg-text">Hai risolto crimini come ispettore di polizia o investigatore privato, e ti sei lanciato nell'avventura per risolvere un mistero o fuggire dal tuo ultimo caso.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Intelligenza o Saggezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Società (Society), Sapienza Malavita (Underworld Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Streetwise</div>
+            </div>
+        </div>
+
+        <!-- DIPLOMAT -->
+        <div class="bg-card" data-name="Diplomat" data-attribute="Intelligenza o Carisma" data-skill="Diplomazia (Diplomacy), Sapienza del pianeta scelto">
+            <div>
+                <h2 class="bg-title">Diplomat</h2>
+                <p class="bg-text">Hai dedicato la carriera a tessere alleanze pacifiche tra fazioni e popoli intergalattici. Le situazioni di primo contatto sono la tua specialità.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Intelligenza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Diplomazia (Diplomacy), Sapienza del pianeta scelto</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Group Impression</div>
+            </div>
+        </div>
+
+        <!-- DISCIPLE -->
+        <div class="bg-card" data-name="Disciple" data-attribute="Uno specifico della divinità" data-skill="Abilità divina della divinità, Sapienza religiosa correlata">
+            <div>
+                <h2 class="bg-title">Disciple</h2>
+                <p class="bg-text">Sei un fedele discepolo di una specifica divinità, avendo dedicato la tua vita a seguire i suoi precetti religiosi.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Uno specifico della divinità; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Abilità divina della divinità, Sapienza religiosa correlata</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Religious Talisman</div>
+            </div>
+        </div>
+
+        <!-- DOCTOR -->
+        <div class="bg-card" data-name="Doctor" data-attribute="Destrezza o Intelligenza" data-skill="Medicina (Medicine), Sapienza Scienze Biologiche (Life Science Lore)">
+            <div>
+                <h2 class="bg-title">Doctor</h2>
+                <p class="bg-text">Un guaritore esperto che utilizza le ultime tecnologie mediche e farmaceutiche in cliniche, infermerie di astronavi o vicoli malfamati.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Intelligenza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Medicina (Medicine), Sapienza Scienze Biologiche (Life Science Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Battle Medicine</div>
+            </div>
+        </div>
+
+        <!-- DREAM PROPHET -->
+        <div class="bg-card" data-name="Dream Prophet" data-attribute="Saggezza o Carisma" data-skill="Occultismo (Occultism), Sapienza dell'argomento metafisico scelto">
+            <div>
+                <h2 class="bg-title">Dream Prophet</h2>
+                <p class="bg-text">Un'entità misteriosa infesta i tuoi sogni mostrandoti sprazzi di trascendenza e spingendoti a cercare una connessione con misteri cosmici.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Saggezza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Occultismo (Occultism), Sapienza dell'argomento metafisico scelto</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Schooled in Secrets</div>
+            </div>
+        </div>
+
+        <!-- ELECTRICIAN -->
+        <div class="bg-card" data-name="Electrician" data-attribute="Costituzione o Intelligenza" data-skill="Artigianato (Crafting), Sapienza Scienze Fisiche (Physical Science Lore)">
+            <div>
+                <h2 class="bg-title">Electrician</h2>
+                <p class="bg-text">Conosci il potere dell'elettricità per aver riparato circuiti o installato centrali elettriche, sopravvivendo a diverse scosse ravvicinate.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Costituzione o Intelligenza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Artigianato (Crafting), Sapienza Scienze Fisiche (Physical Science Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Electrical Engineer</div>
+            </div>
+        </div>
+
+        <!-- EMISSARY -->
+        <div class="bg-card" data-name="Emissary" data-attribute="Intelligenza o Carisma" data-skill="Società (Society), Sapienza della città o regione visitata spesso">
+            <div>
+                <h2 class="bg-title">Emissary</h2>
+                <p class="bg-text">Come diplomatico o messaggero hai viaggiato estensivamente ovunque, comunicando con nuove culture e stringendo patti commerciali.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Intelligenza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Società (Society), Sapienza della città o regione visitata spesso</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Multilingual</div>
+            </div>
+        </div>
+
+        <!-- GAMBLER -->
+        <div class="bg-card" data-name="Gambler" data-attribute="Destrezza o Carisma" data-skill="Raggirare (Deception), Sapienza dei Giochi (Games Lore)">
+            <div>
+                <h2 class="bg-title">Gambler</h2>
+                <p class="bg-text">Il brivido del gioco d'azzardo ti ha attirato nei giochi di fortuna, spingendoti all'avventura per arricchirti o per fuggire dai debiti.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Raggirare (Deception), Sapienza dei Giochi (Games Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Lie to Me</div>
+            </div>
+        </div>
+
+        <!-- GENE SPLICER -->
+        <div class="bg-card" data-name="Gene Splicer" data-attribute="Forza o Intelligenza" data-skill="Artigianato (Crafting), Sapienza Innesti o Scienze Biologiche">
+            <div>
+                <h2 class="bg-title">Gene Splicer</h2>
+                <p class="bg-text">Esperto di biotecnologie e genetica, conduci esperimenti sul tuo stesso corpo o crei sieri per l'industria o uso personale.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Intelligenza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Artigianato (Crafting), Sapienza Innesti o Scienze Biologiche</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Serum Crafting</div>
+            </div>
+        </div>
+
+        <!-- GRIFTER -->
+        <div class="bg-card" data-name="Grifter" data-attribute="Intelligenza o Carisma" data-skill="Raggirare (Deception), Sapienza della professione che fingi di conoscere">
+            <div>
+                <h2 class="bg-title">Grifter</h2>
+                <p class="bg-text">Un truffatore e ricattatore che raggira vittime inconsapevoli solo in cambio di crediti, spostandosi continuamente per non farsi catturare.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Intelligenza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Raggirare (Deception), Sapienza della professione che fingi di conoscere</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Charming Liar</div>
+            </div>
+        </div>
+
+        <!-- HACKER -->
+        <div class="bg-card" data-name="Hacker" data-attribute="Destrezza o Intelligenza" data-skill="Computer (Computers), Sapienza dell'Infosfera (Infosphere Lore)">
+            <div>
+                <h2 class="bg-title">Hacker</h2>
+                <p class="bg-text">Le infosfere e le reti aperte sono la tua vera casa. Sei altamente competente quando si tratta di violare codici e accedere a database protetti.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Intelligenza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Computer (Computers), Sapienza dell'Infosfera (Infosphere Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Phreaker</div>
+            </div>
+        </div>
+
+        <!-- ICON -->
+        <div class="bg-card" data-name="Icon" data-attribute="Costituzione o Carisma" data-skill="Esibizione (Performance), Sapienza dei Media (Media Lore)">
+            <div>
+                <h2 class="bg-title">Icon</h2>
+                <p class="bg-text">Sei una celebrità o un influencer popolare. Il tuo volto, la tua voce e il tuo stile sono merci di scambio nello spazio conosciuto, tra fan adoranti e paparazzi.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Costituzione o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Esibizione (Performance), Sapienza dei Media (Media Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Impressive Performance</div>
+            </div>
+        </div>
+
+        <!-- LABORER -->
+        <div class="bg-card" data-name="Laborer" data-attribute="Forza o Costituzione" data-skill="Atletica (Athletics), Sapienza del Lavoro Fisico (Labor Lore)">
+            <div>
+                <h2 class="bg-title">Laborer</h2>
+                <p class="bg-text">Hai speso anni a compiere faticosi lavori fisici. Un'esistenza dura che ti ha temprato, spingendoti all'avventura in cerca di una vita migliore.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Costituzione; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Atletica (Athletics), Sapienza del Lavoro Fisico (Labor Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Hefty Hauler</div>
+            </div>
+        </div>
+
+        <!-- MINER -->
+        <div class="bg-card" data-name="Miner" data-attribute="Forza o Saggezza" data-skill="Sopravvivenza (Survival), Sapienza Mineraria (Mining Lore)">
+            <div>
+                <h2 class="bg-title">Miner</h2>
+                <p class="bg-text">Ti guadagnavi da vivere strappando minerali preziosi dalle profondità oscure. Questa volta torni nel sottosuolo armato di tutto punto anziché con un piccone.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Saggezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Sopravvivenza (Survival), Sapienza Mineraria (Mining Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Terrain Expertise (Sottoterra)</div>
+            </div>
+        </div>
+
+        <!-- OUTLAW -->
+        <div class="bg-card" data-name="Outlaw" data-attribute="Forza o Carisma" data-skill="Intimidire (Intimidation), Sapienza Malavita (Underworld Lore)">
+            <div>
+                <h2 class="bg-title">Outlaw</h2>
+                <p class="bg-text">Un criminale di carriera con una pessima reputazione e una taglia sulla testa, che vive per il brivido di una rapina o di una sparatoria.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Intimidire (Intimidation), Sapienza Malavita (Underworld Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Intimidating Shot</div>
+            </div>
+        </div>
+
+        <!-- PRISONER -->
+        <div class="bg-card" data-name="Prisoner" data-attribute="Forza o Costituzione" data-skill="Furtività (Stealth), Sapienza Malavita (Underworld Lore)">
+            <div>
+                <h2 class="bg-title">Prisoner</h2>
+                <p class="bg-text">Sei stato imprigionato o punito per un crimine, che tu fossi colpevole o meno. Ora che sei libero, ti godi appieno l'avventura.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Costituzione; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Furtività (Stealth), Sapienza Malavita (Underworld Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Experienced Smuggler</div>
+            </div>
+        </div>
+
+        <!-- RAISED BY BELIEF -->
+        <div class="bg-card" data-name="Raised by Belief" data-attribute="Uno della divinità" data-skill="Abilità divina della divinità, Sapienza religiosa correlata">
+            <div>
+                <h2 class="bg-title">Raised by Belief</h2>
+                <p class="bg-text">Cresciuto in un monastero o in una famiglia molto religiosa, la tua educazione è intrisa delle tradizioni e della devozione verso una divinità.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Uno della divinità; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Abilità divina della divinità, Sapienza religiosa correlata</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Assurance (nell'abilità divina scelta)</div>
+            </div>
+        </div>
+
+        <!-- RECLUSE -->
+        <div class="bg-card" data-name="Recluse" data-attribute="Costituzione o Saggezza" data-skill="Sopravvivenza (Survival), Sapienza legata alla tua vita precedente">
+            <div>
+                <h2 class="bg-title">Recluse</h2>
+                <p class="bg-text">Eri qualcuno, ma in un'altra vita. Oggi vivi come un eremita lontano da tutti, finché un vecchio nemico o un discepolo non ti trascina nuovamente all'azione.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Costituzione o Saggezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Sopravvivenza (Survival), Sapienza legata alla tua vita precedente</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Dubious Knowledge</div>
+            </div>
+        </div>
+
+        <!-- SCIENTIST -->
+        <div class="bg-card" data-name="Scientist" data-attribute="Intelligenza o Saggezza" data-skill="Artigianato (Crafting), Sapienza del tuo campo di ricerca">
+            <div>
+                <h2 class="bg-title">Scientist</h2>
+                <p class="bg-text">Lavori in laboratorio conducendo ricerche scientifiche come biotecnico, chimico o fisico per il miglioramento della società galattica.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Intelligenza o Saggezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Artigianato (Crafting), Sapienza del tuo campo di ricerca</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Assurance (nella Sapienza scelta)</div>
+            </div>
+        </div>
+
+        <!-- SMUGGLER -->
+        <div class="bg-card" data-name="Smuggler" data-attribute="Destrezza o Saggezza" data-skill="Furtività (Stealth), Sapienza sulla Pirateria (Piracy Lore)">
+            <div>
+                <h2 class="bg-title">Smuggler</h2>
+                <p class="bg-text">Contrabbandi merci protette o illegali su pianeti o nello spazio profondo. Più alto è il rischio dell'incarico, più corposo è il tuo guadagno finale.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Saggezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Furtività (Stealth), Sapienza sulla Pirateria (Piracy Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Experienced Smuggler</div>
+            </div>
+        </div>
+
+        <!-- SOCIALITE -->
+        <div class="bg-card" data-name="Socialite" data-attribute="Intelligenza o Carisma" data-skill="Società (Society), Sapienza del tuo pianeta natale">
+            <div>
+                <h2 class="bg-title">Socialite</h2>
+                <p class="bg-text">Grazie a ricchezze generazionali vivi una vita incantevole tra gala e vestiti firmati, immortalando ogni momento scintillante sui social media.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Intelligenza o Carisma; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Società (Society), Sapienza del tuo pianeta natale</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Plant Rumor</div>
+            </div>
+        </div>
+
+        <!-- SPACE PIRATE -->
+        <div class="bg-card" data-name="Space Pirate" data-attribute="Forza o Destrezza" data-skill="Intimidire (Intimidation), Sapienza sulla Pirateria (Piracy Lore)">
+            <div>
+                <h2 class="bg-title">Space Pirate</h2>
+                <p class="bg-text">Membro dell'equipaggio di un vascello pirata con l'ambizione di saccheggiare le rotte commerciali o assaltare corpi planetari vulnerabili.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Destrezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Intimidire (Intimidation), Sapienza sulla Pirateria (Piracy Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Group Coercion</div>
+            </div>
+        </div>
+
+        <!-- SPACEFARER -->
+        <div class="bg-card" data-name="Spacefarer" data-attribute="Destrezza o Costituzione" data-skill="Pilotare (Piloting), Sapienza del Drift (Drift Lore)">
+            <div>
+                <h2 class="bg-title">Spacefarer</h2>
+                <p class="bg-text">Ti senti a casa solo sul ponte di un'astronave. Che sia un cargo mercantile o una nave da guerra, accetti qualunque lavoro ti porti fuori dal pianeta.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Costituzione; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Pilotare (Piloting), Sapienza del Drift (Drift Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Express Driver</div>
+            </div>
+        </div>
+
+        <!-- STREET RAT -->
+        <div class="bg-card" data-name="Street Rat" data-attribute="Destrezza o Saggezza" data-skill="Sopravvivenza (Survival), Sapienza dell'insediamento scelto">
+            <div>
+                <h2 class="bg-title">Street Rat</h2>
+                <p class="bg-text">Sei cresciuto cavandotela da solo nelle strade di gigantesche metropoli o stazioni affollate come Absalom Station, rovistando tra i rifiuti utili.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Saggezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Sopravvivenza (Survival), Sapienza dell'insediamento scelto</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Urban Survivalist</div>
+            </div>
+        </div>
+
+        <!-- TEACHER -->
+        <div class="bg-card" data-name="Teacher" data-attribute="Intelligenza o Saggezza" data-skill="Esibizione o Società, Sapienza Accademica (Academia Lore)">
+            <div>
+                <h2 class="bg-title">Teacher</h2>
+                <p class="bg-text">Insegni a bambini e adulti i segreti del mondo. Ti sei fatto avventuriero per vivere in prima persona le materie dei libri e riportare la saggezza agli studenti.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Intelligenza o Saggezza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Esibizione o Società; Sapienza Accademica (Academia Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Experienced Professional</div>
+            </div>
+        </div>
+
+        <!-- TECH SUPPORT -->
+        <div class="bg-card" data-name="Tech Support" data-attribute="Costituzione o Intelligenza" data-skill="Computer (Computers), Sapienza Commerciale (Business Lore)">
+            <div>
+                <h2 class="bg-title">Tech Support</h2>
+                <p class="bg-text">Hai esperienza nell'assistenza tecnica in avamposti militari o uffici locali, sopravvivendo a nottate passate a ripristinare file e bloccare hacker.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Costituzione o Intelligenza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Computer (Computers), Sapienza Commerciale (Business Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Quick Install</div>
+            </div>
+        </div>
+
+        <!-- TIMELOST -->
+        <div class="bg-card" data-name="Timelost" data-attribute="+2 Liberi" data-skill="Società (Society), Sapienza Storica (History Lore)">
+            <div>
+                <h2 class="bg-title">Timelost</h2>
+                <p class="bg-text">Non appartieni a questa linea temporale. Sei rimasto incastrato nel tempo a causa di un viaggio temporale fallito o di un'anomalia quantistica.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> +2 Aumenti Liberi ed Indipendenti</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Società (Society), Sapienza Storica (History Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Dubious Knowledge</div>
+            </div>
+        </div>
+
+        <!-- TROOPER -->
+        <div class="bg-card" data-name="Trooper" data-attribute="Forza o Costituzione" data-skill="Atletica (Athletics), Sapienza Bellica (Warfare Lore)">
+            <div>
+                <h2 class="bg-title">Trooper</h2>
+                <span class="bg-rarity">NON COMUNE</span>
+                <p class="bg-text">Ti sei arruolato come soldato di carriera in un esercito regolare o paramilitare. Finché hai una squadra e un fucile carico, puoi gestire qualsiasi cosa.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Forza o Costituzione; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Atletica (Athletics), Sapienza Bellica (Warfare Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Barricade (Feat)</div>
+            </div>
+        </div>
+
+        <!-- VIDGAMER -->
+        <div class="bg-card" data-name="Vidgamer" data-attribute="Destrezza o Intelligenza" data-skill="Computer (Computers), Sapienza dei Videogiochi (Vidgame Lore)">
+            <div>
+                <h2 class="bg-title">Vidgamer</h2>
+                <p class="bg-text">Il gioco è il tuo stile di vita. Che tu sia pro-player, designer o influencer, riconosci i dettagli delle creazioni virtuali a colpo d'occhio.</p>
+            </div>
+            <div class="bg-mechanics">
+                <div class="mech-row"><span class="mech-label">Attributi:</span> Destrezza o Intelligenza; +1 Libero</div>
+                <div class="mech-row"><span class="mech-label">Abilità:</span> Computer (Computers), Sapienza dei Videogiochi (Vidgame Lore)</div>
+                <div class="mech-row"><span class="mech-label">Talento:</span> Hologram Skeptic</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE SCI-FI (MOVIMENTO SINISTRA) -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../HomeStarfinder.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT PER IL FILTRAGGIO E I TAG ATTIVI + TOOLTIP DEI TALENTI -->
+    <script>
+        // ============================================================
+        // SCRIPT PER CARICARE I DATI DEI TALENTI DA Feats.html
+        // ============================================================
+        
+        async function loadFeatsData() {
+            try {
+                // Carica Feats.html - modifica il percorso se necessario
+                const response = await fetch('../Feats/Feats.html');
+                if (!response.ok) {
+                    console.warn('Impossibile caricare Feats.html. Assicurati che il percorso sia corretto.');
+                    return null;
+                }
+                const html = await response.text();
+                
+                // Crea un parser DOM per estrarre i dati
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Estrai tutte le card dei talenti
+                const featCards = doc.querySelectorAll('.feat-card');
+                const featsDatabase = {};
+                
+                featCards.forEach(card => {
+                    const nameElement = card.querySelector('.feat-name');
+                    if (!nameElement) return;
+                    
+                    const name = nameElement.textContent.trim();
+                    
+                    // Estrai il tipo e livello
+                    const typeElement = card.querySelector('.feat-type-tag');
+                    let type = 'Generale';
+                    let level = 1;
+                    if (typeElement) {
+                        const typeText = typeElement.textContent.trim();
+                        const typeMatch = typeText.match(/Talento (Generale|di Abilità) (\d+)/);
+                        if (typeMatch) {
+                            type = typeMatch[1] === 'Generale' ? 'Generale' : 'Abilità';
+                            level = parseInt(typeMatch[2]);
+                        }
+                    }
+                    
+                    // Estrai prerequisiti
+                    const prereqElement = card.querySelector('.feat-prereq');
+                    let prerequisites = 'Nessuno';
+                    if (prereqElement) {
+                        const prereqText = prereqElement.textContent.trim();
+                        const prereqMatch = prereqText.match(/Prerequisiti:\s*(.*)/);
+                        if (prereqMatch) {
+                            prerequisites = prereqMatch[1].trim();
+                        }
+                    }
+                    
+                    // Estrai descrizione dal popup
+                    const popupDesc = card.querySelector('.feat-info-popup .popup-desc');
+                    let description = 'Descrizione non disponibile';
+                    if (popupDesc) {
+                        description = popupDesc.textContent.trim();
+                    }
+                    
+                    // Estrai i tag (abilità)
+                    const tagElements = card.querySelectorAll('.feat-tags .tag');
+                    let skill = 'Miscellaneous';
+                    const tags = [];
+                    tagElements.forEach(tag => {
+                        const tagText = tag.textContent.trim();
+                        if (tagText !== 'Abilità' && tagText !== 'Generale' && tagText !== 'Varie') {
+                            tags.push(tagText);
+                        }
+                    });
+                    if (tags.length > 0) {
+                        skill = tags[0];
+                    }
+                    
+                    featsDatabase[name] = {
+                        name: name,
+                        type: type,
+                        level: level,
+                        prerequisites: prerequisites,
+                        description: description,
+                        skill: skill
+                    };
+                });
+                
+                return featsDatabase;
+                
+            } catch (error) {
+                console.error('Errore nel caricare Feats.html:', error);
+                return null;
+            }
+        }
+
+        // ============================================================
+        // SCRIPT PER I TOOLTIP DEI TALENTI
+        // ============================================================
+
+        async function initFeatTooltips() {
+            const featsData = await loadFeatsData();
+            if (!featsData) {
+                console.warn('Impossibile caricare i dati dei talenti. I tooltip non saranno disponibili.');
+                return;
+            }
+
+            // Seleziona tutte le card che contengono riferimenti a talenti
+            document.querySelectorAll('.bg-card').forEach(card => {
+                const mechDiv = card.querySelector('.bg-mechanics');
+                if (!mechDiv) return;
+
+                // Cerca tutte le righe che contengono "Talento:"
+                const mechRows = mechDiv.querySelectorAll('.mech-row');
+                mechRows.forEach(row => {
+                    const text = row.textContent;
+                    if (text.includes('Talento:')) {
+                        // Estrai il nome del talento
+                        const parts = text.split('Talento:');
+                        if (parts.length < 2) return;
+
+                        let featName = parts[1].trim();
+                        // Rimuovi eventuali descrizioni extra
+                        featName = featName.replace(/\s*\(Feat\)\s*$/, '').trim();
+                        featName = featName.replace(/\s*\(nell'abilità divina scelta\)\s*$/, '').trim();
+                        featName = featName.replace(/\s*\(nell'abilità di conoscenza scelta\)\s*$/, '').trim();
+                        featName = featName.replace(/\s*\(nell'abilità scelta\)\s*$/, '').trim();
+                        featName = featName.replace(/\s*\(nella Sapienza scelta\)\s*$/, '').trim();
+                        featName = featName.replace(/\s*\(nella Sapienza Scelta\)\s*$/, '').trim();
+                        featName = featName.replace(/\s*\(Sottoterra\)\s*$/, '').trim();
+
+                        // Gestisci i casi con "o" (prendi il primo talento)
+                        if (featName.includes(' o ')) {
+                            const options = featName.split(' o ');
+                            // Prendi il primo, ma mostriamo entrambi nel testo
+                            const firstFeat = options[0].trim();
+                            
+                            // Verifica se il primo esiste, altrimenti prova con il secondo
+                            if (featsData[firstFeat]) {
+                                featName = firstFeat;
+                            } else if (featsData[options[1].trim()]) {
+                                featName = options[1].trim();
+                            } else {
+                                // Nessuno dei due trovato, lascia il testo originale
+                                return;
+                            }
+                        }
+
+                        // Controlla se il talento esiste nei dati caricati
+                        if (featsData[featName]) {
+                            // Sostituisci il testo con un elemento interattivo
+                            const labelSpan = row.querySelector('.mech-label');
+                            if (labelSpan) {
+                                const labelText = labelSpan.textContent;
+                                const afterLabel = text.substring(text.indexOf('Talento:') + 8).trim();
+
+                                // Ricostruisci la riga
+                                row.innerHTML = `<span class="mech-label">${labelText}</span> `;
+
+                                // Crea il trigger per il tooltip
+                                const trigger = document.createElement('span');
+                                trigger.className = 'feat-tooltip-trigger';
+                                trigger.textContent = featName;
+
+                                // Crea il tooltip
+                                const tooltip = document.createElement('div');
+                                tooltip.className = 'feat-tooltip';
+
+                                const feat = featsData[featName];
+                                tooltip.innerHTML = `
+                                    <div class="tooltip-header">
+                                        <strong>Tipo:</strong> ${feat.type}<br>
+                                        <strong>Livello:</strong> ${feat.level}<br>
+                                        <strong>Prerequisiti:</strong> ${feat.prerequisites || 'Nessuno'}
+                                    </div>
+                                    <div class="tooltip-desc">${feat.description}</div>
+                                `;
+
+                                // Contenitore per trigger + tooltip
+                                const wrapper = document.createElement('span');
+                                wrapper.style.position = 'relative';
+                                wrapper.style.display = 'inline-block';
+
+                                // Eventi per mostrare/nascondere il tooltip
+                                let timeoutId = null;
+
+                                function showTooltip() {
+                                    if (timeoutId) {
+                                        clearTimeout(timeoutId);
+                                        timeoutId = null;
+                                    }
+                                    tooltip.style.display = 'block';
+                                }
+
+                                function hideTooltip() {
+                                    timeoutId = setTimeout(() => {
+                                        if (!tooltip.matches(':hover')) {
+                                            tooltip.style.display = 'none';
+                                        }
+                                        timeoutId = null;
+                                    }, 150);
+                                }
+
+                                trigger.addEventListener('mouseenter', showTooltip);
+                                trigger.addEventListener('mouseleave', hideTooltip);
+                                tooltip.addEventListener('mouseenter', showTooltip);
+                                tooltip.addEventListener('mouseleave', hideTooltip);
+
+                                wrapper.appendChild(trigger);
+                                wrapper.appendChild(tooltip);
+                                row.appendChild(wrapper);
+
+                                // Aggiungi eventuale testo extra dopo il talento (es. "oppure Titan Wrestler")
+                                const remainingText = afterLabel.replace(featName, '').trim();
+                                if (remainingText) {
+                                    const extraSpan = document.createElement('span');
+                                    extraSpan.textContent = ' ' + remainingText;
+                                    row.appendChild(extraSpan);
+                                }
+                            }
+                        } else {
+                            // Talento non trovato - prova a cercare con il nome originale
+                            const originalName = text.split('Talento:')[1].trim().replace(/\s*\(Feat\)\s*$/, '').trim();
+                            if (featsData[originalName]) {
+                                // Ricarica con il nome originale
+                                const labelSpan = row.querySelector('.mech-label');
+                                if (labelSpan) {
+                                    const labelText = labelSpan.textContent;
+                                    row.innerHTML = `<span class="mech-label">${labelText}</span> `;
+
+                                    const trigger = document.createElement('span');
+                                    trigger.className = 'feat-tooltip-trigger';
+                                    trigger.textContent = originalName;
+
+                                    const tooltip = document.createElement('div');
+                                    tooltip.className = 'feat-tooltip';
+
+                                    const feat = featsData[originalName];
+                                    tooltip.innerHTML = `
+                                        <div class="tooltip-header">
+                                            <strong>Tipo:</strong> ${feat.type}<br>
+                                            <strong>Livello:</strong> ${feat.level}<br>
+                                            <strong>Prerequisiti:</strong> ${feat.prerequisites || 'Nessuno'}
+                                        </div>
+                                        <div class="tooltip-desc">${feat.description}</div>
+                                    `;
+
+                                    const wrapper = document.createElement('span');
+                                    wrapper.style.position = 'relative';
+                                    wrapper.style.display = 'inline-block';
+
+                                    let timeoutId = null;
+                                    function showTooltip() {
+                                        if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
+                                        tooltip.style.display = 'block';
+                                    }
+                                    function hideTooltip() {
+                                        timeoutId = setTimeout(() => {
+                                            if (!tooltip.matches(':hover')) tooltip.style.display = 'none';
+                                            timeoutId = null;
+                                        }, 150);
+                                    }
+
+                                    trigger.addEventListener('mouseenter', showTooltip);
+                                    trigger.addEventListener('mouseleave', hideTooltip);
+                                    tooltip.addEventListener('mouseenter', showTooltip);
+                                    tooltip.addEventListener('mouseleave', hideTooltip);
+
+                                    wrapper.appendChild(trigger);
+                                    wrapper.appendChild(tooltip);
+                                    row.appendChild(wrapper);
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        // ============================================================
+        // SCRIPT PER IL FILTRAGGIO E I TAG ATTIVI
+        // ============================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Avvia i tooltip dei talenti
+            initFeatTooltips();
+
+            // Filtri
+            const searchInput = document.getElementById('bgSearch');
+            const attributeFilter = document.getElementById('attributeFilter');
+            const skillFilter = document.getElementById('skillFilter');
+            const activeTagsContainer = document.getElementById('activeTags');
+            const bgCards = document.querySelectorAll('.bg-card');
+
+            function filterBackgrounds() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const selectedAttribute = attributeFilter.value;
+                const selectedSkill = skillFilter.value;
+
+                bgCards.forEach(card => {
+                    const name = (card.getAttribute('data-name') || '').toLowerCase();
+                    const attribute = card.getAttribute('data-attribute') || '';
+                    const skill = card.getAttribute('data-skill') || '';
+
+                    const matchesAttribute = selectedAttribute === 'all' || attribute.toLowerCase().includes(selectedAttribute.toLowerCase());
+                    const matchesSkill = selectedSkill === 'all' || skill.toLowerCase().includes(selectedSkill.toLowerCase());
+                    const matchesSearch = searchTerm === '' || name.includes(searchTerm);
+
+                    if (matchesSearch && matchesAttribute && matchesSkill) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                updateActiveTagsUI(searchTerm, selectedAttribute, selectedSkill);
+            }
+
+            function updateActiveTagsUI(searchTerm, selectedAttribute, selectedSkill) {
+                activeTagsContainer.innerHTML = '';
+
+                if (searchTerm) {
+                    createTagBubble(`TEXT: ${searchTerm.toUpperCase()}`, () => {
+                        searchInput.value = '';
+                        filterBackgrounds();
+                    });
+                }
+
+                if (selectedAttribute !== 'all') {
+                    const attrText = attributeFilter.options[attributeFilter.selectedIndex].text;
+                    createTagBubble(attrText, () => {
+                        attributeFilter.value = 'all';
+                        filterBackgrounds();
+                    });
+                }
+
+                if (selectedSkill !== 'all') {
+                    const skillText = skillFilter.options[skillFilter.selectedIndex].text;
+                    createTagBubble(skillText, () => {
+                        skillFilter.value = 'all';
+                        filterBackgrounds();
+                    });
+                }
+            }
+
+            function createTagBubble(text, onClickCallback) {
+                const tagDiv = document.createElement('div');
+                tagDiv.className = 'active-tag';
+                tagDiv.innerHTML = `${text} <span class="remove">✕</span>`;
+                tagDiv.addEventListener('click', onClickCallback);
+                activeTagsContainer.appendChild(tagDiv);
+            }
+
+            searchInput.addEventListener('input', filterBackgrounds);
+            attributeFilter.addEventListener('change', filterBackgrounds);
+            skillFilter.addEventListener('change', filterBackgrounds);
+        });
+    </script>
+
+</body>
+</html>
