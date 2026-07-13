@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Operative Feats</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 40px; /* Margine pulito simmetrico per i talenti di classe */
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* AVVISO DI SISTEMA AD ALTO CONTRASTO */
+        .critical-notice {
+            max-width: 1000px;
+            margin: 20px auto 40px auto;
+            background-color: rgba(183, 28, 28, 0.2);
+            color: #ff1744;
+            border: 1px solid #b71c1c;
+            border-left: 4px solid #ff1744;
+            border-radius: 4px;
+            padding: 15px 25px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1.05em;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            box-shadow: 0 0 15px rgba(183, 28, 28, 0.2);
+            text-transform: uppercase;
+            backdrop-filter: blur(5px);
+        }
+
+        /* GRIGLIA TALENTI PER LIVELLO */
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 25px;
+        }
+
+        /* SCHEDE IN STILE VETRO FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+
+        /* COLORI BORDI TALENTI IN BASE AL LIVELLO */
+        .feat-lvl-1 { border-left-color: #c62828; }
+        .feat-lvl-2 { border-left-color: #e65100; }
+        .feat-lvl-4 { border-left-color: #f57c00; }
+        .feat-lvl-6 { border-left-color: #d84315; }
+        .feat-lvl-8 { border-left-color: #9e9d24; }
+        .feat-lvl-10 { border-left-color: #2e7d32; }
+        .feat-lvl-12 { border-left-color: #00796b; }
+        .feat-lvl-14 { border-left-color: #0288d1; }
+        .feat-lvl-16 { border-left-color: #3f51b5; }
+        .feat-lvl-18 { border-left-color: #6a1b9a; }
+        .feat-lvl-20 { border-left-color: #4f5b66; }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.15em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 4px 0;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+        }
+        .feature-text strong {
+            color: #ffffff;
+        }
+
+        /* METADATI MECCANICHE ED EFFETTI */
+        .paradox-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .paradox-meta strong {
+            color: #00bfff;
+        }
+        .traits-container {
+            margin-bottom: 8px;
+        }
+        .trait-pill {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7em;
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            background: rgba(0, 82, 204, 0.15);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+        .trait-pill.action {
+            color: #ff1744;
+            border-color: #b71c1c;
+            background: rgba(183, 28, 28, 0.15);
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA -->
+    <h1 class="main-title">OPERATIVE FEATS - TALENTI DI CLASSE</h1>
+    
+    <!-- BLOCCO AVVISO DI SISTEMA AD ALTO CONTRASTO -->
+    <div class="critical-notice">
+        ⚠ DIRETTIVA DI SISTEMA: Ogni volta che ottieni un talento di classe dell'Inviato, puoi selezionare una delle seguenti opzioni purché tu ne soddisfi i prerequisiti.
+    </div>
+
+    <!-- LIVELLO 1 -->
+    <h2 class="section-divider">1° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- ELUSIVE TARGET -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">ELUSIVE TARGET</h3>
+                <span class="feature-translation">(Bersaglio Elusivo)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">REACTION</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Ti sposti rapidamente schivando i tuoi assalitori quando un colpo manca la sagoma del tuo corpo.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Innesco:</strong> Un Colpo (Strike) mirato a te fallisce.<br>
+                <strong>Effetto:</strong> Compi immediatamente un Passo (Step).
+            </div>
+        </div>
+
+        <!-- INSTINCTIVE AIM -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">INSTINCTIVE AIM</h3>
+                <span class="feature-translation">(Mira Istintiva)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Estrai la tua arma da fuoco e prendi attentamente la mira con lo stesso identico movimento coordinato.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Esegui un'azione per Interagire (Interact) per estrarre un'arma a distanza o per Scambiare Mano (Switch Hands), dopodiché esegui immediatamente l'azione Mirare (Aim) con quell'arma.
+            </div>
+        </div>
+
+        <!-- KEEP THEM IN YOUR SIGHTS -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">KEEP THEM IN YOUR SIGHTS</h3>
+                <span class="feature-translation">(Tienili nel Mirino)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Mantieni sempre il bersaglio designato nel tuo raggio visivo strutturale, anche se tenta di allontanarsi.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Quando usi l'azione Mirare (Aim), i benefici si applicano se il tuo bersaglio si trova entro il primo o il secondo incremento di gittata della tua arma, anziché limitarsi al primo.
+            </div>
+        </div>
+
+        <!-- MOBILE AIM -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">MOBILE AIM</h3>
+                <span class="feature-translation">(Mira in Movimento)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                    <span class="trait-pill">TRAVERSAL</span>
+                </div>
+                <p class="feature-text">Raramente rimani immobile, e hai imparato a colpire i tuoi bersagli in modo affidabile anche mentre ti sposti lungo il campo.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Compi una Corsa (Stride) e successivamente esegui l'azione Mirare (Aim) con un'arma da fuoco che stai impugnando.
+            </div>
+        </div>
+
+        <!-- SCOPE SIGHT -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">SCOPE SIGHT</h3>
+                <span class="feature-translation">(Sguardo nel Mirino)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Inquadrare i tuoi bersagli attraverso un mirino telescopico ti viene naturale come aprire gli occhi nella notte.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Ogni volta che usi l'azione Mirare (Aim), puoi Interagire (Interact) come parte dell'azione per Attivare una modifica di mirino (sight weapon upgrade) della tua arma.
+            </div>
+        </div>
+
+        <!-- TACTICAL ADVANCE -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">TACTICAL ADVANCE</h3>
+                <span class="feature-translation">(Avanzata Tattica)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                    <span class="trait-pill">MOVE</span>
+                    <span class="trait-pill">TRAVERSAL</span>
+                </div>
+                <p class="feature-text">Schivi, rotoli e ti muovi fluidamente fuori dal pericolo, senza lasciare aperture ai nemici mentre ti riposizioni.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Non sei ingombrato (encumbered).<br>
+                <strong>Effetto:</strong> Compi una Corsa (Stride) pari alla tua Velocità massima. Questo movimento specifico non innesca alcuna reazione nemica.
+            </div>
+        </div>
+
+        <!-- WEAKENING SHOT -->
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">WEAKENING SHOT</h3>
+                <span class="feature-translation">(Colpo Indebolente)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Prendi di mira gli arti o le appendici di supporto di una creatura per inibirne le funzionalità fisiche.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Esegui l'azione Mirare (Aim) e compi un Colpo (Strike) a distanza contro il tuo bersaglio designato. Se il Colpo va a segno, la creatura diventa a tua scelta Goffa 1 (clumsy) o Indebolita 1 (enfeebled) fino al termine del tuo prossimo turno (Goffa 2 o Indebolita 2 su un colpo critico).
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 2 -->
+    <h2 class="section-divider">2° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- DANGER AWARENESS -->
+        <div class="feature-card feat-lvl-2">
+            <div>
+                <h3 class="feature-title">DANGER AWARENESS</h3>
+                <span class="feature-translation">(Deception (Percezione) del Pericolo)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Possiedi un sesto senso intuitivo che ti allerta dei pericoli latenti e ti permette di discernere le minacce nascoste.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Bonus di circostanza di +1 alle prove di Deception (Percezione) per trovare trappole e creature nascoste/non individuate, alla CA contro di esse e ai TS contro trappole. Ottieni una prova automatica per individuare le trappole anche senza Cercare attivamente. Se l'iniziativa è pari con un avversario, agisci per primo.
+            </div>
+        </div>
+
+        <!-- DEFENSIVE GUNNER -->
+        <div class="feature-card feat-lvl-2">
+            <div>
+                <h3 class="feature-title">DEFENSIVE GUNNER</h3>
+                <span class="feature-translation">(Artigliere Difensivo)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Hai imparato a difenderti usando solo un'arma da fuoco, deflettendo i colpi con il calcio e la canna dell'arma.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Le armi da fuoco (guns) che impugni guadagnano il tratto **parata (parry)**. Se l'arma possiede già parata, aumenti il bonus di circostanza alla CA concesso quando viene usata per parare da +1 a +2.
+            </div>
+        </div>
+
+        <!-- DOUBLE TAP -->
+        <div class="feature-card feat-lvl-2">
+            <div>
+                <h3 class="feature-title">DOUBLE TAP</h3>
+                <span class="feature-translation">(Doppio Colpo)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Esplodi due colpi in rapida successione contro lo stesso identico bersaglio designato.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Esegui l'azione Mirare (Aim) e compi due Colpi (Strikes) a distanza contro il tuo bersaglio designato (applicando la MAP). Se entrambi colpiscono, somma i danni complessivi: applichi i danni di precisione di Mirare una volta sola e le resistenze/vulnerabilità una sola volta.
+            </div>
+        </div>
+
+        <!-- KILL STEAL -->
+        <div class="feature-card feat-lvl-2">
+            <div>
+                <h3 class="feature-title">KILL STEAL</h3>
+                <span class="feature-translation">(Colpo di Grazia Opportunista)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">REACTION</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Spara un colpo fulmineo a un nemico su cui il tuo alleato sta concentrando i suoi sforzi d'assalto.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Innesco:</strong> Un alleato termina il turno dopo aver colpito una creatura due o più volte, o dopo aver messo a segno un colpo critico su di essa.<br>
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Esegui l'azione Mirare (Aim) sulla creatura colpita e compi immediatamente un Colpo (Strike) a distanza contro di essa.
+            </div>
+        </div>
+
+        <!-- PEEK -->
+        <div class="feature-card feat-lvl-2">
+            <div>
+                <h3 class="feature-title">PEEK</h3>
+                <span class="feature-translation">(Sbirciare e Sparare)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Fai fuoco dalla copertura e ti abbassi istantaneamente per evitare ritorsioni e colpi vaganti nemiche.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Compi un Colpo (Strike) a distanza, poi esegui immediatamente l'azione Ripararsi (Take Cover).
+            </div>
+        </div>
+
+        <!-- SWIFT REPOSITION -->
+        <div class="feature-card feat-lvl-2">
+            <div>
+                <h3 class="feature-title">SWIFT REPOSITION</h3>
+                <span class="feature-translation">(Riposizionamento Rapido)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">REACTION</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Avvertendo il pericolo imminente, compi un balzo torsionale per scostarti dall'area d'effetto della minaccia.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Innesco:</strong> Stai per effettuare un tiro salvezza sui Reflex (Riflessi), ma non hai ancora lanciato i dadi.<br>
+                <strong>Effetto:</strong> Esegui un Passo (Step) o un Salto (Leap) e guadagni un bonus di circostanza di +2 al TS sui Reflex (Riflessi) innescante. Devi comunque tirare il TS anche se ti sposti fuori dall'area.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 4 -->
+    <h2 class="section-divider">4° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- BLOODY WOUNDS -->
+        <div class="feature-card feat-lvl-4">
+            <div>
+                <h3 class="feature-title">BLOODY WOUNDS</h3>
+                <span class="feature-translation">(Ferite Sanguinanti)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Sai come colpire i punti vitali scoperti del tuo bersaglio designato lasciando ferite profonde ed emorragie laceranti.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Quando metti a segno un colpo critico contro il tuo bersaglio designato (Mark), gli infliggi danno da sanguinamento persistente pari al tuo numero attuale di dadi di danno di precisione da Mirare (Aim).
+            </div>
+        </div>
+
+        <!-- DEVASTATING AIM -->
+        <div class="feature-card feat-lvl-4">
+            <div>
+                <h3 class="feature-title">DEVASTATING AIM</h3>
+                <span class="feature-translation">(Mira Devastante)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">I tuoi colpi ben piazzati e studiati infliggono ferite devastanti e profonde sui bersagli studiati.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Quando esegui l'azione Mirare (Aim), aumenti la taglia dei dadi dei danni di precisione extra da d4 a d6.
+            </div>
+        </div>
+
+        <!-- HAMPERING SHOT -->
+        <div class="feature-card feat-lvl-4">
+            <div>
+                <h3 class="feature-title">HAMPERING SHOT</h3>
+                <span class="feature-translation">(Colpo Ostacolante)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Allinei magistralmente l'ottica del fucile per intralciare le movenze e la guardia del nemico.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Esegui l'azione Mirare (Aim) e compi un Colpo (Strike) a distanza contro il tuo bersaglio designato. Se colpisci, la creatura diventa Impreparata (off-guard) fino al termine del tuo prossimo turno.
+            </div>
+        </div>
+
+        <!-- STOP THEM IN THEIR TRACKS -->
+        <div class="feature-card feat-lvl-4">
+            <div>
+                <h3 class="feature-title">STOP THEM IN THEIR TRACKS</h3>
+                <span class="feature-translation">(Bloccateli Sul Posto!)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Con autorità micidiale ed espressiva ordini al bersaglio studiato di bloccarsi immediatamente sul posto e arrendersi.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Prerequisiti:</strong> Trained ( T ) in Intimidire (Intimidation).<br>
+                <strong>Requisiti:</strong> Hai già Mirato (Aimed) ad un bersaglio in questo turno.<br>
+                <strong>Effetto:</strong> Tenti di Demoralizzare il bersaglio (senza penalità di -4 se non condividete una lingua). In caso di successo critico, il bersaglio è Immobilizzato per 1 round.
+            </div>
+        </div>
+
+        <!-- SWITCH TARGET -->
+        <div class="feature-card feat-lvl-4">
+            <div>
+                <h3 class="feature-title">SWITCH TARGET</h3>
+                <span class="feature-translation">(Cambio di Bersaglio)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">AZIONE GRATUITA</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Mentre il tuo bersaglio attuale cade a terra esanime, sposti istantaneamente l'ottica sulla minaccia successiva.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Innesco:</strong> La creatura che hai mirato riceve la condizione svenuto o morente.<br>
+                <strong>Effetto:</strong> Esegui l'azione Mirare (Aim) contro una creatura differente sulla scena.
+            </div>
+        </div>
+
+        <!-- TWIN DRAW -->
+        <div class="feature-card feat-lvl-4">
+            <div>
+                <h3 class="feature-title">TWIN DRAW</h3>
+                <span class="feature-translation">(Estrazione Doppia)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Ti sei esercitato a estrarre fluidamente e prendere la mira con due armi da fuoco diverse nello stesso istante.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Hai due mani libere.<br>
+                <strong>Effetto:</strong> Estrai fino a due armi ad una mano e utilizzi l'azione Mirare (Aim) con un unico movimento fluido.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 6 -->
+    <h2 class="section-divider">6° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- DESTRUCTIVE DASH -->
+        <div class="feature-card feat-lvl-6">
+            <div>
+                <h3 class="feature-title">DESTRUCTIVE DASH</h3>
+                <span class="feature-translation">(Scatto Distruttivo)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Scatti sul campo rovesciando gli oggetti vicini per rendere estremamente difficoltoso il movimento nemico.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Ti trovi in un ambiente con materiale adatto da distruggere o abbattere (es. un ambiente urbano).<br>
+                <strong>Effetto:</strong> Compi una Corsa (Stride) pari alla tua Velocità. I quadretti che attraversi diventano terreno difficile. Una creatura adiacente può ripulire l'area spendendo un'azione Interagire (Interact).
+            </div>
+        </div>
+
+        <!-- DISARMING SHOT -->
+        <div class="feature-card feat-lvl-6">
+            <div>
+                <h3 class="feature-title">DISARMING SHOT</h3>
+                <span class="feature-translation">(Colpo Disarmante)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Tenti di privare l'avversario del suo armamento strutturale tramite un colpo di precisione millimetrico.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Miri (Aim) e compi un Colpo (Strike) a distanza. Se colpisci, tenti immediatamente di Disarmare il bersaglio usando il risultato del tiro per colpire contrapposto alla CD di Reflex (Riflessi) del bersaglio (invece di Atletica). Conta come due attacchi ai fini della MAP.
+            </div>
+        </div>
+
+        <!-- HAIR TRIGGER -->
+        <div class="feature-card feat-lvl-6">
+            <div>
+                <h3 class="feature-title">HAIR TRIGGER</h3>
+                <span class="feature-translation">(Grilletto Sensibile)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">REACTION</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Intercetti la minima mossa o alterazione di postura dell'avversario facendo fuoco istantaneamente sul bersaglio.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Innesco:</strong> L'ultima creatura che hai mirato dall'inizio del tuo ultimo turno utilizza un'azione di manipolazione o movimento, effettua un attacco a distanza o lascia un quadretto muovendosi.<br>
+                <strong>Effetto:</strong> Compi un Colpo (Strike) a distanza contro la creatura (non risente della MAP attuale e non la aumenta).
+            </div>
+        </div>
+
+        <!-- KICK IT INTO OVERDRIVE -->
+        <div class="feature-card feat-lvl-6">
+            <div>
+                <h3 class="feature-title">KICK IT INTO OVERDRIVE</h3>
+                <span class="feature-translation">(Marcia In Più)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">AZIONE GRATUITA</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                    <span class="trait-pill">TRAVERSAL</span>
+                </div>
+                <p class="feature-text">Con un respiro profondo e un momento di intensa focalizzazione interna spingi i tuoi muscoli oltre i limiti biologici.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Frequenza:</strong> 1 volta all'ora | <strong>Innesco:</strong> Inizia il tuo turno.<br>
+                <strong>Effetto:</strong> Diventi Velocizzato (Quickened) fino alla fine del turno (solo per Stride). In alternativa, rimani Velocizzato fino al termine del prossimo turno, ma rimani poi Affaticato (fatigued) per 2 round.
+            </div>
+        </div>
+
+        <!-- SKIRMISH STRIKE -->
+        <div class="feature-card feat-lvl-6">
+            <div>
+                <h3 class="feature-title">SKIRMISH STRIKE</h3>
+                <span class="feature-translation">(Colpo da Scaramuccia)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Attacchi mentre ti muovi agilmente sul terreno, tenendo i nemici costantemente sulle spine.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Compi in qualsiasi ordine un Passo (Step) e un Colpo (Strike) durante la stessa singola attività di scontro.
+            </div>
+        </div>
+
+        <!-- TACTICAL SWAP -->
+        <div class="feature-card feat-lvl-6">
+            <div>
+                <h3 class="feature-title">TACTICAL SWAP</h3>
+                <span class="feature-translation">(Scambio Tattico)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Sostituisci l'arma corrente con un movimento vettoriale coordinato dopo un assalto fallito.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Frequenza:</strong> 1 volta per round.<br>
+                <strong>Requisiti:</strong> Il tuo ultimo Colpo a distanza in questo turno ha mancato il bersaglio o ha colpito senza infliggere danni.<br>
+                <strong>Effetto:</strong> Interagisci per riporre/estrarre o Scambiare Mano con un'altra arma, dopodiché esegui immediatamente un Colpo (Strike).
+            </div>
+        </div>
+
+        <!-- UNHINDERED ADVANCE -->
+        <div class="feature-card feat-lvl-6" style="grid-column: span 3;">
+            <div>
+                <h3 class="feature-title">UNHINDERED ADVANCE</h3>
+                <span class="feature-translation">(Avanzata Senza Ostacoli)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Il tuo superbo controllo cinetico del movimento ti rende completamente inarrestabile su qualsiasi tipo di terreno strutturale.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Prerequisiti:</strong> Tactical Advance.<br>
+                <strong>Effetto:</strong> Quando utilizzi il talento *Tactical Advance*, ignori completamente gli effetti di movimento del terreno difficile e del terreno molto difficile.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 8 -->
+    <h2 class="section-divider">8° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- OPENING VOLLEY -->
+        <div class="feature-card feat-lvl-8">
+            <div>
+                <h3 class="feature-title">OPENING VOLLEY</h3>
+                <span class="feature-translation">(Salva d'Apertura)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Spara al tuo bersaglio per poi caricare subito in mischia mantenendo alta e serrata la pressione.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco e un'arma da mischia.<br>
+                <strong>Effetto:</strong> Compi un Colpo (Strike) a distanza con la tua arma da fuoco. Se va a segno, il tuo prossimo attacco in mischia sferrato in questo round contro lo stesso bersaglio guadagna un bonus di circostanza di +2 al tiro per colpire.
+            </div>
+        </div>
+
+        <!-- PARKOUR -->
+        <div class="feature-card feat-lvl-8">
+            <div>
+                <h3 class="feature-title">PARKOUR</h3>
+                <span class="feature-translation">(Parkour)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Scatti in avanti superando e ignorando ostacoli, barriere ambientali e intercapedini verticali.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Compi in qualsiasi ordine una Corsa (Stride) combinata a un Salto in Lungo o in Alto. Ignori il terreno difficile e puoi correre sulle pareti verticali alla piena Velocità. Se termini l'azione a mezz'aria, cadi dopo la prossima azione o al termine del turno.
+            </div>
+        </div>
+
+        <!-- TOPPLING SHOT -->
+        <div class="feature-card feat-lvl-8">
+            <div>
+                <h3 class="feature-title">TOPPLING SHOT</h3>
+                <span class="feature-translation">(Colpo Atterrante)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Miri alle gambe o al baricentro per sbilanciare il nemico, respingendolo violentemente o facendolo cadere.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Miri (Aim) e compi un Colpo (Strike) a distanza. Se colpisci, il bersaglio subisce un movimento forzato all'indietro di 1,5 metri. Se urta un oggetto o creatura, subiscono entrambi danni contundenti pari ai dadi di precisione di Mirare; con un colpo critico cade anche Prono.
+            </div>
+        </div>
+
+        <!-- TWIN SHOOTER -->
+        <div class="feature-card feat-lvl-8">
+            <div>
+                <h3 class="feature-title">TWIN SHOOTER</h3>
+                <span class="feature-translation">(Pistolero Doppia Arma)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Diventi eccezionalmente pericoloso e letale quando brandisci due armi da fuoco contemporaneamente.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Prerequisiti:</strong> Twin Draw.<br>
+                <strong>Effetto:</strong> Finché impugni due armi da fuoco semplici, entrambe le armi acquisiscono permanentemente il tratto **agile**.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 10 -->
+    <h2 class="section-divider">10° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- IMPEDING SHOT -->
+        <div class="feature-card feat-lvl-10">
+            <div>
+                <h3 class="feature-title">IMPEDING SHOT</h3>
+                <span class="feature-translation">(Colpo Frenante)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Ostacoli gravemente i movimenti del bersaglio piazzando un proiettile millimetrico sui motori o sui tendini.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Miri (Aim) e compi un Colpo (Strike) a distanza. Se colpisci, il bersaglio è **Rallentato 1 (slowed)** fino al termine del suo prossimo turno. Se sta volando, precipita immediatamente di 3 metri.
+            </div>
+        </div>
+
+        <!-- MUZZLE FLASH -->
+        <div class="feature-card feat-lvl-10">
+            <div>
+                <h3 class="feature-title">MUZZLE FLASH</h3>
+                <span class="feature-translation">(Vampa Accecante)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Sfrutti la vampa dell'esplosione termica della tua arma per accecare temporaneamente i sensori ottici nemici.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Miri (Aim) e compi un Colpo (Strike) a distanza. Se va a segno entro il primo incremento di gittata, la creatura diventa **Abbagliata (dazzled)** fino al termine del tuo prossimo turno.
+            </div>
+        </div>
+
+        <!-- OPPORTUNE RETORT -->
+        <div class="feature-card feat-lvl-10">
+            <div>
+                <h3 class="feature-title">OPPORTUNE RETORT</h3>
+                <span class="feature-translation">(Ritorsione Opportunista)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">REACTION</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Sfrutti istantaneamente un varco colossale apertosi nelle difese ravvicinate del nemico.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Innesco:</strong> Una creatura fallisce criticamente un tiro per colpire in mischia contro di te.<br>
+                <strong>Effetto:</strong> Compi un Colpo (Strike) a distanza immediato contro la creatura innescante.
+            </div>
+        </div>
+
+        <!-- PRACTICED ESCAPE -->
+        <div class="feature-card feat-lvl-10">
+            <div>
+                <h3 class="feature-title">PRACTICED ESCAPE</h3>
+                <span class="feature-translation">(Fuga Esercitata)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">REACTION</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Ti sei Trained ( T ) duramente a liberarti istantaneamente dalle prese fisiche e dai bloccaggi a corto raggio.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Innesco:</strong> Una creatura ti afferra (grabs), ti immobilizza o ti trattiene (restrains).<br>
+                <strong>Effetto:</strong> Tenti immediatamente di Sfuggire (Escape). Con un successo, puoi anche fare un Passo (Step) o Alzarti (Stand) come parte della stessa reazione.
+            </div>
+        </div>
+
+        <!-- SPRINT -->
+        <div class="feature-card feat-lvl-10" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">SPRINT</h3>
+                <span class="feature-translation">(Scatto di Velocità)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 o 3 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                    <span class="trait-pill">TRAVERSAL</span>
+                </div>
+                <p class="feature-text">Corri alla massima velocità cinetica per inseguire una preda designata o fuggire da una trappola letale.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Speso con 2 azioni, effettui fino a quattro Corse (Stride) consecutive. Incrementando a 3 azioni, effettui fino a sei Corse consecutive lungo il campo.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 12 -->
+    <h2 class="section-divider">12° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- DUAL AIM -->
+        <div class="feature-card feat-lvl-12">
+            <div>
+                <h3 class="feature-title">DUAL AIM</h3>
+                <span class="feature-translation">(Doppia Mira)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Le tue doti di acquisizione bersagli e puntamento centralizzato raggiungono vette superiori.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Ora puoi selezionare e mantenere attivi fino a **due bersagli designati (Marks)** contemporaneamente. Quando usi l'azione Mirare (Aim), puoi tracciare due bersagli differenti in un colpo solo.
+            </div>
+        </div>
+
+        <!-- GRAZING SHOT -->
+        <div class="feature-card feat-lvl-12">
+            <div>
+                <h3 class="feature-title">GRAZING SHOT</h3>
+                <span class="feature-translation">(Colpo di Striscio)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">1 AZIONE</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Ti prendi il tempo necessario per calibrare una traiettoria balistica che andrà sicuramente a segno.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Possiedi un bersaglio designato (Mark).<br>
+                <strong>Effetto:</strong> Esegui un Colpo. Se fallisci, infliggi comunque un danno minimo al bersaglio (calcola il danno convertendo in automatico ogni dado a 1).
+            </div>
+        </div>
+
+        <!-- LINE ’EM UP -->
+        <div class="feature-card feat-lvl-12">
+            <div>
+                <h3 class="feature-title">LINE ’EM UP</h3>
+                <span class="feature-translation">(In Fila!)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Sferri un singolo proiettile perforante che attraversa più nemici allineati sul vettore.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Effettua un Colpo a distanza contro un bersaglio entro il primo incremento. Applica l'attacco a tutte le creature in linea retta tra te e il bersaglio, ignorando la copertura inferiore tra loro. Tiri i danni una volta sola per tutti. Conta come due attacchi ai fini della MAP.
+            </div>
+        </div>
+
+        <!-- OVERWHELMING SHOT -->
+        <div class="feature-card feat-lvl-12">
+            <div>
+                <h3 class="feature-title">OVERWHELMING SHOT</h3>
+                <span class="feature-translation">(Colpo Trafiggente)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Perfori le barriere energetiche nemiche posizionando un colpo perfetto sulla corazza.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Miri (Aim) e Colpisci il bersaglio. Scegli un tipo di danno energetico o fisico. Il proiettile ignora una quota di resistenza pari al tuo livello. Se possiede una debolezza ad esso, la incrementi di metà del tuo livello.
+            </div>
+        </div>
+
+        <!-- RUNNING SHOT -->
+        <div class="feature-card feat-lvl-12" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">RUNNING SHOT</h3>
+                <span class="feature-translation">(Colpo Correndo)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                    <span class="trait-pill">TRAVERSAL</span>
+                </div>
+                <p class="feature-text">Scatti in avanti facendo fuoco a bruciapelo sul nemico mentre ti trovi in pieno movimento cinetico.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Miri (Aim) e compi una Corsa (Stride) pari alla tua Velocità; in un punto qualsiasi di questo spostamento puoi eseguire il tuo Colpo a distanza con l'arma da fuoco impugnata.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 14 -->
+    <h2 class="section-divider">14° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- 360 NO SCOPE -->
+        <div class="feature-card feat-lvl-14">
+            <div>
+                <h3 class="feature-title">360 NO SCOPE</h3>
+                <span class="feature-translation">(Colpo Acrobatico a 360 Gradi)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Esplodi un colpo spettacolare a effetto nel bel mezzo di una manovra aerea spericolata.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Prerequisiti:</strong> Parkour.<br>
+                <strong>Effetto:</strong> Attivi il talento *Parkour*. Durante questo movimento (inclusa la fase di caduta a mezz'aria) puoi Mirare (Aim) ed effettuare un Colpo a distanza con l'arma da fuoco impugnata.
+            </div>
+        </div>
+
+        <!-- BULLET FEVER -->
+        <div class="feature-card feat-lvl-14">
+            <div>
+                <h3 class="feature-title">BULLET FEVER</h3>
+                <span class="feature-translation">(Febbre da Proiettili)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">REACTION</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Entri in una totale frenesia assassina e distruttiva, rifiutando la sconfitta biologica.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Frequenza:</strong> 1 volta all'ora | <strong>Innesco:</strong> Subisci danni che ti ridurrebbero a 0 PF.<br>
+                <strong>Effetto:</strong> Rimani a 1 PF, guadagni PF temporanei pari a metà del livello per 1 minuto, aumenti Ferito di 1 ed entri in frenesia per 1 minuto (danni di precisione automatici, ma penalità di –1 alla CA, –1 ai TS Will (Volontà) e vincolato ad azioni di attacco/movimento/Ricaricare).
+            </div>
+        </div>
+
+        <!-- CLUSTERED SHOTS -->
+        <div class="feature-card feat-lvl-14">
+            <div>
+                <h3 class="feature-title">CLUSTERED SHOTS</h3>
+                <span class="feature-translation">(Colpi a Rosata)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">FORTUNE</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Scarichi una raffica concentrata di proiettili sul bersaglio consumando munizioni caricate.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco con una riserva di cariche/munizioni (expend) pari ad almeno 3.<br>
+                <strong>Effetto:</strong> Miri (Aim), compi un Colpo a distanza e consumi tre munizioni. Tiri il dado per colpire due volte tenendo il risultato migliore, ignorando le penalità da occultamento o copertura parziale/inferiore.
+            </div>
+        </div>
+
+        <!-- FISH IN A BARREL -->
+        <div class="feature-card feat-lvl-14">
+            <div>
+                <h3 class="feature-title">FISH IN A BARREL</h3>
+                <span class="feature-translation">(Piccionaia)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Colpire bersagli impossibilitati a difendersi o sbilanciati per te è un gioco da ragazzi.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Miri (Aim) e Colpisci una creatura Prona o Immobilizzata priva di copertura. Un successo normale si trasforma automaticamente in un **Successo Critico**. Se tiri un critico naturale, la creatura diventa anche Impreparata e Soppressa.
+            </div>
+        </div>
+
+        <!-- FOLLOW-UP FIRE -->
+        <div class="feature-card feat-lvl-14" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">FOLLOW-UP FIRE</h3>
+                <span class="feature-translation">(Fuoco di Recupero)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">AZIONE GRATUITA</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Quando il primo colpo di sbarramento fallisce, correggi subito il tiro sparando con la seconda arma carica.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Frequenza:</strong> 1 volta per round | <strong>Requisiti:</strong> Brandisci due armi da fuoco, e la tua ultima azione è stata un Colpo a distanza mancato.<br>
+                <strong>Effetto:</strong> Compi un Colpo a distanza immediato con l'altra arma carica; questo attacco non risente né calcola la penalità di attacco multiplo accumulata dal Colpo fallito in precedenza.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 16 -->
+    <h2 class="section-divider">16° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- BURST FIRE -->
+        <div class="feature-card feat-lvl-16">
+            <div>
+                <h3 class="feature-title">BURST FIRE</h3>
+                <span class="feature-translation">(Raffica Calcolata)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Premi il grilletto rilasciando una raffica calcolata, continua e micidiale sul bersaglio designato.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Prerequisiti:</strong> Double Tap.<br>
+                <strong>Effetto:</strong> Se esegui il secondo Colpo dell'azione *Double Tap* con la stessa arma, l'intera attività conta come un **singolo attacco** ai fini della MAP, ed applichi i danni di precisione di Mirare (Aim) a **entrambi** i Colpi andati a segno.
+            </div>
+        </div>
+
+        <!-- CLOAKING FIELD -->
+        <div class="feature-card feat-lvl-16">
+            <div>
+                <h3 class="feature-title">CLOAKING FIELD</h3>
+                <span class="feature-translation">(Campo di Occultamento)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 AZIONI</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Pieghi la luce strutturale e le vibrazioni sonore attorno al tuo corpo tramite innesti o maestria d'infiltrazione.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Frequenza:</strong> 1 volta all'ora.<br>
+                <strong>Effetto:</strong> Diventi completamente **Invisibile per 10 minuti** (risultando Non Individuato). L'effetto svanisce all'istante se compi un'azione ostile. Sfuggi completamente a telecamere o sensori standard.
+            </div>
+        </div>
+
+        <!-- EXPLOSIVE DEFLECTION -->
+        <div class="feature-card feat-lvl-16">
+            <div>
+                <h3 class="feature-title">EXPLOSIVE DEFLECTION</h3>
+                <span class="feature-translation">(Deflessione Esplosiva)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">REACTION</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Tenti di intercettare e far detonare una minaccia da lancio nemica a mezz'aria sparandole al volo.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Innesco:</strong> Ti trovi nell'area di esplosione di una granata nemica.<br>
+                <strong>Requisiti:</strong> Sei consapevole dell'attacco, impugni un'arma da fuoco e non sei impreparato.<br>
+                <strong>Effetto:</strong> Consumi munizioni e ottieni un **bonus di circostanza di +4** al TS sui Reflex (Riflessi). Se superi il TS, fai esplodere la granata prematuramente in un punto in linea retta tra te e l'attaccante, annullando il TS se sei fuori dalla nuova area.
+            </div>
+        </div>
+
+        <!-- EXTREME ACCURACY -->
+        <div class="feature-card feat-lvl-16">
+            <div>
+                <h3 class="feature-title">EXTREME ACCURACY</h3>
+                <span class="feature-translation">(Precisione Estrema)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">I benefici balistici della tua azione Mirare si estendono sensibilmente a distanze siderali.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Prerequisiti:</strong> Keep Them in Your Sights.<br>
+                <strong>Effetto:</strong> I benefici di Mirare (Aim) si applicano fino al **quarto incremento di gittata** della tua arma da fuoco. Inoltre, ignori completamente qualsiasi tipo di penalità applicata per la distanza eccessiva quando Colpisci il tuo bersaglio entro tale portata.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 18 -->
+    <h2 class="section-divider">18° LIVELLO</h2>
+    <div class="features-grid">
+        
+        <!-- BULLET DANCE -->
+        <div class="feature-card feat-lvl-18">
+            <div>
+                <h3 class="feature-title">BULLET DANCE</h3>
+                <span class="feature-translation">(Danza dei Proiettili)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">3 AZIONI</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                    <span class="trait-pill">TRAVERSAL</span>
+                </div>
+                <p class="feature-text">Danzi sul campo abbattendo molteplici nemici con grazia letale e movimenti balistici calcolati.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Compi fino a due Corse (Stride) ed esegui fino a **tre Colpi a distanza** durante questo spostamento. Ciascun Colpo deve prendere come bersaglio una creatura differente entro il primo incremento. La penalità MAP si incrementa solo al termine di tutti e tre i Colpi.
+            </div>
+        </div>
+
+        <!-- KILL SHOT -->
+        <div class="feature-card feat-lvl-18">
+            <div>
+                <h3 class="feature-title">KILL SHOT</h3>
+                <span class="feature-translation">(Colpo Letale)</span>
+                <div class="traits-container">
+                    <span class="trait-pill action">2 o 3 AZIONI</span>
+                    <span class="trait-pill">FLOURISH</span>
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Prendi la mira millimetrica con l'intento di giustiziare sul colpo il bersaglio designato.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Requisiti:</strong> Impugni un'arma da fuoco.<br>
+                <strong>Effetto:</strong> Miri (Aim) e Colpisci. Su un successo semplice infliggi in automatico il **danno massimo possibile** dei dadi. Su un critico tiri normalmente ma usi il massimo del successo normale se superiore; spendendo 3 azioni totali e ottenendo un critico, applichi il danno massimo e poi lo raddoppi.
+            </div>
+        </div>
+
+        <!-- RELENTLESS AIM -->
+        <div class="feature-card feat-lvl-18">
+            <div>
+                <h3 class="feature-title">RELENTLESS AIM</h3>
+                <span class="feature-translation">(Mira Implacabile / Colpo di Rimbalzo)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Calcoli le traiettorie dei colpi in modo che i proiettili rimbalzino sulle superfici solide per aggirare gli ostacoli strutturali.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Per la linea di effetto verso un bersaglio Mirato, puoi scegliere una superficie solida entro il primo incremento; verifichi la linea partendo dalla parete scelta anziché dalla tua posizione. Se la creatura è non individuata, il tiro segreto del GM ha CD ridotta a 5.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LIVELLO 20 -->
+    <h2 class="section-divider">20° LIVELLO</h2>
+    <div class="features-grid" style="margin-bottom: 60px;">
+        
+        <!-- COMBAT REFLEXES -->
+        <div class="feature-card feat-lvl-20">
+            <div>
+                <h3 class="feature-title">COMBAT REFLEXES</h3>
+                <span class="feature-translation">(Reflex (Riflessi) da Combattimento)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">L'addestramento intensivo ti ha trasformato in un'arma centralizzata pronta a fare fuoco al minimo stimolo.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> All'inizio del turno di **ogni singolo nemico**, guadagni una reazione addizionale spendibile durante quel turno specifico esclusivamente per attivare le reazioni della classe Operative.
+            </div>
+        </div>
+
+        <!-- INFINITE AIM -->
+        <div class="feature-card feat-lvl-20">
+            <div>
+                <h3 class="feature-title">INFINITE AIM</h3>
+                <span class="feature-translation">(Mira Infinita)</span>
+                <div class="traits-container">
+                    <span class="trait-pill">OPERATIVE</span>
+                </div>
+                <p class="feature-text">Sei un tiratore scelto leggendario che trascende ogni limite balistico, temporale o di postura.</p>
+            </div>
+            <div class="paradox-meta">
+                <strong>Effetto:</strong> Sei in grado di eseguire l'azione Mirare (Aim) come **Azione Gratuita** in qualsiasi momento della scena, senza consumare quote di azioni nel round.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

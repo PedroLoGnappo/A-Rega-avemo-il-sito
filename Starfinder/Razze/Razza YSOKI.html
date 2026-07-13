@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Razza Ysoki</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 380px; /* Spazio per le immagini fisse a sinistra */
+            letter-spacing: 0.5px;
+        }
+
+        /* IMAGINI FISSE A SINISTRA */
+        .fixed-img-1 {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-2 {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-1:hover, .fixed-img-2:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8em;
+            color: #8a2be2;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .main-desc {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #a1b5cc;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        /* BLOCCO STATISTICHE INIZIALI */
+        .stats-summary-box {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            background: rgba(15, 22, 42, 0.5);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .stats-row-top {
+            display: flex;
+            justify-content: space-around;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #203a70;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            color: #00ffff;
+        }
+        .stats-boosts-table {
+            width: 100%;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .boost-cell-left {
+            width: 50%;
+            vertical-align: top;
+            padding-right: 15px;
+            border-right: 1px solid #203a70;
+            color: #cdffff;
+        }
+        .boost-cell-right {
+            width: 50%;
+            vertical-align: top;
+            padding-left: 15px;
+            color: #cdffff;
+        }
+        .boost-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* GRIGLIA COMPONENTI */
+        .features-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 25px;
+        }
+
+        /* SCHEDE IN STILE VETRO FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        
+        /* COLORI BORDI TALENTI PER LIVELLO */
+        .feat-lvl-1 { border-left-color: #c62828; }
+        .feat-lvl-5 { border-left-color: #e65100; }
+        .feat-lvl-9 { border-left-color: #f57c00; }
+        .feat-lvl-13 { border-left-color: #d84315; }
+        .feat-lvl-17 { border-left-color: #4f5b66; }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 4px 0;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+        }
+        .feature-text strong {
+            color: #ffffff;
+        }
+        .feature-text small {
+            color: #8da2bb;
+            line-height: 1.4;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* METADATI MECCANICHE ED EFFETTI */
+        .paradox-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .meta-label {
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        /* TRATTI */
+        .traits-container {
+            margin-bottom: 12px;
+        }
+        .trait-pill {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75em;
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            background: rgba(0, 82, 204, 0.15);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- IMMAGINI FISSE IN LATERALE SINISTRO -->
+    <img src="YSOKI.jpeg" alt="Ysoki" class="fixed-img-1">
+    <img src="YSOKI2.jpeg" alt="Ysoki 2" class="fixed-img-2">
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA RAZZA -->
+    <h1 class="main-title">Specie selezionata: YSOKI</h1>
+    
+    <!-- QUADRO SINTESI STATISTICHE E ATTRIBUTI -->
+    <div class="stats-summary-box">
+        <div class="stats-row-top">
+            <span>PUNTI FERITA (HP): 6</span>
+            <span>TAGLIA: Piccola</span>
+            <span>VELOCITÀ: 25 Piedi (7.5 mt)</span>
+        </div>
+        <table class="stats-boosts-table">
+            <tr>
+                <td class="boost-cell-left">
+                    <span class="boost-label" style="color: #00ff66;">Aggiungi +1 alle seguenti statistiche::</span>
+                    Destrezza, Intelligenza, Un aumento libero da assegnare.
+                </td>
+                <td class="boost-cell-right">
+                    <span class="boost-label" style="color: #ff3333;">Sottrai -1 alle seguenti statistiche:</span>
+                    Forza.
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- CARATTERISTICHE DI SPECIE -->
+    <div style="max-width: 1000px; margin: 0 auto 40px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 20px;">
+        
+        <!-- TRATTI E LINGUAGGI -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">DATI ANAGRAFICI DI ORIGINE</h2>
+                <div class="feature-translation">TRAITS & LANGUAGES</div>
+                <div class="traits-container">
+                    <span class="trait-pill">YSOKI</span>
+                    <span class="trait-pill">UMANOIDE</span>
+                </div>
+                <p class="feature-text">
+                    <strong>LANGUAGES:</strong> Akitonian, Comune, Ysoki.<br>
+                    <small>Lingue aggiuntive pari al tuo modificatore di Intelligenza (se positivo). Scegli dalla lista delle lingue comuni e da qualsiasi altra lingua a cui hai accesso (come le lingue diffuse sul tuo pianeta d'origine).</small>
+                </p>
+            </div>
+        </div>
+
+        <!-- VISIONE E DENTATURA -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">LOW-LIGHT VISION & SHARP TEETH</h2>
+                <div class="feature-translation">Adattamenti Biologici Specifici</div>
+                <p class="feature-text">
+                    <strong>Visione Crepuscolare:</strong> Vedi nella luce fioca come se fosse luce intensa, ignorando l'occultamento da scarsa illuminazione.<br><br>
+                    <strong>Denti Affilati:</strong> I tuoi incisivi sporgenti offrono un attacco disarmato di fauci (jaws) che infligge 1d4 danni perforanti (gruppo rissa, tratti <em>agile</em> e <em>finesse</em>).
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SEZIONE LIGNAGGI -->
+    <h2 class="section-divider">YSOKI HERITAGES ( PUOI SCEGLIERNE SOLO 1 )</h2>
+    <div class="section-subtitle">(Lignaggi Ysoki)</div>
+    <p class="main-desc">
+        Gli ysoki si adattano a quasi tutti gli ambienti della galassia, sia mettendo radici su mondi sperduti che vivendo a bordo di navi generazionali.
+    </p>
+
+    <div class="features-grid">
+        <!-- AKITONIAN -->
+        <div class="feature-card">
+            <div>
+                <h2 class="feature-title">Akitonian Ysoki</h2>
+                <div class="feature-translation">(Ysoki Akitoniano)</div>
+                <p class="feature-text">Sei cresciuto su Akiton, smantellando astronavi precipitate o setacciando cumuli di rottami metallici.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Trained ( T ) in <strong>Artigianato (Crafting)</strong> e puoi usarlo al posto di Furto per Disattivare un Congegno. Se già Trained ( T ), ottieni il talento generale <strong>Riparazione Rapida</strong>.
+            </div>
+        </div>
+
+        <!-- DEEP -->
+        <div class="feature-card">
+            <div>
+                <h2 class="feature-title">Deep Ysoki</h2>
+                <div class="feature-translation">(Ysoki del Sottosuolo)</div>
+                <p class="feature-text">Sei abituato a vivere in luoghi oscuri e angusti, come condotti di manutenzione, asteroidi minerari o lune distanti.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Guadagni la capacità permanente di <strong>Scurovisione (Darkvision)</strong>.
+            </div>
+        </div>
+
+        <!-- LONGSNOUT -->
+        <div class="feature-card">
+            <div>
+                <h2 class="feature-title">Longsnout Ysoki</h2>
+                <div class="feature-translation">(Ysoki dal Lungo Muso)</div>
+                <p class="feature-text">Il lungo muso caratteristico della tua famiglia ti conferisce un olfatto molto più acuto del normale.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Guadagni <strong>fiuto (scent)</strong> come senso impreciso entro 9 metri. Ottieni un bonus di circostanza di +2 alle prove di Deception (Percezione) per Cercare bersagli nel raggio del fiuto.
+            </div>
+        </div>
+
+        <!-- SHIPBORN -->
+        <div class="feature-card">
+            <div>
+                <h2 class="feature-title">Shipborn Ysoki</h2>
+                <div class="feature-translation">(Ysoki Nato sulla Nave)</div>
+                <p class="feature-text">Nato a bordo di un'astronave o nei corridoi di servizio di una mastodontica stazione spaziale.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Trained ( T ) in <strong>Pilotaggio (Piloting)</strong>. Trasformi i successi in successi critici per Navigare o Tracciare la Rotta. Ottieni un bonus di circostanza di +1 ad Acrobazia per Voltare (Tumble Through) tra nemici Medi o superiori senza risentire del terreno difficile.
+            </div>
+        </div>
+
+        <!-- TUNNEL -->
+        <div class="feature-card" style="grid-column: span 2;">
+            <div>
+                <h2 class="feature-title">Tunnel Ysoki</h2>
+                <div class="feature-translation">(Ysoki dei Cunicoli)</div>
+                <p class="feature-text">Le tue ossa incredibilmente flessibili ti permettono di comprimere il corpo per infilarti in strettoie e intercapedini strutturali delle condutture.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Guadagni il talento <strong>Infilarsi Rapidamente (Quick Squeeze)</strong>, anche se non Trained ( T ). Gli spazi angusti ordinari non rappresentano terreno difficile per te.
+            </div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 1° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 1 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 1° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-1">
+            <h2 class="feature-title">Cheek Pouches <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Tasche Guanciali)</div>
+            <p class="feature-text">Le tue guance sono elastiche e possono contenere fino a quattro oggetti di Ingombro leggero (max 30 cm).</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Riponimento/estrazione tramite azione Interagire. Svuotamento totale nel proprio quadretto con 1 azione. Parlare diventa difficile se piene.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="feature-title">Grandmother’s Lore <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Saggezza della Nonna)</div>
+            <p class="feature-text">Segui gli insegnamenti di Lao Shu Po e non esiti a ricorrere a menzogne o sotterfugi.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trained ( T ) in Raggirare e Furto. Guadagni il talento generale Conoscenza Addizionale focalizzato su Lao Shu Po Lore.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="feature-title">Nimble Tail <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Coda Agile)</div>
+            <p class="feature-text">Possiedi una coda scattante che ti assiste costantemente nel bilanciamento orbitale e vettoriale.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi usarla per Darsi una Spinta (Push Off) in assenza di gravità senza mani libere. Ignori le penalità di sgraziato e sbilanciato in zero-g.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="feature-title">Tinkering Fingers <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Dita da Smanettone)</div>
+            <p class="feature-text">Sei cresciuto riparando, assemblando e smontando costantemente dispositivi tecnologici.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trained ( T ) in Artigianato. Puoi Riparare oggetti senza kit senza la penalità di -2; se invece possiedi il kit adeguato, ottieni un bonus di circostanza di +1 alla prova.</div>
+        </div>
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <h2 class="feature-title">Ysoki Lore <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <div class="feature-translation">(Conoscenza degli Ysoki)</div>
+            <p class="feature-text">Gli anni trascorsi all'interno dei fitti quartieri e dei clan tradizionali ysoki hanno affinato i tuoi passi furtivi.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Guadagni il grado Trained ( T ) in Acrobazia e Furtività. Ottieni anche il talento generale Conoscenza Addizionale per Ysoki Lore.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 5° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 5 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 5° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-5">
+            <h2 class="feature-title">Cornered Fury <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <div class="feature-translation">(Furia Messa alle Strette)</div>
+            <p class="feature-text">Quando ti trovi numericamente surclassato, combatti con un'inaspettata e feroce disperazione.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Se un nemico di taglia superiore ti colpisce criticamente infliggendoti danni, diventa sbilanciato (off-guard) nei tuoi confronti per 1 round completo.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="feature-title">Prehensile Tail <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <div class="feature-translation">(Coda Presile)</div>
+            <p class="feature-text">La tua coda funziona a tutti gli effetti fisici come un arto extra coordinato.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi reggere l'equivalente di un oggetto leggero con la coda ed eseguire azioni di Interagire o Scambiare Mani (trattata come coppia attiva).</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="feature-title">Quick Stow <small style="display:inline; color:#e65100;">[F] - FEAT 5</small></h2>
+            <div class="feature-translation">(Stivaggio Rapido)</div>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Cheek Pouches | <strong>Frequenza:</strong> una volta per round</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Compi un'azione di Interagire istantanea per riporre un singolo oggetto impugnato all'interno delle tasche guanciali.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 9° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 9 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 9° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-9">
+            <h2 class="feature-title">Big Mouth <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <div class="feature-translation">(Bocca Capiente)</div>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Cheek Pouches</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Le tue sacche guanciali sono espanse. Puoi accumulare fino a 1 Ingombro (Bulk) totale di materiale nelle guance (la dimensione massima dei singoli pezzi non varia).</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="feature-title">Overcrowd <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <div class="feature-translation">(Affollamento)</div>
+            <p class="feature-text">Ti stipi agevolmente in spazi ristretti combinando il posizionamento con i tuoi alleati.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Finché sei Piccola, puoi terminare il movimento nel medesimo quadretto occupato da un alleato Piccola (max due creature totali nello spazio).</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="feature-title">Underfoot <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <div class="feature-translation">(Tra i Piedi)</div>
+            <p class="feature-text"><strong>Prerequisiti:</strong> lignaggio shipborn o tunnel ysoki</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Finché sei Piccola, puoi terminare un'azione di Voltare (Tumble Through) nello spazio di un nemico Medio o superiore. Mentre lo occupi, il nemico è sbilanciato per te.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 13° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 13 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 13° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-13">
+            <h2 class="feature-title">Explosive Surprise <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <div class="feature-translation">(Sorpresa Esplosiva)</div>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Cheek Pouches</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Impieghi 10 minuti per preparare in sicurezza una granata e stivarla nelle tasche. Come singola azione, puoi estrarre e scagliare la granata usando la bocca senza mani libere.</div>
+        </div>
+        <div class="feature-card feat-lvl-13">
+            <h2 class="feature-title">Skulking Strike <small style="display:inline; color:#d84315;">[R] - FEAT 13</small></h2>
+            <div class="feature-translation">(Attacco Furtivo dal Basso)</div>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Underfoot | <strong>Innesco:</strong> Un nemico nel tuo stesso quadretto compie un'azione di manipolazione, movimento, attacco a distanza, o lascia il quadretto.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Esegui un Colpo in mischia. Un colpo critico su un'azione di manipolazione la interrompe. Questo colpo non conta né risente della penalità per attacchi multipli.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 17° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 17 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 17° Livello)</div>
+    <div class="features-grid" style="margin-bottom: 60px;">
+        <div class="feature-card feat-lvl-17">
+            <h2 class="feature-title">Grandmother’s Favorite <small style="display:inline; color:#4f5b66;">- FEAT 17</small></h2>
+            <div class="feature-translation">(Il Preferito della Nonna)</div>
+            <p class="feature-text">La tua profonda devozione in Nonna Ratto produce straordinari miracoli biologico-divini.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Lanci <em>divine decree</em> come incantesimo innato divino di 7° grado una volta al giorno. Inoltre, una volta al mese se stai per morire, ti dissolvi in uno sciame di ratti riaggregandoti al massimo dei PF dopo 1d6 giorni in un luogo sicuro.</div>
+        </div>
+        <div class="feature-card feat-lvl-17">
+            <h2 class="feature-title">Slip From Sight <small style="display:inline; color:#4f5b66;">[F] - FEAT 17</small></h2>
+            <div class="feature-translation">(Svanire dalla Vista)</div>
+            <p class="feature-text"><strong>Frequenza:</strong> una volta all'ora | <strong>Innesco:</strong> Usi Furtività con successo per Nasconderti (diventando nascosto) o Muoversi Furtivamente (diventando non individuato) da tutti i nemici correnti.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Svanisci completamente nel nulla, diventando invisibile per 1 minuto o finché non compi un'azione ostile.</div>
+        </div>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selezione Gioco</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* Stile del blocco di testo introduttivo */
+        .intro-container {
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #ffffff;
+        }
+
+        .intro-container h1 {
+            font-size: 2.5rem;
+            color: #ff4500;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        .intro-container p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #ccc;
+            margin: 15px 0;
+        }
+
+        /* STRUTTURA STILE WIKIPEDIA (Contenitore del link interattivo) */
+        .wiki-tooltip {
+            position: relative;
+            color: #ff4500;
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 1px dotted #ff4500;
+            display: inline-block;
+        }
+
+        /* La finestrella pop-up posizionata SOTTO il testo */
+        .wiki-tooltip .tooltip-box {
+            position: absolute;
+            top: 130%; /* Spostato sotto il testo */
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            width: 200px;
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 10;
+        }
+
+        /* Triangolino in alto alla finestrella che punta verso il testo */
+        .wiki-tooltip .tooltip-box::after {
+            content: "";
+            position: absolute;
+            bottom: 100%; /* Posizionato sul bordo superiore */
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent #2c2c2c transparent; /* Freccia verso l'alto */
+        }
+
+        /* Immagine dentro la finestrella */
+        .wiki-tooltip .tooltip-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            display: block;
+        }
+
+        /* Mostra il pop-up sotto quando passi il mouse */
+        .wiki-tooltip:hover .tooltip-box {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .intro-container .warning-simone {
+            font-style: italic;
+            color: #ffcc00;
+            margin-top: 25px;
+            font-size: 1.1rem;
+        }
+
+        /* Griglia dei pulsanti */
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(2, 250px);
+            gap: 120px 180px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .game-button {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 250px;
+            height: 250px;
+            background-color: #2c2c2c;
+            border: 3px solid #444;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .game-button:hover {
+            transform: scale(1.02);
+            border-color: #ff4500;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
+        }
+
+        .logo-statico {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .game-button:hover .logo-statico {
+            transform: scale(1.05);
+        }
+
+        .character-pop {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+            height: 110%;
+            width: auto;
+            bottom: -5px;
+        }
+
+        .dnd-pop {
+            right: 105%;
+            transform: translateX(30px) scale(0.95);
+        }
+
+        .game-button:hover .dnd-pop {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+
+        .starfinder-pop {
+            left: 105%;
+            transform: translateX(-30px) scale(0.95);
+        }
+
+        .game-button:hover .starfinder-pop {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Blocco di Presentazione -->
+    <div class="intro-container">
+        <h1>Ciao gamer, facciamo un gioco...</h1>
+        <p>Benvenuti nella stanza digitale di 
+            <span class="wiki-tooltip">
+                Pedro Lo Gnappo
+                <span class="tooltip-box">
+                    <img src="pedro.jpg" alt="Pedro Lo Gnappo">
+                </span>
+            </span>, 
+            qui il vostro piccolo Paladino vi ha semplificato la vita grazie ai suoi smite.
+        </p>
+        <p>Pedro vi offre queste guide <i>Easy Peasy</i> per creare i vostri pg aiutandovi, brutti pigroni, a evitare ore e ore di lettura dei mattoni chiamati rolebook.</p>
+        <p class="warning-simone">Detto ciò buona creazione e Simone... puoi solo scegliere il mago sennò ti smito.</p>
+    </div>
+
+    <!-- Contenitore Pulsanti -->
+    <div class="button-container">
+        <!-- Tasto D&D -->
+        <a href="index.html" class="game-button">
+            <img src="dnd.jpg" alt="D&D Logo" class="logo-statico">
+            <img src="percorso_dnd.png" alt="D&D Character" class="character-pop dnd-pop">
+			<span>Ancora in sviluppo</span>
+        </a>
+
+        <!-- Tasto Starfinder -->
+        <a href="Starfinder/Index.html" class="game-button">
+            <img src="starfinder.jpg" alt="Starfinder Logo" class="logo-statico">
+            <img src="percorso_starfinder.png" alt="Starfinder Character" class="character-pop starfinder-pop">
+        </a>
+
+        <!-- ================= RIGA 2 (COMMENTATA) ================= -->
+        <!-- 
+        <a href="pagina_gioco3.html" class="game-button">
+            <img src="logo_gioco3.jpg" alt="Gioco 3 Logo" class="logo-statico">
+            <img src="personaggio_gioco3.png" alt="Gioco 3 Character" class="character-pop dnd-pop">
+        </a>
+
+        <a href="pagina_gioco4.html" class="game-button">
+            <img src="logo_gioco4.jpg" alt="Gioco 4 Logo" class="logo-statico">
+            <img src="personaggio_gioco4.png" alt="Gioco 4 Character" class="character-pop starfinder-pop">
+        </a>
+        -->
+    </div>
+
+</body>
+</html>

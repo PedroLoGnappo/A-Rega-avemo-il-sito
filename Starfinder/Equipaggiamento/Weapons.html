@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Weapon Systems</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; 
+            background-image: linear-gradient(rgba(6, 9, 19, 0.45), rgba(6, 9, 19, 0.45)), url('Equipaggiamento.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 40px 40px 320px; /* Spazio per la legenda fissa a sinistra */
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* LEGENDA FISSA SUL LATO SINISTRO (FORMULE DI COMBATTIMENTO HUD) */
+        .sidebar-legend {
+            position: fixed;
+            top: 120px;
+            left: 20px;
+            width: 260px;
+            background: rgba(10, 20, 40, 0.95);
+            border: 1px solid #1e3a8a;
+            border-top: 4px solid #bd73ff; /* Accento viola per letalità armi */
+            border-radius: 4px;
+            padding: 18px;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.25);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .legend-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #bd73ff;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(189, 115, 255, 0.5);
+            border-bottom: 1px solid #203a70;
+            padding-bottom: 6px;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        .legend-section {
+            margin-bottom: 16px;
+        }
+        .legend-section:last-child {
+            margin-bottom: 0;
+        }
+        .legend-section strong {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 0.8em;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .formula-box {
+            font-family: 'Share Tech Mono', monospace;
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 2px solid #00ffff;
+            padding: 6px 8px;
+            margin: 4px 0;
+            font-size: 0.82em;
+            color: #cdffff;
+            word-wrap: break-word;
+        }
+        .legend-section p {
+            margin: 0;
+            font-size: 0.82em;
+            line-height: 1.4;
+            color: #a1b5cc;
+        }
+
+        /* SYSTEMA TOOLTIP PER I TRATTI E LE LETTERE DEI DANNI */
+        .trait-info, .damage-type-info {
+            position: relative;
+            cursor: help;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        .trait-info {
+            color: #00ffff;
+            border-bottom: 1px dashed rgba(0, 255, 255, 0.4);
+        }
+        .damage-type-info {
+            color: #ffaa00;
+            font-weight: bold;
+            border-bottom: 1px dashed rgba(255, 170, 0, 0.4);
+        }
+        .trait-info:hover {
+            color: #ffffff;
+            text-shadow: 0 0 8px #00ffff;
+            border-bottom-color: #00ffff;
+        }
+        .damage-type-info:hover {
+            color: #ffffff;
+            text-shadow: 0 0 8px #ffaa00;
+            border-bottom-color: #ffaa00;
+        }
+        /* Contenitore a comparsa del Tooltip */
+        .trait-info::after, .damage-type-info::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 240px;
+            padding: 10px 12px;
+            background: rgba(8, 16, 36, 0.95);
+            border-radius: 4px;
+            color: #cdffff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 255, 255, 0.2);
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            white-space: normal;
+        }
+        .trait-info::after { border: 1px solid #00ffff; }
+        .damage-type-info::after { border: 1px solid #ffaa00; }
+        
+        /* Freccetta inferiore del Tooltip */
+        .trait-info::before, .damage-type-info::before {
+            content: '';
+            position: absolute;
+            bottom: 115%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.2s ease;
+        }
+        .trait-info::before { border-color: #00ffff transparent transparent transparent; }
+        .damage-type-info::before { border-color: #ffaa00 transparent transparent transparent; }
+
+        /* Attivazione all'hover */
+        .trait-info:hover::after, .trait-info:hover::before,
+        .damage-type-info:hover::after, .damage-type-info:hover::before {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-2px);
+        }
+
+        /* INTESTAZIONI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            color: #a1b5cc;
+            max-width: 850px;
+            margin: 0 auto 40px auto;
+            font-size: 1.05em;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        .section-divider {
+            font-family: 'Orbitron', sans-serif;
+            color: #00ffff;
+            font-size: 1.25em;
+            letter-spacing: 1.5px;
+            margin: 40px 0 20px 0;
+            text-transform: uppercase;
+            border-bottom: 1px dashed #203a70;
+            padding-bottom: 8px;
+        }
+
+        /* STRUTTURA TABELLE CONTENUTI */
+        .tables-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .table-category-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            margin: 25px 0 10px 0;
+            text-transform: uppercase;
+            background: rgba(32, 58, 112, 0.3);
+            padding: 6px 12px;
+            border-left: 3px solid #8a2be2;
+        }
+        .cyber-weapon-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Share Tech Mono', monospace;
+            text-align: center;
+            margin-bottom: 20px;
+            background: rgba(15, 22, 42, 0.85);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        .cyber-weapon-table th {
+            border: 1px solid #203a70;
+            padding: 10px 6px;
+            font-size: 0.85em;
+            background: rgba(10, 15, 30, 0.9);
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+        }
+        .cyber-weapon-table td {
+            border: 1px solid #203a70;
+            padding: 10px 6px;
+            color: #cdffff;
+            font-size: 1.05em;
+        }
+        .cyber-weapon-table tr:nth-child(even) td {
+            background: rgba(20, 30, 58, 0.3);
+        }
+        .cyber-weapon-table tr:hover td {
+            background: rgba(0, 255, 255, 0.08);
+            color: #ffffff;
+            transition: background 0.15s ease;
+        }
+        .text-left {
+            text-align: left !important;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: bold;
+            color: #ffffff !important;
+        }
+
+        /* COLONNE MUNIZIONI AFFIANCATE */
+        .ammo-flex-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .ammo-flex-box {
+            flex: 1;
+        }
+
+        /* SEZIONE DESCRIZIONE DETTAGLIATA */
+        .details-wrapper {
+            max-width: 1200px;
+            margin: 40px auto 60px auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        .info-card {
+            background: rgba(15, 22, 42, 0.85);
+            border: 1px solid #203a70;
+            border-top: 3px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(6px);
+        }
+        .info-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00ffff;
+            margin: 0 0 12px 0;
+            font-size: 1.15em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .info-card p {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 12px 0;
+        }
+        .info-card p:last-child {
+            margin-bottom: 0;
+        }
+        .info-card ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #cdffff;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE SULL'ASSE DESTRA */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.95); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- LEGENDA FISSA INTERFACCIA SINISTRA (HUD CALCOLI COMBATTIMENTO) -->
+    <div class="sidebar-legend">
+        <div class="legend-title">Combat Formulas</div>
+        
+        <div class="legend-section">
+            <strong>Melee Attack Roll</strong>
+            <div class="formula-box">d20 + Mod For* + Comp + Altro</div>
+            <p>*Se l'arma ha il tratto <em>Finesse</em> puoi usare la Destrezza.</p>
+        </div>
+        
+        <div class="legend-section">
+            <strong>Ranged Attack Roll</strong>
+            <div class="formula-box">d20 + Mod Des + Comp + Altro</div>
+            <p>Le armi con <em>Tracking</em> aggiungono un bonus di oggetto al tiro.</p>
+        </div>
+        
+        <div class="legend-section">
+            <strong>Melee Damage Roll</strong>
+            <div class="formula-box">Dado Arma + Mod For + Bonus</div>
+        </div>
+        
+        <div class="legend-section">
+            <strong>Ranged Damage Roll</strong>
+            <div class="formula-box">Dado Arma + Bonus**</div>
+            <p>**Le armi <em>Thrown</em> aggiungono il Mod For intero; le <em>Propulsive</em> ne aggiungono la metà.</p>
+        </div>
+        
+        <div class="legend-section">
+            <strong>MAP Penalty</strong>
+            <p>2° Attacco: –5 Penalty<br>3°+ Attacco: –10 Penalty<br>Le armi <em>Agile</em> riducono le penalità a –4 / –8.</p>
+        </div>
+    </div>
+
+    <!-- TITOLO GENERALE -->
+    <h1 class="main-title">Armi & Arsenali</h1>
+    <p class="subtitle">Se stai creando il personaggio puoi comprare solo oggetti di tipo comune</p>
+
+    <!-- TABELLE CONTENUTI -->
+    <div class="tables-wrapper">
+        
+        <!-- UNARMORED ATTACKS -->
+        <div class="table-category-title">Unarmed Attacks (Attacchi Disarmati)</div>
+        <table class="cyber-weapon-table">
+            <thead>
+                <tr>
+                    <th class="text-left">Unarmed Attack</th>
+                    <th>Price</th>
+                    <th>Damage</th>
+                    <th>Bulk</th>
+                    <th>Hands</th>
+                    <th>Group</th>
+                    <th>Weapon Traits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Fist (Pugno)</td><td>—</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="B - Bludgeoning: Danno da Impatto/Contundente generato da corpi contundenti, martelli o percosse fisiche.">B</span></td>
+                    <td>—</td><td>1</td><td>Brawling</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Nonlethal: Questo attacco infligge danni non letali, progettati per mandare i bersagli privati di sensi invece di ucciderli. Infliggere danni letali applica una penalità di circostanza di –2.">nonlethal</span>, 
+                        <span class="trait-info" data-tooltip="Unarmed: Un attacco disarmato sfrutta il proprio corpo al posto di un'arma fabbricata. Non può essere disarmato né occupa una mano.">unarmed</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- SIMPLE MELEE WEAPONS -->
+        <div class="table-category-title">Simple Melee Weapons (Armi da Mischia Semplici)</div>
+        <table class="cyber-weapon-table">
+            <thead>
+                <tr>
+                    <th class="text-left">Weapon (Commercial)</th>
+                    <th>Lvl</th>
+                    <th>Price</th>
+                    <th>Damage</th>
+                    <th>Bulk</th>
+                    <th>Hands</th>
+                    <th>Upgrades</th>
+                    <th>Group</th>
+                    <th>Weapon Traits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Baton</td><td>0</td><td>2</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="B - Bludgeoning: Danno da Impatto/Contundente generato da corpi contundenti, martelli o percosse fisiche.">B</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Club</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Nonlethal: Questo attacco infligge danni non letali, progettati per mandare i bersagli privati di sensi invece di ucciderli. Infliggere danni letali applica una penalità di circostanza di –2.">nonlethal</span>, 
+                        <span class="trait-info" data-tooltip="Parry: Se hai addestramento Competente o superiore con quest'arma, puoi spendere un'azione per posizionarla difensivamente, guadagnando un bonus di circostanza di +1 alla CA fino al tuo prossimo turno.">parry</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Battleglove</td><td>0</td><td>3</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="B - Bludgeoning: Danno da Impatto/Contundente generato da corpi contundenti, martelli o percosse fisiche.">B</span></td>
+                    <td>—</td><td>1</td><td>1</td><td>Brawling</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">analog</span>, 
+                        <span class="trait-info" data-tooltip="Free-Hand: Quest'arma non occupa la mano (solitamente integrata nell'armatura) e non può essere disarmata. Consente di usare la mano normalmente, ma non puoi attaccare se stringi qualcos'altro.">free-hand</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Knife</td><td>0</td><td>2</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Knife</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">analog</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Thrown: Puoi scagliare quest'arma per compiere un attacco a distanza, applicando il tuo intero modificatore di Forza al calcolo dei danni.">thrown 10 ft.</span>, 
+                        <span class="trait-info" data-tooltip="Versatile: Quest'arma è flessibile e può infliggere un tipo di danno alternativo a quello base (in questo caso Tagliente [S]). Scegli il tipo di danno a ogni attacco.">versatile S</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Puzzleblade</td><td>0</td><td>15</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="S - Slashing: Danno Tagliente provocato da lame, spade, motoseghe molecolari o artigli affilati.">S</span></td>
+                    <td>1</td><td>2</td><td>1</td><td>Sword</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Breakdown: L'arma può essere smontata in piccoli pezzi diventando un oggetto compatto con ingombro leggero (L). Smontarla o riassemblarla richiede un'attività a 3 azioni con tratto manipulate e due hands libere.">breakdown</span>, 
+                        <span class="trait-info" data-tooltip="Kasatha: Arma legata ai costumi tradizionali o all'anatomia della specie Kasatha.">kasatha</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Shock pad</td><td>0</td><td>10</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="E - Electricity: Danno energetico da Elettricità, shock elettrici, fulmini artificiali o bobine di tensione.">E</span></td>
+                    <td>—</td><td>1</td><td>1</td><td>Shock</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Free-Hand: Quest'arma non occupa la mano (solitamente integrata nell'armatura) e non può essere disarmata. Consente di usare la mano normalmente, ma non puoi attaccare se stringi qualcos'altro.">free-hand</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Zero knife</td><td>0</td><td>12</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="C - Cold: Danno energetico da Freddo o congelamento criogenico, generato da armi zero o sfiati di gas termici invertiti.">C</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Cryo</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Versatile: Quest'arma è flessibile e può infliggere un tipo di danno alternativo a quello base (in questo caso Perforante [P]). Scegli il tipo di danno a ogni attacco.">versatile P</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- MARTIAL MELEE WEAPONS -->
+        <div class="table-category-title">Martial Melee Weapons (Armi da Mischia Marziali)</div>
+        <table class="cyber-weapon-table">
+            <thead>
+                <tr>
+                    <th class="text-left">Weapon (Commercial)</th>
+                    <th>Lvl</th>
+                    <th>Price</th>
+                    <th>Damage</th>
+                    <th>Bulk</th>
+                    <th>Hands</th>
+                    <th>Upgrades</th>
+                    <th>Group</th>
+                    <th>Weapon Traits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Aucturnite chakram</td><td>0</td><td>15</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="S - Slashing: Danno Tagliente provocato da lame, spade, motoseghe molecolari o artigli affilati.">S</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Knife</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Critical (Mental): Utilizza gli effetti di specializzazione critica del gruppo Mental (TS Will (Volontà) nemico o è Stupefatto 1) al posto del proprio gruppo nativo.">critical (mental)</span>, 
+                        <span class="trait-info" data-tooltip="Thrown: Puoi scagliare quest'arma per compiere un attacco a distanza, applicando il tuo intero modificatore di Forza al calcolo dei danni.">thrown 20 ft.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Battle ribbon</td><td>0</td><td>5</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="S - Slashing: Danno Tagliente provocato da lame, spade, motoseghe molecolari o artigli affilati.">S</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Flail</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Nonlethal: Questo attacco infligge danni non letali, progettati per mandare i bersagli privati di sensi invece di ucciderli. Infliggere danni letali applica una penalità di circostanza di –2.">nonlethal</span>, 
+                        <span class="trait-info" data-tooltip="Reach: Quest'arma allunga la tua minaccia consentendoti di colpire nemici fino a 10 piedi di distanza (o estende la portata naturale di creature grandi di ulteriori 5 piedi).">reach</span>, 
+                        <span class="trait-info" data-tooltip="Trip: Consente di eseguire la manovra Sbilanciare (Trip) con l'abilità Atletica anche senza avere una mano libera, applicando l'eventuale bonus di oggetto dell'arma al tiro. Un fallimento critico ti permette di cadere l'arma per evitare di cadere prono a tua volta.">trip</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Bone scepter</td><td>0</td><td>5</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="Mod - Modular: Danno variabile a seconda della configurazione attiva dell'arma molecolare.">Mod*</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Club</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Modular: L'arma possiede configurazioni multiple intercambiabili con un'azione di Interagire per variare il tipo di danno o gli effetti (in questo caso Danno da Freddo [C] e tratto Shove, oppure Danno da Vuoto [V]).">modular (C and shove, or V)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Cryopike</td><td>0</td><td>20</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="Mod - Modular: Danno variabile a seconda della configurazione attiva dell'arma molecolare.">Mod*</span></td>
+                    <td>1</td><td>2</td><td>1</td><td>Polearm</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Modular: L'arma possiede configurazioni intercambiabili (Danno da Freddo [C] con effetto critico Cryo, alimentata e tech; oppure Danno Perforante [P] ed analogica).">modular (C, critical (cryo)...)</span>, 
+                        <span class="trait-info" data-tooltip="Reach: Quest'arma allunga la tua minaccia consentendoti di colpire nemici fino a 10 piedi di distanza.">reach</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Doshko</td><td>0</td><td>20</td>
+                    <td>1d12 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>1</td><td>2</td><td>1</td><td>Axe</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Parry: Se hai addestramento Competente o superiore con quest'arma, puoi spendere un'azione per posizionarla difensivamente, guadagnando un bonus di circostanza di +1 alla CA fino al tuo prossimo turno.">parry</span>, 
+                        <span class="trait-info" data-tooltip="Vesk: Arma massiccia progettata o modificata appositamente in linea con i canoni militari della specie rettiliana Vesk.">vesk</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Dueling sword</td><td>0</td><td>10</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="S - Slashing: Danno Tagliente provocato da lame, spade, motoseghe molecolari o artigli affilati.">S</span></td>
+                    <td>1</td><td>1</td><td>1</td><td>Sword</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Versatile: Quest'arma è flessibile e può infliggere un tipo di danno alternativo a quello base (in questo caso Perforante [P]). Scegli il tipo di danno a ogni attacco.">versatile P</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Fangblade</td><td>0</td><td>27</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="S - Slashing: Danno Tagliente provocato da lame, spade, motoseghe molecolari o artigli affilati.">S</span></td>
+                    <td>1</td><td>2</td><td>1</td><td>Axe</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Backswing: Sfrutta l'inerzia di un colpo a vuoto. Se manchi un attacco nel tuo turno con quest'arma, ottieni un bonus di circostanza di +1 al tuo attacco successivo compiuto con essa entro la fine dello stesso turno.">Backswing</span>, 
+                        <span class="trait-info" data-tooltip="Boost: Carica l'arma spendendo 1 azione di Interagire per aggiungere un dado di danno addizionale della taglia indicata (1d12) all'attacco successivo.">boost 1d12</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Force needle</td><td>0</td><td>15</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>1</td><td>1</td><td>1</td><td>Dart</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Backstabber: Infligge 1 danno addizionale di precisione (aumenta a 2 con un bonus di tracking +3) contro le creature che si trovano in condizione Impreparata (off-guard).">backstabber</span>, 
+                        <span class="trait-info" data-tooltip="Concealable: Progettata per essere nascosta facilmente. Fornisce un bonus di circostanza di +2 alle prove di Furtività e alle CD volte a occultare l'arma sulla propria persona.">concealable</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Injection: Può ospitare sostanze liquide caricate (veleni, sieri, amplificatori). Dopo un attacco a segno, puoi iniettare il liquido spendendo 1 azione di Interagire (1 azione totale automatica se il bersaglio è consenziente). Ricaricarla richiede 3 azioni e due mani.">injection</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Ysoki: Arma adattata o prodotta specificamente per le esigenze ergonomiche o le preferenze della specie Ysoki.">ysoki</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Hammer</td><td>0</td><td>15</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="B - Bludgeoning: Danno da Impatto/Contundente generato da corpi contundenti, martelli o percosse fisiche.">B</span></td>
+                    <td>1</td><td>2</td><td>1</td><td>Hammer</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Professional: Funge da toolkit completo per l'abilità indicata (Artigianato). Aggiunge l'eventuale bonus di oggetto dell'arma alle prove di skill e ti permette di usare il grado di competenza della skill se superiore a quello dell'arma per i requisiti.">professional (Crafting)</span>, 
+                        <span class="trait-info" data-tooltip="Shove: Consente di eseguire la manovra Spingere (Shove) con l'abilità Atletica anche senza avere una mano libera, applicando l'eventuale bonus di oggetto dell'arma al tiro. Se fallisci criticamente, puoi far cadere l'arma per mitigare gli effetti.">shove</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Nano-edge rapier</td><td>0</td><td>25</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>1</td><td>1</td><td>1</td><td>Sword</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Deadly: In caso di colpo critico andato a segno, aggiunge un dado di danno supplementare della taglia indicata (d8) calcolato dopo il raddoppio dei danni base.">deadly d8</span>, 
+                        <span class="trait-info" data-tooltip="Disarm: Consente di eseguire la manovra Disarmare (Disarm) con l'abilità Atletica anche senza avere una mano libera, sfruttando la portata dell'arma e aggiungendo il suo bonus di oggetto alla prova. Puoi farla cadere in caso di fallimento critico.">disarm</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Neural lash</td><td>0</td><td>10</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="M - Mental: Danno di natura Mentale o psichica, che attacca direttamente la sinapsi e la stabilità cerebrale senza lasciare ferite fisiche esterne.">M</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Flail</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Nonlethal: Questo attacco infligge danni non letali, progettati per mandare i bersagli privati di sensi invece di ucciderli. Infliggere danni letali applica una penalità di circostanza di –2.">nonlethal</span>, 
+                        <span class="trait-info" data-tooltip="Thought: Dispositivo bioingegnerizzato con neurorecettori controllabili via telepatia. Se possiedi telepatia (anche limitata), impugnandola puoi decidere di ignorare completamente qualsiasi altro tratto nativo elencato nella scheda dell'arma.">thought</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>, 
+                        <span class="trait-info" data-tooltip="Versatile: Quest'arma è flessibile e può infliggere un tipo di danno alternativo a quello base (in questo caso Tagliente [S]). Scegli il tipo di danno a ogni attacco.">versatile S</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Painglaive</td><td>0</td><td>30</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="S - Slashing: Danno Tagliente provocato da lame, spade, motoseghe molecolari o artigli affilati.">S</span></td>
+                    <td>1</td><td>2</td><td>1</td><td>Polearm</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Boost: Carica l'arma spendendo 1 azione di Interagire per aggiungere un dado di danno addizionale della taglia indicata (1d10) all'attacco successivo.">boost 1d10</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Reach: Quest'arma allunga la tua minaccia consentendoti di colpire nemici fino a 10 piedi di distanza.">reach</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Phase cutlass</td><td>0</td><td>18</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="Mod - Modular: Danno variabile a seconda della configurazione attiva dell'arma molecolare.">Mod*</span></td>
+                    <td>1</td><td>1</td><td>1</td><td>Sword</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Deadly: In caso di colpo critico andato a segno, aggiunge un dado di danno supplementare della taglia indicata (d6) calcolato dopo il raddoppio dei danni base.">deadly d6</span>, 
+                        <span class="trait-info" data-tooltip="Modular: L'arma possiede configurazioni intercambiabili (Danno Tagliente [S] ed analogico; oppure Danno da Vuoto [V], alimentata e tech) modificabili con 1 azione di Interagire.">modular (S and analog...)</span>, 
+                        <span class="trait-info" data-tooltip="Sweep: Sfrutta i fendenti ampi. Guadagni un bonus di circostanza di +1 al tuo tiro per colpire se attacchi un bersaglio differente rispetto a quello già designato come obiettivo in un attacco precedente del turno.">sweep</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Plasma doshko</td><td>0</td><td>30</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>1</td><td>2</td><td>1</td><td>Axe</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Critical (Plasma): Applica gli effetti di specializzazione critica del gruppo Plasma (1d6 danni da elettricità persistenti + bonus di oggetto dell'arma al danno da shock) sui colpi critici.">Critical (plasma)</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Sweep: Sfrutta i fendenti ampi. Guadagni un bonus di circostanza di +1 al tuo tiro per colpire se attacchi un bersaglio differente rispetto a quello già designato como obiettivo in un attacco precedente del turno.">sweep</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Vesk: Arma massiccia progettata o modificata appositamente in linea con i canoni militari della specie rettiliana Vesk.">vesk</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Plasma sword</td><td>0</td><td>15</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Sword</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Critical (Plasma): Applica gli effetti di specializzazione critica del gruppo Plasma (1d6 danni da elettricità persistenti + bonus di oggetto dell'arma al danno da shock) sui colpi critici.">Critical (plasma)</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Polyglove</td><td>0</td><td>20</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="E - Electricity: Danno energetico da Elettricità, shock elettrici, fulmini artificiali o bobine di tensione.">E</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Shock</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Arc: L'elettricità si scarica sul nemico più vicino entro 10 piedi dal bersaglio iniziale. Se la CA della seconda creatura è inferiore al tuo tiro originale, subisce 1 danno da elettricità per dado di danno dell'arma.">arc</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Professional: Funge da toolkit completo per l'abilità indicata (Computer). Aggiunge l'eventuale bonus di oggetto dell'arma alle prove di skill e ti permette di usare il grado di competenza della skill se superiore a quello dell'arma per i requisiti.">professional (Computers)</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Pulse gauntlet</td><td>0</td><td>15</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="So - Sonic: Danno generato da onde Soniche pressorie ad alta frequenza o vibrazioni distruttive concussive.">So</span></td>
+                    <td>—</td><td>1</td><td>1</td><td>Sonic</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Critical (Brawling): Applica gli effetti di specializzazione critica del gruppo Brawling (il bersaglio deve superare un TS Fortitude (Tempra)contro la tua CD di classe o è Rallentato 1 fino al tuo prossimo turno).">critical (brawling)</span>, 
+                        <span class="trait-info" data-tooltip="Free-Hand: Quest'arma non occupa la mano (solitamente integrata nell'armatura) e non può essere disarmata. Consente di usare la mano normalmente, ma non puoi attaccare se stringi qualcos'altro.">free-hand</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Shove: Consente di eseguire la manovra Spingere (Shove) con l'abilità Atletica anche senza avere una mano libera, applicando l'eventuale bonus di oggetto dell'arma al tiro. Se fallisci criticamente, puoi far cadere l'arma per mitigare gli effetti.">shove</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Trip: Consente di eseguire la manovra Sbilanciare (Trip) con l'abilità Atletica anche senza avere una mano libera, applicando l'eventuale bonus di oggetto dell'arma al tiro. Un fallimento critico ti permette di cadere l'arma per evitare di cadere prono a tua volta.">trip</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Shock truncheon</td><td>0</td><td>16</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="E - Electricity: Danno energetico da Elettricità, shock elettrici, fulmini artificiali o bobine di tensione.">E</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Club</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Disarm: Consente di eseguire la manovra Disarmare (Disarm) con l'abilità Atletica anche senza avere una mano libera, sfruttando la portata dell'arma e aggiungendo il suo bonus di oggetto alla prova. Puoi farla cadere in caso di fallimento critico.">disarm</span>, 
+                        <span class="trait-info" data-tooltip="Modular: L'arma possiede configurazioni intercambiabili (tratto Arc o tratto Nonlethal) modificabili spendendo 1 azione di Interagire.">modular (arc or nonlethal)</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Shield bash</td><td>—</td><td>—</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="B - Bludgeoning: Danno da Impatto/Contundente generato da corpi contundenti, martelli o percosse fisiche.">B</span></td>
+                    <td>—</td><td>1</td><td>—</td><td>Shield</td><td>—</td>
+                </tr>
+                <tr>
+                    <td class="text-left">Shooting starknife</td><td>0</td><td>17</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Knife</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">analog</span>, 
+                        <span class="trait-info" data-tooltip="Deadly: In caso di colpo critico andato a segno, aggiunge un dado di danno supplementare della taglia indicata (d6) calcolato dopo il raddoppio dei danni base.">deadly d6</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Thrown: Puoi scagliare quest'arma per compiere un attacco a distanza, applicando il tuo intero modificatore di Forza al calcolo dei danni.">thrown 20 ft.</span>, 
+                        <span class="trait-info" data-tooltip="Versatile: Quest'arma è flessibile e può infliggere un tipo di danno alternativo a quello base (in questo caso Tagliente [S]). Scegli il tipo di danno a ogni attacco.">versatile S</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Singing spear</td><td>0</td><td>20</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="Mod - Modular: Danno variabile a seconda della configurazione attiva dell'arma molecolare.">Mod*</span></td>
+                    <td>1</td><td>2</td><td>1</td><td>Spear</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Modular: L'arma possiede configurazioni intercambiabili (Danno Perforante [P], analogica e lanciabile a 20 piedi; oppure Danno Sonico [So], carica energetica boost 1d10, critico sonic, alimentata e tech).">modular (P, analog... or So...)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Tailblade</td><td>0</td><td>10</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="S - Slashing: Danno Tagliente provocato da lame, spade, motoseghe molecolari o artigli affilati.">S</span></td>
+                    <td>—</td><td>0</td><td>1</td><td>Knife</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">analog</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Free-Hand: Quest'arma non occupa la mano (solitamente ancorata alla coda o a un appendice anatomica) e consente l'uso libero dell'arto. Non puoi colpire se l'arto è diversamente occupato.">free-hand</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Talon</td><td>0</td><td>20</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="Mod - Modular: Danno variabile a seconda della configurazione attiva dell'arma molecolare.">Mod*</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Knife</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Modular: L'arma possiede configurazioni molecolari intercambiabili (Danno da Acido [A] con effetto critico Corrosivo, tech; oppure Danno Tagliente [S] ed analogico).">modular (A, critical... or S...)</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ADVANCED MELEE WEAPONS -->
+        <div class="table-category-title">Advanced Melee Weapons (Armi da Mischia Avanzate)</div>
+        <table class="cyber-weapon-table">
+            <thead>
+                <tr>
+                    <th class="text-left">Weapon (Commercial)</th>
+                    <th>Lvl</th>
+                    <th>Price</th>
+                    <th>Damage</th>
+                    <th>Bulk</th>
+                    <th>Hands</th>
+                    <th>Upgrades</th>
+                    <th>Group</th>
+                    <th>Weapon Traits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Disintegration lash</td><td>0</td><td>32</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="A - Acid: Danno da corrosione da Acido, siero molecolare dissolvente o composti biologici tossici.">A</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Corrosive</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Disarm: Consente di eseguire la manovra Disarmare (Disarm) con l'abilità Atletica anche senza avere una mano libera, sfruttando la portata dell'arma e aggiungendo il suo bonus di oggetto alla prova. Puoi farla cadere in caso di fallimento critico.">disarm</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Razing: Quest'arma eccelle nel demolire oggetti, strutture e scudi animati. Quando infliggi danni a un oggetto o veicolo, applichi un ammontare di danni addizionali fisici pari al doppio dei dadi di danno dell'arma rolled.">razing</span>, 
+                        <span class="trait-info" data-tooltip="Reach: Quest'arma allunga la tua minaccia consentendoti di colpire nemici fino a 10 piedi di distanza.">reach</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Grindblade</td><td>0</td><td>25</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="S - Slashing: Danno Tagliente provocato da lame, spade, motoseghe molecolari o artigli affilati.">S</span></td>
+                    <td>1</td><td>1</td><td>1</td><td>Sword</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Critical (Knife): Utilizza gli effetti di specializzazione critica del gruppo Knife (il bersaglio subisce 1d6 danni da sanguinamento persistente più il bonus di oggetto dell'arma) sui colpi critici.">critical (knife)</span>, 
+                        <span class="trait-info" data-tooltip="Fatal: In caso di colpo critico, la taglia del dado di danno aumenta permanentemente al valore indicato (d12) e l'attacco aggiunge un dado di danno addizionale di quella taglia speciale dopo il raddoppio.">fatal d12</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Skyfire sword</td><td>0</td><td>30</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>1</td><td>1</td><td>1</td><td>Flame</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Deadly: In caso di colpo critico andato a segno, aggiunge un dado di danno supplementare della taglia indicata (d8) calcolato dopo il raddoppio dei danni base.">deadly d8</span>, 
+                        <span class="trait-info" data-tooltip="Two-Hand: Quest'arma a una mano può essere impugnata a due mani per aumentarne la taglia del dado di danno base al valore indicato (d10). Il cambiamento influenza tutti i dadi dell'arma.">two-hand d10</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Thermal dynafan</td><td>0</td><td>15</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="Mod - Modular: Danno variabile a seconda della configurazione attiva dell'arma molecolare.">Mod*</span></td>
+                    <td>L</td><td>1</td><td>1</td><td>Cryo</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Concealable: Progettata per essere nascosta facilmente. Fornisce un bonus di circostanza di +2 alle prove di Furtività e alle CD volte a occultare l'arma sulla propria persona.">concealable</span>, 
+                        <span class="trait-info" data-tooltip="Finesse: Puoi usare il tuo modificatore di Destrezza invece di quello di Forza per il tiro per colpire di questo attacco da mischia. Il calcolo dei danni usa comunque la Forza.">finesse</span>, 
+                        <span class="trait-info" data-tooltip="Powered: Questa arma da mischia consuma una batteria commerciale inclusa, spendendo 1 carica al giorno per restare attiva anziché una per attacco. Scarica o disattivata, agisce come arma improvvisata.">powered</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Twin: Progettate per l'uso in coppia. Quando attacchi, se hai già colpito in questo turno con un'altra arma dello stesso tipo (anche di grado diverso), aggiungi un bonus di circostanza ai danni pari al numero di dadi base dell'arma.">twin</span>, 
+                        <span class="trait-info" data-tooltip="Modular: L'arma possiede configurazioni intercambiabili (Danno da Fuoco [F] con effetto critico Flame; oppure Danno da Freddo [C]) modificabili con 1 azione di Interagire.">modular (F and critical...)</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- SIMPLE RANGED WEAPONS -->
+        <div class="table-category-title">Simple Ranged Weapons (Armi a Distanza Semplici)</div>
+        <table class="cyber-weapon-table">
+            <thead>
+                <tr>
+                    <th class="text-left">Weapon (Commercial)</th>
+                    <th>Lvl</th>
+                    <th>Price</th>
+                    <th>Damage</th>
+                    <th>Range</th>
+                    <th>Reload</th>
+                    <th>Bulk</th>
+                    <th>Hands</th>
+                    <th>Magazine</th>
+                    <th>Expend</th>
+                    <th>Upgrades</th>
+                    <th>Group</th>
+                    <th>Weapon Traits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Acid dart rifle</td><td>0</td><td>40</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="A - Acid: Danno da corrosione da Acido, siero molecolare dissolvente o composti biologici tossici.">A</span></td>
+                    <td>80 ft.</td><td>1</td><td>1</td><td>2</td><td>5 proj.</td><td>1</td><td>1</td><td>Corrosive</td>
+                    <td><span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span></td>
+                </tr>
+                <tr>
+                    <td class="text-left">Arc pistol</td><td>0</td><td>25</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="E - Electricity: Danno energetico da Elettricità, shock elettrici, fulmini artificiali o bobine di tensione.">E</span></td>
+                    <td>30 ft.</td><td>1</td><td>1</td><td>1</td><td>10 chg.</td><td>2</td><td>1</td><td>Shock</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Arc: L'elettricità si scarica sul nemico più vicino entro 10 piedi dal bersaglio iniziale. Se la CA della seconda creatura è inferiore al tuo tiro originale, subisce 1 danno da elettricità per dado di danno dell'arma.">Arc</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Arc rifle</td><td>0</td><td>50</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="E - Electricity: Danno energetico da Elettricità, shock elettrici, fulmini artificiali o bobine di tensione.">E</span></td>
+                    <td>50 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Shock</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Arc: L'elettricità si scarica sul nemico più vicino entro 10 piedi dal bersaglio iniziale. Se la CA della seconda creatura è inferiore al tuo tiro originale, subisce 1 danno da elettricità per dado di danno dell'arma.">Arc</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Autotarget rifle</td><td>0</td><td>45</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>30 ft.</td><td>2</td><td>2</td><td>2</td><td>20 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Automatic: Consente l'utilizzo dell'azione Auto-Fire (2 azioni, investe un intero cono pari a metà della gittata standard; TS Reflex (Riflessi) nemico, consuma munizioni pari al numero di bersagli nell'area × 2).">automatic</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Crossbolter</td><td>0</td><td>25</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>100 ft.</td><td>1</td><td>2</td><td>2</td><td>1 proj.</td><td>1</td><td>1</td><td>Crossbow</td>
+                    <td><span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span></td>
+                </tr>
+                <tr>
+                    <td class="text-left">Laser pistol</td><td>0</td><td>30</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>40 ft.</td><td>1</td><td>1</td><td>1</td><td>10 chg.</td><td>2</td><td>1</td><td>Laser</td>
+                    <td><span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">Tech</span></td>
+                </tr>
+                <tr>
+                    <td class="text-left">Laser rifle</td><td>0</td><td>45</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>100 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Laser</td>
+                    <td><span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">Tech</span></td>
+                </tr>
+                <tr>
+                    <td class="text-left">Pulsecaster pistol</td><td>0</td><td>30</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="E - Electricity: Danno energetico da Elettricità, shock elettrici, fulmini artificiali o bobine di tensione.">E</span></td>
+                    <td>30 ft.</td><td>1</td><td>1</td><td>1</td><td>10 chg.</td><td>2</td><td>1</td><td>Shock</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Nonlethal: Questo attacco infligge danni non letali, progettati per mandare i bersagli privati di sensi invece di ucciderli. Infliggere danni letali applica una penalità di circostanza di –2.">Nonlethal</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Reaction breacher</td><td>0</td><td>45</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="B - Bludgeoning: Danno da Impatto/Contundente generato da corpi contundenti, martelli o percosse fisiche.">B</span></td>
+                    <td>100 ft.</td><td>1</td><td>2</td><td>2</td><td>3 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Concussive: Proiettili d'impatto perforanti pesanti. Per calcolare le riduzioni o le immunità nemiche, applica sempre la più debole tra la sua resistenza a perforazione e impatto.">Concussive</span>, 
+                        <span class="trait-info" data-tooltip="Razing: Quest'arma eccelle nel demolire oggetti, strutture e scudi animati. Quando infliggi danni a un object o veicolo, applichi un ammontare di danni addizionali fisici pari al doppio dei dadi di danno dell'arma rolled.">razing</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Scattergun</td><td>0</td><td>40</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>15 ft.</td><td>1</td><td>1</td><td>2</td><td>4 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Area (Cone): Può fare fuoco solo tramite l'azione Area Fire in un cono (2 azioni, nega il tiro per colpire; infligge danni ad area condizionati da un TS sui Reflex (Riflessi) base nemico).">area (cone)</span>, 
+                        <span class="trait-info" data-tooltip="Concussive: Proiettili d'impatto perforanti pesanti. Per calcolare le riduzioni o le immunità nemiche, applica sempre la più debole tra la sua resistenza a perforazione e impatto.">concussive</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Seeker rifle</td><td>0</td><td>60</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>120 ft.</td><td>1</td><td>2</td><td>2</td><td>1 proj.</td><td>1</td><td>1</td><td>Sniper</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Kickback: Arma extra potente con rinculo pesante. Infligge sempre +1 danno addizionale ad ogni attacco, ma applica una penalità di circostanza di –2 al tiro per colpire (ignorata da personaggi con Forza +2 o superiore).">kickback</span>, 
+                        <span class="trait-info" data-tooltip="Volley: Quest'arma a lunghissimo raggio risulta meno efficace a distanza ravcipinata. Tutti gli attacchi effettuati contro bersagli situati entro la distanza indicata (30 piedi) subiscono una penalità di –2.">volley 30 ft.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Semi-auto pistol</td><td>0</td><td>30</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>60 ft.</td><td>1</td><td>L</td><td>1</td><td>10 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td><span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span></td>
+                </tr>
+                <tr>
+                    <td class="text-left">Sonic rifle</td><td>0</td><td>40</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="So - Sonic: Danno generato da onde Soniche pressorie ad alta frequenza o vibrazioni distruttive concussive.">So</span></td>
+                    <td>40 ft.</td><td>1</td><td>1</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Sonic</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Boost: Carica l'arma spendendo 1 azione di Interagire per aggiungere un dado di danno addizionale della taglia indicata (1d8) all'attacco successivo.">Boost 1d8</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Zero pistol</td><td>0</td><td>30</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="C - Cold: Danno energetico da Freddo o congelamento criogenico, generato da armi zero o sfiati di gas termici invertiti.">C</span></td>
+                    <td>30 ft.</td><td>1</td><td>L</td><td>1</td><td>10 chem</td><td>2</td><td>1</td><td>Cryo</td>
+                    <td><span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">Tech</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- MARTIAL RANGED WEAPONS -->
+        <div class="table-category-title">Martial Ranged Weapons (Armi a Distanza Marziali)</div>
+        <table class="cyber-weapon-table">
+            <thead>
+                <tr>
+                    <th class="text-left">Weapon (Commercial)</th>
+                    <th>Lvl</th>
+                    <th>Price</th>
+                    <th>Damage</th>
+                    <th>Range</th>
+                    <th>Reload</th>
+                    <th>Bulk</th>
+                    <th>Hands</th>
+                    <th>Magazine</th>
+                    <th>Expend</th>
+                    <th>Upgrades</th>
+                    <th>Group</th>
+                    <th>Weapon Traits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Arc emitter</td><td>0</td><td>95</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="E - Electricity: Danno energetico da Elettricità, shock elettrici, fulmini artificiali o bobine di tensione.">E</span></td>
+                    <td>20 ft.</td><td>1</td><td>1</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Shock</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Area (Cone): Può fare fuoco solo tramite l'azione Area Fire in un cono (2 azioni, nega il tiro per colpire; infligge danni ad area condizionati da un TS sui Reflex (Riflessi) base nemico).">Area (cone)</span>, 
+                        <span class="trait-info" data-tooltip="Nonlethal: Questo attacco infligge danni non letali, progettati per mandare i bersagli privati di sensi invece di ucciderli. Infliggere danni letali applica una penalità di circostanza di –2.">nonlethal</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Assassin rifle</td><td>0</td><td>100</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>120 ft.</td><td>1</td><td>1</td><td>2</td><td>1 proj.</td><td>1</td><td>1</td><td>Sniper</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Backstabber: Infligge 1 danno addizionale di precisione contro le creature che si trovano in condizione Impreparata (off-guard).">backstabber</span>, 
+                        <span class="trait-info" data-tooltip="Fatal: In caso di colpo critico, la taglia del dado di danno aumenta permanentemente al valore indicato (d12) e l'attacco aggiunge un dado di danno addizionale di quella taglia speciale dopo il raddoppio.">fatal d12</span>, 
+                        <span class="trait-info" data-tooltip="Kickback: Arma extra potente con rinculo pesante. Infligge sempre +1 danno addizionale ad ogni attacco, ma applica una penalità di circostanza di –2 al tiro per colpire (ignorata da personaggi con Forza +2 o superiore).">kickback</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>, 
+                        <span class="trait-info" data-tooltip="Volley: Quest'arma a lunghissimo raggio di precisione subisce una penalità di –2 contro bersagli situati entro la distanza indicata (30 piedi).">volley 30 ft.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Boom pistol</td><td>0</td><td>30</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="So - Sonic: Danno generato da onde Soniche pressorie ad alta frequenza o vibrazioni distruttive concussive.">So</span></td>
+                    <td>40 ft.</td><td>1</td><td>1</td><td>1</td><td>10 chg.</td><td>2</td><td>1</td><td>Sonic</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Boost: Carica l'arma spendendo 1 azione di Interagire per aggiungere un dado di danno addizionale della taglia indicata (1d8) all'attacco successivo.">Boost 1d8</span>, 
+                        <span class="trait-info" data-tooltip="Razing: Quest'arma eccelle nel demolire oggetti, strutture e scudi animati. Quando infliggi danni a un oggetto o veicolo, applichi un ammontare di danni addizionali fisici pari al doppio dei dadi di danno dell'arma rolled.">razing</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Breaching gun</td><td>0</td><td>30</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>15 ft.</td><td>1</td><td>1</td><td>2</td><td>3 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Concussive: Proiettili d'impatto perforanti pesanti. Per calcolare le riduzioni o le immunità nemiche, applica sempre la più debole tra la sua resistenza a perforazione e impatto.">concussive</span>, 
+                        <span class="trait-info" data-tooltip="Kickback: Arma extra potente con rinculo pesante. Infligge sempre +1 danno addizionale ad ogni attacco, ma applica una penalità di circostanza di –2 al tiro per colpire (ignorata da personaggi con Forza +2 o superiore).">kickback</span>, 
+                        <span class="trait-info" data-tooltip="Ranged Shove: Consente di eseguire l'azione Spingere (Shove) tramite Atletica entro il primo incremento di gittata dell'arma, subendo una penalità di circostanza di –2 al check ma aggiungendo il bonus di oggetto dell'arma. Non infligge danni se usata per spingere.">ranged shove</span>, 
+                        <span class="trait-info" data-tooltip="Razing: Quest'arma eccelle nel demolire oggetti, strutture e scudi animati. Quando infliggi danni a un oggetto o veicolo, applichi un ammontare di danni addizionali fisici pari al doppio dei dadi di danno dell'arma rolled.">razing</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Coil Rifle</td><td>0</td><td>100</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>120 ft.</td><td>1</td><td>1</td><td>2</td><td>1 proj.</td><td>1</td><td>1</td><td>Sniper</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Boost: Carica l'arma spendendo 1 azione di Interagire per aggiungere un dado di danno addizionale della taglia indicata (d10) all'attacco successivo.">Boost d10</span>, 
+                        <span class="trait-info" data-tooltip="Kickback: Arma extra potente con rinculo pesante. Infligge sempre +1 danno addizionale ad ogni attacco, ma applica una penalità di circostanza di –2 al tiro per colpire (ignorata da personaggi con Forza +2 o superiore).">kickback</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata como parte delle reazioni.">unwieldy</span>, 
+                        <span class="trait-info" data-tooltip="Volley: Quest'arma a lunghissimo raggio di precisione subisce una penalità di –2 contro bersagli situati entro la distanza indicata (30 piedi).">volley 30 ft.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Flamethrower</td><td>0</td><td>75</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>15 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chem</td><td>2</td><td>1</td><td>Flame</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Area (Cone): Può fare fuoco solo tramite l'azione Area Fire in un cono (2 azioni, nega il tiro per colpire; infligge danni ad area condizionati da un TS sui Reflex (Riflessi) base nemico).">Area (cone)</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Machine gun</td><td>0</td><td>80</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>40 ft.</td><td>2</td><td>2</td><td>2</td><td>20 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Automatic: Consente l'utilizzo dell'azione Auto-Fire (2 azioni, investe un intero cono pari a metà della gittata standard; TS Reflex (Riflessi) nemico, consuma munizioni pari al numero di bersagli nell'area × 2).">automatic</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Plasma caster</td><td>0</td><td>40</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>60 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Plasma</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Boost: Carica l'arma spendendo 1 azione di Interagire per aggiungere un dado di danno addizionale della taglia indicata (1d10) all'attacco successivo.">Boost 1d10</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Rotating pistol</td><td>0</td><td>30</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="Mod - Modular: Danno variabile a seconda della configurazione attiva dell'arma molecolare.">Mod*</span></td>
+                    <td>60 ft.</td><td>1</td><td>L</td><td>1</td><td>6 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">analog</span>, 
+                        <span class="trait-info" data-tooltip="Concealable: Progettata per essere nascosta facilmente. Fornisce un bonus di circostanza di +2 alle prove di Furtività e alle CD volte a occultare l'arma sulla propria persona.">concealable</span>, 
+                        <span class="trait-info" data-tooltip="Concussive: Proiettili d'impatto perforanti pesanti. Per calcolare le riduzioni o le immunità nemiche, applica sempre la più debole tra la sua resistenza a perforazione e impatto.">concussive</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Rotolaser</td><td>0</td><td>60</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>30 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>1</td><td>1</td><td>Laser</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Automatic: Consente l'utilizzo dell'azione Auto-Fire (2 azioni, investe un intero cono pari a metà della gittata standard; TS Reflex (Riflessi) nemico, consuma munizioni pari al numero di bersagli nell'area × 2).">Automatic</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Shirren-eye rifle</td><td>0</td><td>80</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>120 ft.</td><td>1</td><td>1</td><td>2</td><td>1 proj.</td><td>1</td><td>1</td><td>Sniper</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Deadly: In caso di colpo critico andato a segno, aggiunge un dado di danno supplementare della taglia indicata (d12) calcolato dopo il raddoppio dei danni base.">deadly d12</span>, 
+                        <span class="trait-info" data-tooltip="Kickback: Arma extra potente con rinculo pesante. Infligge sempre +1 danno addizionale ad ogni attacco, ma applica una penalità di circostanza di –2 al tiro per colpire (ignorata da personaggi con Forza +2 o superiore).">kickback</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>, 
+                        <span class="trait-info" data-tooltip="Volley: Quest'arma a lunghissimo raggio di precisione subisce una penalità di –2 contro bersagli situati entro la distanza indicata (30 piedi).">volley 30 ft.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Shuriken drone</td><td>0</td><td>5</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>40 ft.</td><td>0</td><td>L</td><td>1</td><td>-</td><td>-</td><td>1</td><td>Dart</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Thrown: Puoi scagliare quest'arma per compiere un attacco a distanza, applicando il tuo intero modificatore di Forza al calcolo dei danni.">thrown</span>, 
+                        <span class="trait-info" data-tooltip="Recovery: In caso di tiro Strike a distanza con lancio non andato a segno, l'arma vola autonomamente indietro nella tua mano alla fine dell'azione. Se hai le mani occupate cade al suolo nel tuo spazio.">recovery</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Singing coil</td><td>0</td><td>70</td>
+                    <td>1d8 <span class="damage-type-info" data-tooltip="E - Electricity: Danno energetico da Elettricità, shock elettrici, fulmini artificiali o bobine di tensione.">E</span></td>
+                    <td>40 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>5</td><td>1</td><td>Shock</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Area (Line): Può fare fuoco solo tramite l'azione Area Fire disposta in linea retta (2 azioni, nega il tiro per colpire; infligge danni ad area condizionati da un TS sui Reflex (Riflessi) base nemico).">Area (line)</span>, 
+                        <span class="trait-info" data-tooltip="Professional: Funge da toolkit completo per l'abilità indicata (Esibizione). Aggiunge l'eventuale bonus di oggetto dell'arma alle prove di skill e ti permette di usare il grado di competenza della skill se superiore a quello dell'arma per i requisiti.">professional (Performance)</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Stellar cannon</td><td>0</td><td>40</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>50 ft.</td><td>1</td><td>2</td><td>2</td><td>8 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Area (Burst 10 ft.): Può fare fuoco solo tramite l'azione Area Fire disposta in un'esplosione a raggio circolare di 10 piedi (2 azioni, nega il tiro per colpire; TS Reflex (Riflessi)). Il centro si posiziona entro il primo incremento.">area (burst 10 ft.)</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Zero cannon</td><td>0</td><td>80</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="C - Cold: Danno energetico da Freddo o congelamento criogenico, generato da armi zero o sfiati di gas termici invertiti.">C</span></td>
+                    <td>40 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chem</td><td>2</td><td>1</td><td>Cryo</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Area (Line): Può fare fuoco solo tramite l'azione Area Fire disposta in linea retta (2 azioni, nega il tiro per colpire; infligge danni ad area condizionati da un TS sui Reflex (Riflessi) base nemico).">Area (line)</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ADVANCED RANGED WEAPONS -->
+        <div class="table-category-title">Advanced Ranged Weapons (Armi a Distanza Avanzate)</div>
+        <table class="cyber-weapon-table">
+            <thead>
+                <tr>
+                    <th class="text-left">Weapon (Commercial)</th>
+                    <th>Lvl</th>
+                    <th>Price</th>
+                    <th>Damage</th>
+                    <th>Range</th>
+                    <th>Reload</th>
+                    <th>Bulk</th>
+                    <th>Hands</th>
+                    <th>Magazine</th>
+                    <th>Expend</th>
+                    <th>Upgrades</th>
+                    <th>Group</th>
+                    <th>Weapon Traits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Aeon rifle</td><td>0</td><td>30</td>
+                    <td>10d10 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>60 ft.</td><td>1</td><td>1</td><td>2</td><td>10 chg.</td><td>1</td><td>0</td><td>Laser</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Aeon: Consente di alloggiare una pietra eone o gemma magica con 1 azione Interagire. Se ospita un eone ottieni i benefici come se orbitasse sulla testa; se ospita una gemma ottieni cariche extra pari al livello gemma × 5.">Aeon</span>, 
+                        <span class="trait-info" data-tooltip="Caster: Modificabile tramite il lancio di incantesimi da 2 o più azioni. Una volta completato il lancio, se la magia aveva tratti elementali/vitali/vuoto, l'arma infligge quel tipo specifico di danno fino alla fine del turno successivo.">caster</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Artillery laser</td><td>0</td><td>60</td>
+                    <td>1d10 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>60 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Laser</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Critical (Flame): Applica gli effetti di specializzazione critica del gruppo Flame (il bersaglio subisce 1d6 danni da fuoco persistenti più il bonus di oggetto dell'arma) sui colpi critici.">Critical (flame)</span>, 
+                        <span class="trait-info" data-tooltip="Forceful: Accumula impeto balistico con colpi ripetuti. Quando attacchi più di una volta nello stesso turno, il secondo colpo guadagna un bonus di circostanza ai danni pari ai dadi arma, e i successivi pari al doppio dei dadi.">forceful</span>, 
+                        <span class="trait-info" data-tooltip="Razing: Quest'arma eccelle nel demolire oggetti, strutture e scudi animati. Quando infliggi danni a un oggetto o veicolo, applichi un ammontare di danni addizionali fisici pari al doppio dei dadi di danno dell'arma rolled.">razing</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Card slinger</td><td>0</td><td>26</td>
+                    <td>1d4 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>30 ft.</td><td>1</td><td>L</td><td>1</td><td>7 proj.</td><td>1</td><td>1</td><td>Dart</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Agile: La penalità per attacchi multipli (MAP) si riduce a –4 sul secondo attacco e a –8 sul terzo o successivi.">Agile</span>, 
+                        <span class="trait-info" data-tooltip="Concealable: Progettata per essere nascosta facilmente. Fornisce un bonus di circostanza di +2 alle prove di Furtività e alle CD volte a occultare l'arma sulla propria persona.">concealable</span>, 
+                        <span class="trait-info" data-tooltip="Deadly: In caso di colpo critico andato a segno, aggiunge un dado di danno supplementare della taglia indicata (d8) calcolato dopo il raddoppio dei danni base.">deadly d8</span>, 
+                        <span class="trait-info" data-tooltip="Professional: Funge da toolkit completo per l'abilità indicata (Raggirare). Aggiunge l'eventuale bonus di oggetto dell'arma alle prove di skill e ti permette di usare il grado di competenza della skill se superiore a quello dell'arma per i requisiti.">professional (Deception)</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Gyrojet pistol</td><td>0</td><td>30</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="B - Bludgeoning: Danno da Impatto/Contundente generato da corpi contundenti, martelli o percosse fisiche.">B</span></td>
+                    <td>40 ft.</td><td>1</td><td>1</td><td>1</td><td>4 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Ranged Shove: Consente di eseguire l'action Spingere (Shove) tramite Atletica entro il primo incremento di gittata dell'arma, subendo una penalità di circostanza di –2 al check ma aggiungendo il bonus di oggetto dell'arma.">ranged shove</span>, 
+                        <span class="trait-info" data-tooltip="Ranged Trip: Consente di eseguire l'azione Sbilanciare (Trip) tramite Atletica entro il primo incremento di gittata dell'arma, subendo una penalità di circostanza di –2 al check ma aggiungendo il bonus di oggetto dell'arma.">ranged trip</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Magnetar rifle</td><td>0</td><td>45</td>
+                    <td>1d12 <span class="damage-type-info" data-tooltip="P - Piercing: Danno Perforante causato da punte acuminate, frecce, aghi biologici o munizioni balistiche standard.">P</span></td>
+                    <td>60 ft.</td><td>1</td><td>2</td><td>2</td><td>30 proj.</td><td>1</td><td>1</td><td>Projectile</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Analog: Arma puramente tecnologica e meccanica priva di elettronica complessa. Risulta immune alle capacità che bersagliano o disattivano la tecnologia.">Analog</span>, 
+                        <span class="trait-info" data-tooltip="Automatic: Consente l'utilizzo dell'azione Auto-Fire (2 azioni, investe un intero cono pari a metà della gittata standard; TS Reflex (Riflessi) nemico, consuma munizioni pari al numero di bersagli nell'area × 2).">automatic</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Plasma cannon</td><td>0</td><td>80</td>
+                    <td>1d12 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>40 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Plasma</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Area (Burst 10 ft.): Può fare fuoco solo tramite l'azione Area Fire disposta in un'esplosione a raggio circolare di 10 piedi (2 azioni, nega il tiro per colpit; TS Reflex (Riflessi)). Il centro si posiziona entro il primo incremento.">Area (burst 10 ft.)</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Screamer</td><td>0</td><td>80</td>
+                    <td>1d12 <span class="damage-type-info" data-tooltip="So - Sonic: Danno generato da onde Soniche pressorie ad alta frequenza o vibrazioni distruttive concussive.">So</span></td>
+                    <td>15 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Sonic</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Area (Cone): Può fare fuoco solo tramite l'azione Area Fire in un cono (2 azioni, nega il tiro per colpire; infligge danni ad area condizionati da un TS sui Reflex (Riflessi) base nemico).">Area (cone)</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Starfall pistol</td><td>0</td><td>30</td>
+                    <td>1d6 <span class="damage-type-info" data-tooltip="F - Fire: Danno energetico da Fuoco o calore termico intenso, sprigionato da armi laser, lanciafiamme o reattori al plasma.">F</span></td>
+                    <td>20 ft.</td><td>1</td><td>L</td><td>1</td><td>10 chg.</td><td>5</td><td>1</td><td>Plasma</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Area (Line): Può fare fuoco solo tramite l'azione Area Fire disposta in linea retta (2 azioni, nega il tiro per colpire; infligge danni ad area condizionati da un TS sui Reflex (Riflessi) base nemico).">Area (line)</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>, 
+                        <span class="trait-info" data-tooltip="Unwieldy: Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.">unwieldy</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Streetsweeper</td><td>0</td><td>60</td>
+                    <td>10d10 <span class="damage-type-info" data-tooltip="So - Sonic: Danno generato da onde Soniche pressorie ad alta frequenza o vibrazioni distruttive concussive.">So</span></td>
+                    <td>40 ft.</td><td>1</td><td>2</td><td>2</td><td>10 chg.</td><td>2</td><td>1</td><td>Sonic</td>
+                    <td>
+                        <span class="trait-info" data-tooltip="Boost: Carica l'arma spendendo 1 azione di Interagire per aggiungere un dado di danno addizionale della taglia indicata (1d10) all'attacco successivo.">Boost 1d10</span>, 
+                        <span class="trait-info" data-tooltip="Ranged Trip: Consente di eseguire l'azione Sbilanciare (Trip) tramite Atletica entro il primo incremento di gittata dell'arma, subendo una penalità di circostanza di –2 al check ma aggiungendo il bonus di oggetto dell'arma.">ranged trip</span>, 
+                        <span class="trait-info" data-tooltip="Tech: Questa arma incorpora sistemi elettronici, circuiti integrati o fonti di alimentazione attive nei suoi componenti.">tech</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- WEAPON IMPROVEMENTS & AMMUNITION FLANKED -->
+        <div class="table-category-title">Weapon Improvements & Ammunition (Miglioramenti e Munizioni)</div>
+        
+        <div class="ammo-flex-container">
+            <!-- Tabella Gradi di Potenziamento -->
+            <div class="ammo-flex-box" style="flex: 1.4;">
+                <table class="cyber-weapon-table" style="font-size: 0.9em;">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Grade</th>
+                            <th>Lvl</th>
+                            <th>Upgrade Price</th>
+                            <th>Total Value¹</th>
+                            <th>Upgrades</th>
+                            <th>Damage Dice</th>
+                            <th>Traits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="text-left">Commercial</td><td>0</td><td>—</td><td>—</td><td>+0</td><td>1</td><td>—</td></tr>
+                        <tr><td class="text-left">Tactical</td><td>2</td><td>+350 credits</td><td>350 credits</td><td>+0</td><td>1</td><td>Tracking +1</td></tr>
+                        <tr><td class="text-left">Advanced</td><td>4</td><td>+650 credits</td><td>1.000 credits</td><td>+1</td><td>2</td><td>Tracking +1</td></tr>
+                        <tr><td class="text-left">Superior</td><td>10</td><td>+9.000 credits</td><td>10.000 credits</td><td>+1</td><td>2</td><td>Tracking +2</td></tr>
+                        <tr><td class="text-left">Elite</td><td>12</td><td>+10.000 credits</td><td>20.000 credits</td><td>+2</td><td>3</td><td>Tracking +2</td></tr>
+                        <tr><td class="text-left">Ultimate</td><td>16</td><td>+80.000 credits</td><td>100.000 credits</td><td>+2</td><td>3</td><td>Tracking +3</td></tr>
+                        <tr><td class="text-left">Paragon</td><td>19</td><td>+300.000 credits</td><td>400.000 credits</td><td>+3</td><td>4</td><td>Tracking +3</td></tr>
+                    </tbody>
+                </table>
+                <p style="font-size:0.75em; color:#a1b5cc; margin-top:-15px; font-style:italic;">1: Il valore totale esclude il costo dell'arma commerciale base.</p>
+            </div>
+
+            <!-- Tabelle Munizioni / Batterie -->
+            <div class="ammo-flex-box" style="display: flex; flex-direction: column; gap: 10px;">
+                <table class="cyber-weapon-table" style="font-size: 0.85em; margin-bottom: 0;">
+                    <thead>
+                        <tr><th class="text-left">Projectile Ammo</th><th>Lvl</th><th>Price</th><th>Mag</th><th>Bulk</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="text-left">Projectile ammo (10)</td><td>0</td><td>1</td><td>—</td><td>—</td></tr>
+                    </tbody>
+                </table>
+
+                <table class="cyber-weapon-table" style="font-size: 0.85em; margin-bottom: 0;">
+                    <thead>
+                        <tr><th class="text-left">Batteries</th><th>Lvl</th><th>Price</th><th>Charges</th><th>Bulk</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="text-left">Battery, commercial</td><td>0</td><td>10</td><td>10</td><td>—</td></tr>
+                        <tr><td class="text-left">Battery, tactical</td><td>2</td><td>20</td><td>20</td><td>—</td></tr>
+                        <tr><td class="text-left">Battery, advanced</td><td>4</td><td>40</td><td>40</td><td>—</td></tr>
+                        <tr><td class="text-left">Battery, superior</td><td>10</td><td>60</td><td>60</td><td>L</td></tr>
+                        <tr><td class="text-left">Battery, elite</td><td>12</td><td>100</td><td>100</td><td>L</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tabella Serbatoi Chimici -->
+            <div class="ammo-flex-box">
+                <table class="cyber-weapon-table" style="font-size: 0.85em;">
+                    <thead>
+                        <tr><th class="text-left">Chem Tanks</th><th>Lvl</th><th>Price</th><th>Mag</th><th>Bulk</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="text-left">Chem tank, commercial</td><td>0</td><td>5</td><td>8</td><td>—</td></tr>
+                        <tr><td class="text-left">Chem tank, tactical</td><td>2</td><td>10</td><td>16</td><td>—</td></tr>
+                        <tr><td class="text-left">Chem tank, advanced</td><td>4</td><td>20</td><td>40</td><td>—</td></tr>
+                        <tr><td class="text-left">Chem tank, superior</td><td>10</td><td>30</td><td>48</td><td>L</td></tr>
+                        <tr><td class="text-left">Chem tank, elite</td><td>12</td><td>50</td><td>64</td><td>L</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SEZIONE MANUALE OPERATIVO -->
+    <div class="section-divider">Protocolli Balistici Avanzati</div>
+    
+    <div class="details-wrapper">
+        <!-- MECCANICHE DI TIRO E MUNIZIONI -->
+        <div class="info-card">
+            <h3>Sistemi di Fuoco e Ricarica</h3>
+            <p>I colpi a segno e l'efficacia dei danni dipendono dalle proprietà innate dell'arma. Un attacco che eguaglia o supera la CA nemica va a segno e richiede il tiro del dado dei danni appropriato. Ottenere un 20 naturale o superare la CA del bersaglio di 10 o più infligge un <strong>Colpo Critico</strong>, raddoppiando l'intero ammontare dei danni inflitti.</p>
+            <p>Molte armi a distanza sfruttano caricatori o fonti di alimentazione:</p>
+            <ul>
+                <li><strong>Magazine & Charges:</strong> Indica la capacità di munizioni fisiche (proiettili, dardi, freccette) o cariche energetiche della batteria interna. I proiettili fisici costano 10 unità per singolo credito.</li>
+                <li><strong>Expend:</strong> Indica l'ammontare esatto di cariche o colpi consumati per ogni singolo attacco base a distanza.</li>
+                <li><strong>Reload:</strong> L'azione di ricarica richiede l'uso di una mano libera e consuma il numero di azioni di Interagire indicato (pari a 0 se la ricarica è parte integrante del fuoco stesso).</li>
+            </ul>
+        </div>
+
+        <!-- REGOLE MULTI-BRACCIA -->
+        <div class="info-card">
+            <h3>Gestione Multi-Braccia (Multi-Armed)</h3>
+            <p>Le specie con arti multipli (come i Kasatha) possono stringere simultaneamente più oggetti, ma coordinare azioni offensive complesse rimane una sfida tattica che richiede un addestramento specifico.</p>
+            <p>Dovrai obbligatoriamente designare una specifica coppia di arti come le tue **Mani Attive (Active Hands)**. Ti è concesso effettuare attacchi sferrati esclusivamente tramite armi o equipaggiamenti impugnati all'interno della coppia di mani attualmente indicata como attiva. Cambiare la designazione da una coppia di braccia all'altra richiede l'attivazione dell'apposita azione a 1 azione <strong>Cambiare Mani (Switch Hands)</strong>.</p>
+        </div>
+
+        <!-- TRATTI SPECIALI CHIAVE -->
+        <div class="info-card">
+            <h3>Analisi dei Tratti d'Arma</h3>
+            <ul>
+                <li><strong>Analog:</strong> Struttura meccanica o chimica priva di circuiti complessi ed elettronica; è totalmente immune a capacità tecnologiche esterne.</li>
+                <li><strong>Area (burst, cone, line):</strong> Può fare fuoco solo tramite l'azione *Area Fire* (2 azioni, nega il tiro per colpire; infligge danni ad area condizionati da un TS sui Reflex (Riflessi) base nemico contro la tua CD di classe).</li>
+                <li><strong>Automatic:</strong> Consente l'utilizzo dell'azione *Auto-Fire* (2 azioni, investe un intero cono pari a metà della gittata standard; TS Reflex (Riflessi) nemico, consuma munizioni pari al numero di bersagli nell'area × 2).</li>
+                <li><strong>Boost:</strong> Carica l'arma spendendo 1 azione di Interagire per innestare un dado di danno addizionale al colpo successivo (i dadi aumentano a livelli superiori).</li>
+                <li><strong>Concussive:</strong> Proiettili d'impatto perforanti pesanti. Per calcolare le riduzioni o le immunità nemiche, applica sempre la più debole tra la sua resistenza a perforazione e impatto.</li>
+                <li><strong>Unwieldy:</strong> Arma pesante o sbilanciante; non può essere utilizzata più di una volta per round per effettuare un attacco e non può essere usata come parte delle reazioni.</li>
+            </ul>
+        </div>
+
+        <!-- SPECIALIZZAZIONI CRITICHE -->
+        <div class="info-card">
+            <h3>Specializzazioni Critiche di Gruppo</h3>
+            <p>Talenti o fusi sbloccano devastanti effetti aggiuntivi in caso di colpo critico andato a segno, basati sul gruppo dell'arma:</p>
+            <ul>
+                <li><strong>Axe:</strong> Infliggi a un nemico adiacente al bersaglio e a portata danni pari ai dadi base non raddoppiati srotolati.</li>
+                <li><strong>Brawling / Shock / Projectile:</strong> TS Fortitude (Tempra)nemico o subisce rispettivamente la condizione Rallentato 1, Stordito 1 o Rallentato 1.</li>
+                <li><strong>Crossbow / Dart / Knife:</strong> Il bersaglio subisce 1d6 (1d8 per Crossbow) danni da sanguinamento persistente.</li>
+                <li><strong>Flail / Hammer:</strong> Il nemico viene abbattuto e cade in condizione Prono, a meno che non superi un TS (Reflex (Riflessi) o Tempra).</li>
+                <li><strong>Laser:</strong> Il bersaglio deve superare un TS su Fortitude (Tempra)o subisce la condizione Abbagliato (dazzled).</li>
+                <li><strong>Mental:</strong> Il bersaglio deve superare un TS su Will (Volontà) o acquisisce la condizione Stupefatto 1 (stupefied).</li>
+                <li><strong>Sword:</strong> Sbilanciato dall'impatto dell'affondo; il bersaglio diventa Impreparato (off-guard) fino al tuo prossimo turno.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

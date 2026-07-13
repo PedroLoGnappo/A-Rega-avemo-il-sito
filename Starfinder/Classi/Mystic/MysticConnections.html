@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Mystic - Connessioni Cosmiche</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 40px 40px 40px;
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #8a2be2;
+            padding-bottom: 8px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* AVVISO DI SISTEMA ROSSO NEON */
+        .critical-notice {
+            max-width: 1000px;
+            margin: 20px auto 40px auto;
+            background: rgba(183, 28, 28, 0.2);
+            color: #ffffff;
+            border: 1px solid #ff1744;
+            border-radius: 4px;
+            padding: 15px 25px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            box-shadow: 0 0 15px rgba(183, 28, 28, 0.3);
+            text-transform: uppercase;
+            backdrop-filter: blur(6px);
+        }
+
+        /* STRUTTURA CONTENITORI */
+        .grid-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* BLOCCHETTI IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+        }
+        .feature-card:hover {
+            transform: translateX(3px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.25em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+        }
+
+        /* METADATI STRUTTURATI */
+        .connection-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #8da2bb;
+            margin-bottom: 15px;
+        }
+        .meta-label {
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        /* SOTTO-BOX EFFETTI (ARMONIA) */
+        .sub-effect-box {
+            background: rgba(15, 22, 42, 0.4);
+            border: 1px dashed #203a70;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .sub-effect-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ff3333;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        /* COSTRUZIONE BLOCCO REAZIONI INTERNE */
+        .action-box {
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid #203a70;
+            border-left: 4px solid #c62828;
+            border-radius: 0 4px 4px 0;
+            padding: 12px;
+            margin-top: 15px;
+        }
+        .action-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 0.95em;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .action-traits {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: #00ffff;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA -->
+    <h1 class="main-title">MYSTIC - CONNECTIONS</h1>
+    
+    <!-- BLOCCO AVVISO DI SISTEMA -->
+    <div class="critical-notice">
+        ⚠ SELEZIONE DI LIVELLO 1: La tua Connessione è la sorgente mistica che ti concede la magia. Scegli la tua Connessione per determinare competenze, incantesimi, effetti di Armonia e miracoli finali.
+    </div>
+
+    <p class="main-desc">
+        La tua connessione è una forza mistica che ti concede la magia (un patrono divino, la manifestazione di una forza cosmica primordiale o un altro mistero). Determina la tua tradizione magica e ti garantisce competenza Trained ( T ) nell'abilità indicata. Aggiungi automaticamente gli incantesimi di connessione al tuo repertorio. Guadagni l'epifania iniziale al 1° livello, sbloccando quelle successive tramite i talenti *Advanced Epiphany* e *Greater Epiphany*. Guadagni l'Armonia al 1° livello (che si innesca quando usi *Transfer Vitality*) e l'Armonia Perfetta al 19° livello.
+    </p>
+
+    <div class="grid-container" style="margin-bottom: 60px;">
+
+        <!-- AKASHIC -->
+        <div class="feature-card">
+            <div class="feature-title">Akashic</div>
+            <span class="feature-translation">(Connessione Akashica)</span>
+            <p class="feature-text">Mantieni un legame psichico permanente con l'Archivio Akashico, il deposito soprannaturale di tutta la conoscenza del multiverso. Questa connessione ti permette di attingere a nozioni che rimarrebbero altrimenti precluse alle normali menti mortali.</p>
+            
+            <div class="connection-meta">
+                <span class="meta-label">Tradizione Magica:</span> Occulta (Occult) | <span class="meta-label">Abilità di Connessione:</span> Occultismo (Occultism)<br>
+                <span class="meta-label">Incantesimi di Connessione:</span> 
+                *Trucchetto:* scan environment; *1°:* akashic download; *2°:* instant virus; *3°:* hypercognition; *4°:* clairvoyance; *5°:* wave of warning; *6°:* truesight; *7°:* death sentence; *8°:* akashic revival; *9°:* foresight<br>
+                <span class="meta-label">Incantesimi Epifanici:</span> Iniziale: *akashic fount*; Avanzato: *akashic assistant*; Superiore: *data drain*
+            </div>
+
+            <div class="sub-effect-box">
+                <div class="sub-effect-title">HARMONY (Armonia - 1° Livello):</div>
+                <p class="feature-text">Quando usi *Trasferire Vitalità (Transfer Vitality)*, il bersaglio riceve un download psichico dall'Archivio Akashico e può immediatamente tentare di **Richiamare Conoscenze (Recall Knowledge) come reazione**. Questo utilizzo speciale non innesca alcuna capacità, reazione o azione gratuita nemica normalmente attivata da una prova di Richiamare Conoscenze.</p>
+                
+                <div class="sub-effect-title" style="color:#00ffff;">PERFECT HARMONY (Armonia Perfetta - 19° Livello):</div>
+                <p class="feature-text" style="margin:0;">Crei un palazzo della memoria extradimensionale che funziona come un *palazzo planare (planar palace)*. Creare una porta d'accesso per questo semipiano richiede 1 minuto. Il palazzo mantiene la stessa identica disposizione ogni volta che vi accedi, modificabile durante i preparativi giornalieri. Ogni servitore fantasmatico all'interno del palazzo della memoria funziona come un assistente akashico (come quelli creati dall'incantesimo epifanico *akashic assistant*).</p>
+            </div>
+        </div>
+
+        <!-- ELEMENTAL -->
+        <div class="feature-card">
+            <div class="feature-title">Elemental</div>
+            <span class="feature-translation">(Connessione Elementale)</span>
+            <p class="feature-text">Incanali il potere grezzo degli elementi primordiali che convergono per creare l'universo e tutto ciò che contiene. Potresti avere una forte affinità con uno o più elementi, o forse hai visitato uno dei piani elementali venendo trasformato dal viaggio. **Guadagni il talento generale Parare con lo Scudo (Shield Block)**.</p>
+            
+            <div class="connection-meta">
+                <span class="meta-label">Tradizione Magica:</span> Primordiale (Primal) | <span class="meta-label">Abilità di Connessione:</span> Natura (Nature)<br>
+                <span class="meta-label">Incantesimi di Connessione:</span> 
+                *Trucchetto:* recharge weapon; *1°:* shifting surge; *2°:* resist energy; *3°:* levitate; *4°:* wall of fire\*; *5°:* elemental form; *6°:* promession; *7°:* absolute zero; *8°:* earthquake; *9°:* falling stars<br>
+                <small>\*Sostituisci il tratto elementale e il tipo di danno con il tratto e il tipo di danno del tuo incantesimo epifanico dell'arma elementale o della barriera elementale attivo.</small><br>
+                <span class="meta-label">Incantesimi Epifanici:</span> Iniziale: *elemental weapon*; Avanzato: *elemental barrier*; Superiore: *elemental nova*
+            </div>
+
+            <div class="sub-effect-box">
+                <div class="sub-effect-title">HARMONY (Armonia - 1° Livello):</div>
+                <p class="feature-text">Quando usi *Trasferire Vitalità (Transfer Vitality)*, scegli un tratto elementale tra: *aria, terra, fuoco, metallo, acqua o legno*. Se una o più delle tue epifanie elementali sono attive, devi obbligatoriamente selezionare il tratto elementale scelto per l'attivazione di quegli incantesimi. Fino alla fine del suo prossimo turno, il prossimo Colpo (Strike) del bersaglio infligge danni basati sul tratto scelto (a tua scelta), anziché il suo normale tipo: **elettricità o sonoro** per aria, **contundente o perforante** per terra, **acido o tagliente** per metallo, **fuoco** per fuoco, **contundente o freddo** per acqua, oppure **perforante o veleno** per legno.</p>
+                
+                <div class="sub-effect-title" style="color:#00ffff;">PERFECT HARMONY (Armonia Perfetta - 19° Livello):</div>
+                <p class="feature-text" style="margin:0;">Durante i tuoi preparativi giornalieri, scegli un tratto elementale (tra quelli elencati in Armonia). Guadagni **resistenza pari a metà del tuo livello** a entrambi i tipi di danno associati all'elemento selezionato. Se scegli il fuoco, guadagni inoltre resistenza al freddo. Ogni volta che curi un alleato legato con *Trasferire Vitalità*, il bersaglio guadagna queste stesse resistenze fino all'inizio del tuo prossimo turno.</p>
+            </div>
+        </div>
+
+        <!-- HEALING -->
+        <div class="feature-card">
+            <div class="feature-title">Healing</div>
+            <span class="feature-translation">(Connessione della Guarigione)</span>
+            <p class="feature-text">Sei connesso alla fonte energetica della vitalità e del vuoto che scorre attraverso tutti gli esseri viventi su ogni pianeta. Intrecci queste energie in incantesimi in grado di risanare i tuoi alleati e consumare i tuoi nemici.</p>
+            
+            <div class="connection-meta">
+                <span class="meta-label">Tradizione Magica:</span> Divina (Divine) | <span class="meta-label">Abilità di Connessione:</span> Medicina (Medicine)<br>
+                <span class="meta-label">Incantesimi di Connessione:</span> 
+                *Trucchetto:* stabilize; *1°:* heal; *2°:* false vitality; *3°:* entropy strike; *4°:* genetic regeneration; *5°:* breath of life; *6°:* vampiric exsanguination; *7°:* execute; *8°:* moment of renewal; *9°:* massacre<br>
+                <span class="meta-label">Incantesimi Epifanici:</span> Iniziale: *infusion*; Avanzato: *vitality nova*; Superiore: *vital rebirth*
+            </div>
+
+            <div class="sub-effect-box">
+                <div class="sub-effect-title">HARMONY (Armonia - 1° Livello):</div>
+                <p class="feature-text">Quando usi *Trasferire Vitalità (Transfer Vitality)*, tenti di **contrastare (counteract) un'afflizione** che colpisce il bersaglio, oppure tenti di contrastare un effetto a tua scelta che impone una delle seguenti condizioni sul bersaglio: **accecato (blinded), goffo (clumsy), abbagliato (dazzled), assordato (deafened), indebolito (enfeebled) o nauseato (sickened)**.</p>
+                
+                <div class="sub-effect-title" style="color:#00ffff;">PERFECT HARMONY (Armonia Perfetta - 19° Livello):</div>
+                <p class="feature-text" style="margin:0;">Aggiungi le condizioni **condannato (doomed), drenato (drained), paralizzato (paralyzed) e stordito (stunned)** alla lista delle condizioni che puoi contrastare con la tua Armonia. Inoltre, se non riesci a contrastare l'effetto, ma ci saresti riuscito se il suo rango di contrasto fosse stato inferiore di 2, riesci comunque a **sopprimere (suppress) l'effetto** fino all'inizio del tuo prossimo turno. La durata dell'effetto nocivo non scorre mentre si trova soppresso.</p>
+            </div>
+        </div>
+
+        <!-- RHYTHM -->
+        <div class="feature-card">
+            <div class="feature-title">Rhythm</div>
+            <span class="feature-translation">(Connessione del Ritmo)</span>
+            <p class="feature-text">Percepisci la canzone che muove le stelle, incanalando questo battito cosmico attraverso il potere del ritmo udibile e delle vibrazioni universali note a molti come la Canzone delle Sfere. Senti una melodia nella mente che ti spinge alla condivisione con il gruppo legato.</p>
+            
+            <div class="connection-meta">
+                <span class="meta-label">Tradizione Magica:</span> Primordiale (Primal) | <span class="meta-label">Abilità di Connessione:</span> Performance (Performance)<br>
+                <span class="meta-label">Incantesimi di Connessione:</span> 
+                *Trucchetto:* summon instrument; *1°:* motivating ringtone; *2°:* noise blast; *3°:* hypnotize; *4°:* battle sonata; *5°:* synaptic pulse; *6°:* vibrant pattern; *7°:* howl; *8°:* uncontrollable dance; *9°:* unfathomable song<br>
+                <span class="meta-label">Incantesimi Epifanici:</span> Iniziale: *anthem*; Avanzato: *shuffle*; Superiore: *remix*
+            </div>
+
+            <div class="sub-effect-box">
+                <div class="sub-effect-title">HARMONY (Armonia - 1° Livello):</div>
+                <p class="feature-text">Quando usi *Trasferire Vitalità (Transfer Vitality)*, puoi **estendere la durata di 1 round** di qualsiasi incantesimo epifanico attivo appartenente alla connessione del ritmo (rhythm).</p>
+                
+                <div class="sub-effect-title" style="color:#00ffff;">PERFECT HARMONY (Armonia Perfetta - 19° Livello):</div>
+                <p class="feature-text" style="margin:0;">La prima volta in ogni round che utilizzi *Trasferire Vitalità*, il bersaglio che ha recuperato Punti Ferita può compiere immediatamente una **Corsa (Stride) come azione gratuita**. Questa azione speciale acquisisce il tratto **traversal**.</p>
+            </div>
+        </div>
+
+        <!-- SHADOW -->
+        <div class="feature-card">
+            <div class="feature-title">Shadow</div>
+            <span class="feature-translation">(Connessione dell'Ombra)</span>
+            <p class="feature-text">Sai che ogni ombra è un portale per il Sottomondo (Netherworld) e, come un artista che modella l'argilla, scolpisci la sostanza ombrosa di quel reame in forme spaventose e meravigliose a tuo piacimento.</p>
+            
+            <div class="connection-meta">
+                <span class="meta-label">Tradizione Magica:</span> Divina (Divine) | <span class="meta-label">Abilità di Connessione:</span> Furtività (Stealth)<br>
+                <span class="meta-label">Incantesimi di Connessione:</span> 
+                *Trucchetto:* figment; *1°:* grim tendrils; *2°:* invisibility; *3°:* slow; *4°:* flicker; *5°:* shadow blast; *6°:* mislead; *7°:* eclipse burst; *8°:* disappearance; *9°:* phantasmagoria<br>
+                <span class="meta-label">Incantesimi Epifanici:</span> Iniziale: *shadow snap*; Avanzato: *cloying shadows*; Superiore: *shadow prison*
+            </div>
+
+            <div class="sub-effect-box">
+                <div class="sub-effect-title">HARMONY (Armonia - 1° Livello):</div>
+                <p class="feature-text">Quando usi *Trasferire Vitalità (Transfer Vitality)*, l'ombra del bersaglio si incupisce ed espande, **riducendo la luce intensa a luce fioca** in un'emanazione di 3 metri (10 piedi) dal bersaglio. Questa è a tutti gli effetti un'area di oscurità magica, in grado di superare fonti di luce non magiche o tentare di contrastare la luce magica (come descritto a pagina 299). Il bersaglio diventa **occultato (concealed)** mentre si trova in questa luce fioca e può sfruttare l'occultamento per Nascondersi (Hide). L'effetto dura fino alla fine del tuo prossimo turno.</p>
+                
+                <div class="sub-effect-title" style="color:#00ffff;">PERFECT HARMONY (Armonia Perfetta - 19° Livello):</div>
+                <p class="feature-text">Guadagni l'azione speciale **Umbral Stride**. Quando utilizzi *Trasferire Vitalità*, il bersaglio può sfruttare ed eseguire questa azione una volta prima del termine del suo prossimo turno.</p>
+                
+                <div class="action-box">
+                    <div class="action-title">Umbral Stride <span class="feature-translation">(Passo Ombroso)</span> <span style="color:#00ffff;">[1A]</span></div>
+                    <div class="action-traits">DIVINE | SHADOW | TELEPORTATION</div>
+                    <p class="feature-text" style="margin:0;">**Frequenza:** 1 volta per round | **Requisiti:** Ti trovi in un'area di luce fioca o di oscurità.<br>
+                    Ti muovi tra le ombre come se stessi compiendo un normale passo. Ti **teletrasporti fino a 9 metri (30 piedi)**. La destinazione deve trovarsi obbligatoriamente in un'area di luce fioca o oscurità, e deve essere compresa sia nella tua linea di vista che nella tua linea di effetto.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

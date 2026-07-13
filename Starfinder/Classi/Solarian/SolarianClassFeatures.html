@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Solarian Privilegi</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 40px; /* Margine pulito simmetrico per i privilegi */
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            text-align: center;
+            color: #a1b5cc;
+            font-size: 1.05em;
+            font-style: italic;
+            margin-bottom: 40px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* GRIGLIA COMPONENTI */
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 25px;
+        }
+
+        /* SCHEDE IN STILE VETRO FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+
+        /* CONFIGURAZIONE BORDI PROGRESSIONE */
+        .feat-lvl-1 { border-left-color: #c62828; }
+        .feat-lvl-custom { border-left-color: #0052cc; }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.15em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 4px 0;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+        }
+        .feature-text strong {
+            color: #ffffff;
+        }
+
+        /* EFFETTI AZIONI E REAZIONI */
+        .action-box {
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid #203a70;
+            border-left: 4px solid #b71c1c;
+            border-radius: 4px;
+            padding: 14px;
+            margin-top: 12px;
+        }
+        .action-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ff1744;
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .action-traits {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #00bfff;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        /* METADATI MECCANICHE */
+        .paradox-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .paradox-meta strong {
+            color: #00bfff;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+    <div class="nav-container">
+        <a href="../../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA -->
+    <h1 class="main-title">SOLARIAN - PRIVILEGI DI CLASSE</h1>
+    <p class="subtitle">Tutte le capacità del Solarian organizzate cronologicamente e divise per livello di progressione.</p>
+
+    <!-- LIVELLO 1 -->
+    <h2 class="section-divider">LIVELLO 1</h2>
+    <div class="features-grid">
+        
+        <!-- CLASS FEATURES -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">CLASS FEATURES</h3>
+                <span class="feature-translation">(Privilegi di Classe)</span>
+                <p class="feature-text">Ottieni queste abilità come solarian. Le abilità ottenute ai livelli superiori riportano il livello sbloccato accanto al loro nome.</p>
+            </div>
+        </div>
+
+        <!-- ANCESTRY AND BACKGROUND -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">ANCESTRY AND BACKGROUND</h3>
+                <span class="feature-translation">(Ascendenza e Background)</span>
+                <p class="feature-text">In aggiunta a ciò che ottieni dalla tua classe al 1° livello, benefici dei vantaggi dell'ascendenza e del background selezionati, come descritto nel Capitolo 2.</p>
+            </div>
+        </div>
+
+        <!-- ATTRIBUTE BOOSTS -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">ATTRIBUTE BOOSTS</h3>
+                <span class="feature-translation">(Aumenti di Attributo)</span>
+                <p class="feature-text">Al 1° livello ottieni quattro aumenti gratuiti a diversi modificatori di attributo. Al 5° livello e ogni 5 livelli successivi ottieni altri quattro aumenti gratuiti. Se un modificatore è già +4 o superiore, richiede due aumenti per incrementarlo di 1.</p>
+            </div>
+        </div>
+
+        <!-- INITIAL PROFICIENCIES -->
+        <div class="feature-card feat-lvl-1">
+            <div>
+                <h3 class="feature-title">INITIAL PROFICIENCIES</h3>
+                <span class="feature-translation">(Competenze Iniziali)</span>
+                <p class="feature-text">Al 1° livello ottieni un numero di competenze che rappresentano il tuo addestramento di base, annotate all'inizio della sezione di questa classe.</p>
+            </div>
+        </div>
+
+        <!-- STELLAR ATTUNEMENT -->
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">STELLAR ATTUNEMENT</h3>
+                <span class="feature-translation">(Sintonia Stellare)</span>
+                <p class="feature-text">La tua esistenza cicla tra gli aspetti delle stelle. Inizi con due aspetti: <strong>photon</strong> (il potere delle stelle di emettere calore, luce e plasma) e <strong>graviton</strong> (il potere delle stelle di attrarre e imprigionare oggetti tramite la gravità). Sei considerato sintonizzato a fotone, sintonizzato a gravitone, o non sintonizzato. Ottieni l'azione speciale per sintonizzarti.</p>
+                <div class="action-box">
+                    <div class="action-title">ATTUNE [1 Azione]</div>
+                    <div class="action-traits">CONCENTRATE | SOLARIAN | FREQUENZA: 1 volta per round</div>
+                    <p class="feature-text">Stabilizzi corpo e mente sintonizzandoti sull'aspetto stellare scelto (fotone o gravitone). Puoi anche manifestare le tue manifestazioni solari dormienti se hai le mani libere. <strong>Speciale:</strong> Puoi usare Attune come azione gratuita quando tiri l'iniziativa.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLAR MANIFESTATIONS -->
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">SOLAR MANIFESTATIONS</h3>
+                <span class="feature-translation">(Manifestazioni Solari)</span>
+                <p class="feature-text">La tua comprensione delle forze cosmiche si materializza in tre forme tangibili che svaniscono temporaneamente se perdi la sintonia: un <strong>solar flare</strong>, un <strong>solar nimbus</strong>, e una <strong>solar weapon</strong>.</p>
+            </div>
+        </div>
+
+        <!-- SOLAR FLARE -->
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">SOLAR FLARE</h3>
+                <span class="feature-translation">(Bagliore Solare)</span>
+                <p class="feature-text">Un piccolo nucleo di energia solare fluttua vicino a te o si incastona nel tuo corpo (palmo, viso, ecc.) scatenando dardi d'energia a corto raggio. È un'arma a distanza marziale (gruppo *brawling*) con i tratti *attuned* e *solarian*. Non occupa mani, non può essere rimossa o bersagliata. Aggiungi la Forza ai danni e puoi potenziarla con i cristalli solari.</p>
+                <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
+                    <div class="paradox-meta">
+                        <strong>Graviton-Attuned:</strong> 1d8 danni contundenti, gittata 15 piedi. Su un successo critico, puoi tentare di Sbilanciare (Trip) il bersaglio come azione gratuita a distanza senza mani libere.
+                    </div>
+                    <div class="paradox-meta">
+                        <strong>Photon-Attuned:</strong> 1d6 danni da fuoco, gittata 30 piedi. Su un successo critico, infliggi anche 1d6 danni da fuoco persistenti.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLAR NIMBUS -->
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">SOLAR NIMBUS</h3>
+                <span class="feature-translation">(Aura Solare)</span>
+                <p class="feature-text">Uno strato di energia stellare avvolge il tuo corpo o la tua armatura (luce radiosa o oscurità solida). L'aspetto estetico non altera le funzioni meccaniche né fornisce bonus aggiuntivi. Guadagni la reazione **Nimbus Surge**.</p>
+                <div class="action-box">
+                    <div class="action-title">NIMBUS SURGE [Reazione]</div>
+                    <div class="action-traits">ATTUNED | SOLARIAN</div>
+                    <p class="feature-text"><strong>Innesco:</strong> Una creatura alla tua portata usa un'azione di manipolazione, di movimento, compie un attacco a distanza o lascia un quadretto muovendosi.</p>
+                    <p class="feature-text">Effettua un Colpo (Strike) in mischia contro la creatura. Questo attacco ignora e non incrementa la tua penalità per attacchi multipli (MAP).</p>
+                    <div class="paradox-meta" style="margin-bottom: 5px;">
+                        <strong>Graviton-Attuned:</strong> Se il Colpo è un successo critico, il bersaglio deve superare un TS su Fortitude (Tempra)contro la tua CD di classe o diventare Indebolito 1 (Enfeebled) fino alla fine del suo turno.
+                    </div>
+                    <div class="paradox-meta">
+                        <strong>Photon-Attuned:</strong> Se il Colpo è un successo critico, il bersaglio deve superare un TS su Fortitude (Tempra)contro la tua CD di classe o diventare Maldestro 1 (Clumsy) fino all'inizio del suo turno.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLAR WEAPON -->
+        <div class="feature-card feat-lvl-1" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">SOLAR WEAPON</h3>
+                <span class="feature-translation">(Arma Solare)</span>
+                <p class="feature-text">Forgi con la Will (Volontà) un'arma marziale da mischia che appare in una mano libera. Infligge 1d8 danni a scelta tra contundenti, perforanti o taglienti (tratti *attuned* e *solarian*). Al 1° livello scegli il gruppo dell'arma (Axe, Flail, Pick, Brawling, Hammer, Polearm, Sword, Club, Knife, Spear) e fino a due tratti tra: *Disarm, Nonlethal, Sweep, Free-Hand, Parry, Trip, Grapple, Shove, Versatile*. Puoi invece scegliere *Reach* o *Two-Hand 1d10* (ognuno conta come due tratti).</p>
+                <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
+                    <div class="paradox-meta">
+                        <strong>Graviton-Attuned:</strong> Quando colpisci a segno una creatura, lo spazio occupato da essa e tutti i quadretti adiacenti diventano terreno difficile per quella creatura fino alla fine del suo prossimo turno.
+                    </div>
+                    <div class="paradox-meta">
+                        <strong>Photon-Attuned:</strong> Quando colpisci a segno, infliggi danni da fuoco addizionali pari alla metà del tuo livello arrotondata per eccesso. L'arma emette luce intensa in un raggio di 5 piedi (e luce fioca per i successivi 5).
+                    </div>
+                </div>
+                <div class="action-box">
+                    <div class="action-title">RE-FORGE SOLAR WEAPON</div>
+                    <div class="action-traits">CONCENTRATE | EXPLORATION | SOLARIAN</div>
+                    <p class="feature-text">Passi 10 minuti concentrandoti sulla composizione della tua arma solare per modificarne il tipo di danno, i tratti selezionati e il gruppo di armi fino al prossimo ri-forgiamento.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLARIAN FEATS -->
+        <div class="feature-card feat-lvl-custom">
+            <div>
+                <h3 class="feature-title">SOLARIAN FEATS</h3>
+                <span class="feature-translation">Progressione di Classe</span>
+                <p class="feature-text">Al 1° livello e a ogni livello di numero pari successivo, ottieni un talento di classe del Solarian (disponibili a pagina 143).</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SEZIONE LIVELLI SUPERIORI -->
+    <h2 class="section-divider">AVANZAMENTO DI CLASSE (LIVELLI 2 - 20)</h2>
+    <div class="features-grid">
+
+        <!-- LIVELLO 2 -->
+        <div class="feature-card feat-lvl-custom">
+            <div>
+                <h3 class="feature-title">LIVELLO 2: SKILL FEATS</h3>
+                <p class="feature-text">Ottieni un talento di abilità. Devi essere Trained ( T ) o superiore nell'abilità corrispondente per poterlo selezionare.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 3 -->
+        <div class="feature-card feat-lvl-custom" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">LIVELLO 3: SCALED ABILITIES & GENERAL ADVANCEMENT</h3>
+                <p class="feature-text"><strong>Scaled Abilities:</strong> Alcune abilità crescono di potenza con il livello (es. indicazioni "Level (+2)" come per il talento *Black Hole* di 4° livello, che scala ad ogni livello pari successivo).<br>
+                Ottieni inoltre un <strong>Talento Generale</strong>, un <strong>Incremento di Abilità</strong> (fino a Esperto) e la capacità **Stellar Resilience**.</p>
+                <div class="paradox-meta">
+                    <strong>Stellar Resilience:</strong> La competenza nei TS su Fortitude (Tempra)sale a **Esperto**. Quando ottieni un successo in un TS su Fortitude (Tempra)o Will (Volontà) contro un effetto mentale o di incapacitazione, puoi usare Attune come azione gratuita.
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVELLO 5 -->
+        <div class="feature-card feat-lvl-custom" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">LIVELLO 5: SOLAR WEAPON EXPERTISE</h3>
+                <p class="feature-text">La competenza con armi semplici, marziali e attacchi disarmati sale a **Esperto**. Quando metti a segno un colpo critico con il tuo *solar flare* o la tua *solar weapon*, sblocchi il rispettivo effetto di specializzazione critica. Guadagni anche un talento di ascendenza.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 7 -->
+        <div class="feature-card feat-lvl-custom" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">LIVELLO 7: WEAPON SPECIALIZATION & SENSES</h3>
+                <p class="feature-text">InfExtended danni extra (+2) con armi e attacchi disarmati in cui sei esperto (+3 per maestro, +4 per leggendario). Ottieni un incremento abilità (fino a Master) e il privilegio **Stellar Senses**.</p>
+                <div class="paradox-meta">
+                    <strong>Stellar Senses:</strong> La competenza in Deception (Percezione) sale a **Maestro**. Guadagni un bonus di circostanza di +2 ai tiri di iniziativa (+3 se possiedi il talento generale *Incredible Initiative*).
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVELLO 9 -->
+        <div class="feature-card feat-lvl-custom" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">LIVELLO 9: SOLARIAN EXPERTISE & PARTITION</h3>
+                <p class="feature-text">La competenza per la tua **CD di classe del solarian** aumenta a **Esperto**. Ottieni un incremento di abilità e il privilegio di difesa mentale **Stellar Partition**.</p>
+                <div class="paradox-meta">
+                    <strong>Stellar Partition:</strong> La competenza nei TS su Will (Volontà) aumenta a **Maestro**. Quando ottieni un successo in un TS su Will (Volontà) contro un effetto mentale o di incapacitazione, il risultato si trasforma in un successo critico.
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVELLO 11 -->
+        <div class="feature-card feat-lvl-custom">
+            <div>
+                <h3 class="feature-title">LIVELLO 11: ARMOR EXPERTISE</h3>
+                <p class="feature-text">Il tuo addestramento protettivo migliora: la competenza per armature leggere, medie e per la difesa senza armatura aumenta al rango di **Esperto**.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 13 -->
+        <div class="feature-card feat-lvl-custom">
+            <div>
+                <h3 class="feature-title">LIVELLO 13: SOLARIAN WEAPON MASTERY</h3>
+                <p class="feature-text">Le armi diventano un'estensione del tuo corpo. La competenza con armi semplici, marziali e attacchi disarmati aumenta al rango di **Maestro**.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 15 -->
+        <div class="feature-card feat-lvl-custom" style="grid-column: span 2;">
+            <div>
+                <h3 class="feature-title">LIVELLO 15: GRAVITAS & WEAPON UPGRADE</h3>
+                <p class="feature-text">**Greater Weapon Specialization:** Il danno bonus da specializzazione aumenta a +4 se esperto, +6 se maestro, +8 se leggendario. Ottieni un incremento di abilità (fino a Legendary) e la capacità di controllo gravitazionale **Gravitas**.</p>
+                <div class="paradox-meta">
+                    <strong>Gravitas:</strong> Manipoli la gravità per evitare i danni. La competenza nei TS su Reflex (Riflessi) aumenta a **Maestro**. Quando ottieni un successo in un TS su Reflex (Riflessi), il risultato diventa un successo critico.
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVELLO 17 -->
+        <div class="feature-card feat-lvl-custom">
+            <div>
+                <h3 class="feature-title">LIVELLO 17: ARMOR & SOLARIAN MASTERY</h3>
+                <p class="feature-text">La competenza per le armature leggere, medie e difesa senza armatura aumenta a **Maestro**. Allo stesso modo, la tua **CD di classe del solarian** aumenta a **Maestro**.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 19 -->
+        <div class="feature-card feat-lvl-custom">
+            <div>
+                <h3 class="feature-title">LIVELLO 19: STELLAR PARAGON</h3>
+                <p class="feature-text">Diventi un modello supremo tra i solarian. Le competenze specifiche mirate per il tuo **solar flare** e per la tua **solar weapon** aumentano al rango definitivo di **Leggendario**.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

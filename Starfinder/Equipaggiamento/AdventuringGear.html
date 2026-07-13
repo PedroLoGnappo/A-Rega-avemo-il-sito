@@ -1,0 +1,1081 @@
+UPB Polymer Base
+Componenti nanotech usati come valuta non tracciabile o risorsa universale per il Crafting immediato dei maker's kit. 1.000 UPB equivalgono a 1 Bulk<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Adventuring Gear</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; 
+            background-image: linear-gradient(rgba(6, 9, 19, 0.45), rgba(6, 9, 19, 0.45)), url('Equipaggiamento.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 40px 40px 320px; /* Margine sinistro per fare spazio alla legenda fissa */
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* LEGENDA FISSA SUL LATO SINISTRO (STILE HUD DATA) */
+        .sidebar-legend {
+            position: fixed;
+            top: 120px;
+            left: 20px;
+            width: 260px;
+            background: rgba(10, 20, 40, 0.9);
+            border: 1px solid #1e3a8a;
+            border-top: 4px solid #00ffff;
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 82, 204, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .legend-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #00ffff;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+            border-bottom: 1px solid #203a70;
+            padding-bottom: 6px;
+        }
+        .legend-section {
+            margin-bottom: 15px;
+        }
+        .legend-section:last-child {
+            margin-bottom: 0;
+        }
+        .legend-section strong {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .legend-section p {
+            margin: 0;
+            font-size: 0.85em;
+            line-height: 1.4;
+            color: #a1b5cc;
+        }
+
+        /* INTESTAZIONE GENERALE */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            color: #a1b5cc;
+            max-width: 850px;
+            margin: 0 auto 40px auto;
+            font-size: 1.05em;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* STRUTTURA LISTA ORIZZONTALE SIMMETRICA */
+        .gear-list-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* CARD ORIZZONTALE COMPLETA */
+        .item-row-card {
+            background: rgba(15, 22, 42, 0.85);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(6px);
+        }
+        .item-row-card:hover {
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.25);
+            background: rgba(20, 30, 58, 0.9);
+        }
+
+        /* DETTAGLI TESTUALI */
+        .item-details {
+            flex: 1;
+        }
+        .item-name {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+        }
+        .item-row-card:hover .item-name {
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+        .item-description {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #cdffff;
+            margin: 0;
+        }
+
+        /* PARAMETRI TECNICI */
+        .item-stats-badge {
+            display: flex;
+            gap: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        .stat-box {
+            background: rgba(6, 9, 19, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            padding: 8px 14px;
+            border-radius: 3px;
+            color: #8da2bb;
+            text-align: center;
+            min-width: 65px;
+        }
+        .stat-box span {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75em;
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+        .stat-box .val {
+            font-size: 1.1em;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE SULL'ASSE DESTRA */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.95); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- LEGENDA FISSA INTERFACCIA SINISTRA -->
+    <div class="sidebar-legend">
+        <div class="legend-title">System Specs</div>
+        <div class="legend-section">
+            <strong>Item Level (Lvl)</strong>
+            <p>Esprime la complessità tecnica o magica. Non puoi Fabbricare oggetti con un livello superiore al tuo. Se assente, il valore è pari a 0.</p>
+        </div>
+        <div class="legend-section">
+            <strong>Bulk (Ingombro)</strong>
+            <p>Rappresenta peso, dimensione e ingombro. Senza penalità carichi fino a 5 + For. Oltre sei Ingombrato (Encumbered). L = Leggero (10 L = 1 Bulk). — = Trascurabile.</p>
+        </div>
+        <div class="legend-section">
+            <strong>Hands & Usage</strong>
+            <p>Indica le mani libere necessarie per impugnare l'oggetto. Gli oggetti possono essere anche Indossati (Worn) o Stivati (Stowed) nei contenitori.</p>
+        </div>
+    </div>
+
+    <!-- TITOLO GENERALE -->
+    <h1 class="main-title">ADVENTURING GEAR</h1>
+    <p class="subtitle">Oggetti e strumenti fondamentali per l'esplorazione planetaria, l'analisi e la sopravvivenza nel cosmo.</p>
+
+    <!-- LISTA DEGLI OGGETTI -->
+    <div class="gear-list-container">
+
+        <!-- ARCHAIC TEXT -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Archaic Text</h3>
+                <p class="item-description">Questo volume cartaceo o antico supporto dati potrebbe racchiudere un testo religioso, una collezione di ricette ancestrali, un romanzo rosa o schemi meccanici d'epoca.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">10</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- AUTOGRAPPLER COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Autograppler (Commercial) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Permette di agganciare questo solido dispositivo di ancoraggio a un cavo con un'azione di Interagire. Dei morsetti scivolano automaticamente dalla base lungo il cavo per consentire la scalata come se fosse una corda con nodi. Può essere lanciato verso superfici stabili eseguendo un attacco a distanza con competenza nelle armi semplici contro CD dipendente dal bersaglio (minimo CD 20, tiro segreto). Un fallimento critico sgancia il rampino a metà scalata.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">10</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- AUTOGRAPPLER TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Autograppler (Tactical) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Variante avanzata dotata di un sensore integrato per verificare la stabilità dell'ancoraggio. In caso di fallimento critico al tiro per colpire a distanza, il dispositivo si ritrae automaticamente per sicurezza.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">250</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- CABLE LINE COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Cable Line (Commercial - 50 Feet)</h3>
+                <p class="item-description">Cavo industriale ad alta resistenza composto da materiali plastici ad alta durabilità rivestiti in metallo. La versione commerciale è interamente rivestita con una robusta lega di titanio.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- CABLE LINE TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Cable Line (Tactical - 50 Feet)</h3>
+                <p class="item-description">Cavo industriale corazzato ad altissime prestazioni per compiti militari e d'esplorazione d'élite, rivestito con una resistentissima lega di adamantio.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">150</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- CAMPING KIT -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Camping Kit</h3>
+                <p class="item-description">Un set completo che contiene una tenda impermeabile e resistente alle intemperie capace di ospitare 4 creature Medie o 2 Grandi, sacchi a pelo, un accenditore, razioni per 1 settimana e un coltello da sopravvivenza.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">30</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- CHEMALYZER -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Chemalyzer</h3>
+                <p class="item-description">Un'unità di campionamento portatile che fornisce un bonus di circostanza di +1 alle prove di abilità effettuate per identificare droghe, medicinali, veleni o altre sostanze chimiche sconosciute.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">150</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- CLIMBING KIT COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Climbing Kit (Commercial)</h3>
+                <p class="item-description">Include 50 piedi di cavo, un gancio da grappolo, imbracature, pulegge, chiodi da roccia (piton), un martello e ramponi. Permette di assicurarsi alle pareti durante la Scalata muovendosi a metà velocità ma concedendo un tiro salvezza piatto con CD 5 per prevenire le cadute in caso di fallimento critico. Materiali per un solo scalatore.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">5</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- CLIMBING KIT TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Climbing Kit (Tactical)</h3>
+                <p class="item-description">Versione potenziata con ancoraggi strutturali migliorati e imbracature ergonomiche ad alta aderenza. Fornisce un bonus di oggetto di +1 alle prove di Atletica per Scalare.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">40</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- COMM UNIT -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Comm Unit <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Dispositivo tascabile che unisce un computer minore e un comunicatore cellulare planetario wireless per scambi audio/testo immediati. Include calcolatrice, torcia (5 piedi di luce intensa, seguiti da 5 di luce fioca), browser per l'infosfera locale e giochi. Se integrato nell'armatura consente comunicazioni audio a mani libere; funzioni scritte e app richiedono comunque una mano. Versioni a lungo raggio sfruttano generatori dedicati e fari del Drift.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">7</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- CONTAINER ORDINARY -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Container (Ordinary)</h3>
+                <p class="item-description">Zaini, borse, valigette e borsoni generici. Può contenere fino a 4 Bulk totali di oggetti. I primi 2 Bulk immagazzinati al suo interno sono completamente esentati dal conteggio dei tuoi limiti di Ingombro totali. Se non indossato ma trasportato a mano, l'Ingombro del contenitore stesso diventa Leggero (L) invece che trascurabile.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- CONTAINER DESIGNER -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Container (Designer)</h3>
+                <p class="item-description">Modello d'alta moda e di lusso, rifinito con materiali pregiati. Fornisce un bonus di oggetto di +1 alle prove effettuate per Fare un'Impressione (Make an Impression) sugli individui appartenenti all'alta società galattica finché viene esibito.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">100</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- DATA CHIP -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Data Chip <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Un piccolo chip di memoria solida capace di contenere un intero testo religioso, un album fotografico digitale, diari personali o file equivalenti. Le informazioni sono leggibili tramite un qualsiasi computer, inclusi quelli delle unità comm.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- DATAPAD -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Datapad</h3>
+                <p class="item-description">Ubiqui computer portatili che integrano un'unità comm, microfono, altoparlante, telecamera, browser e memoria dati. Registrano migliaia di ore di dati, supportano suite di calcolo, elaborazione testi e avvisi governativi d'emergenza. I modelli commerciali sono volutamente fragili per indurre l'utente all'aggiornamento costante, a differenza dei modelli industriali più stabili.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">250</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- EMERGENCY BEACON -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Emergency Beacon <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Richiede una batteria per funzionare. Quando attivato trasmette la propria posizione emettendo un flash di luce rossa una volta per round (consumo 1 carica/giorno) rintracciabile con una prova di Computer o Sopravvivenza a CD 15. Portata segnale: 100 miglia in pianura, 50 in collina/foresta, 25 in montagna/subacqueo. Installabile anche su veicoli/astonavi (portata pari ai sistemi di bordo, consumo 1 carica/ora).</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">100</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- EXPLORER'S CANTEEN -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Explorer's Canteen <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Borraccia termica a due scomparti. Quello superiore sfrutta filtri e nanomacchine che purificano cibo e acqua da contaminanti comuni, garantendo un bonus di oggetto di +1 ai tiri salvezza contro malattie e veleni contenuti. Quello inferiore converte i blocchi UPB inseriti in pasta nutrizionale edibile al tasso di 2 UPB per un giorno intero di nutrimento.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">30</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- FIELD SCIENTIST'S TOOLKIT COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Field Scientist's Toolkit (Commercial)</h3>
+                <p class="item-description">Un set scientifico da campo portatile che racchiude un chemalyzer, un microscopio da analisi ottica, strumenti di registrazione ambientale e sacche sterili per la raccolta di campioni e specimen biologici. Può essere impugnato a due mani o utilizzato a una mano sola se indossato tramite agganci dedicati.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">175</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1 o 2</div></div>
+            </div>
+        </div>
+
+        <!-- FIELD SCIENTIST'S TOOLKIT TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Field Scientist's Toolkit (Tactical) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Strumentazione da campo avanzata per ricercatori planetari. Fornisce un bonus di oggetto di +1 sulle prove per Ricordare Conoscenze (Recall Knowledge) effettuate utilizzando l'abilità Natura (Nature) o un'abilità di Sapienza (Lore) appropriata al tipo di analisi.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">350</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1 o 2</div></div>
+            </div>
+        </div>
+
+        <!-- FIRE EXTINGUISHER COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Fire Extinguisher (Commercial) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Spruzza schiuma chimica in un cono di 15 piedi, estinguendo istantaneamente fuochi non magici. Tenta inoltre di contrastare gli effetti di fuoco magico fino al 2° rango con un modificatore di contrasto pari a +7. Consuma un'unità chimica a utilizzo e richiede un serbatoio dello stesso grado.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">40</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- FIRE EXTINGUISHER TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Fire Extinguisher (Tactical) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Modello militare potenziato progettato per navi da guerra e stazioni di prima linea. Contrasta gli incendi di matrice magica fino al 4° rango con un modificatore di contrasto incrementato a +14.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">8</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">800</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- FIRE EXTINGUISHER ADVANCED -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Fire Extinguisher (Advanced) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Strumentazione pesante industriale a soppressione termica accelerata. Contrasta fiamme e devastazioni di natura magica fino al 6° rango applicando un modificatore di contrasto totale pari a +19.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">12</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">1.200</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- FLASHLIGHT COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Flashlight (Commercial) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Torcia standard portatile. Emette una forte luce focalizzata che illumina intensamente un'emanazione di 30 piedi, proiettando luce fioca per ulteriori 30 piedi successivi.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- FLASHLIGHT TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Flashlight (Tactical) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Modello rinforzato da ricognizione. Illumina un raggio di 60 piedi (luce fioca per altri 60 piedi) ed è dotata di filtri ottici oscuranti regolabili tramite un'azione di Interagire per bloccare o attenuare il fascio luminoso.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">15</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- HACKING TOOLKIT COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Hacking Toolkit (Commercial)</h3>
+                <p class="item-description">Strumentazione obbligatoria per effettuare prove di Computer destinate ad Hackerare i sistemi (Hack). Permette l'accesso fisico diretto o tramite reti collegate o infosfere senza passare dalle interfacce utente standard.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">20</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1 o 2</div></div>
+            </div>
+        </div>
+
+        <!-- HACKING TOOLKIT TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Hacking Toolkit (Tactical) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Interfaccia modificata con decodificatori di frequenza potenziati. Aggiunge un bonus di oggetto di +1 a tutte le prove di Computer effettuate per violare o infiltrarsi nei terminali digitali.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">500</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1 o 2</div></div>
+            </div>
+        </div>
+
+        <!-- HACKING TOOLKIT ADVANCED -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Hacking Toolkit (Advanced) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[ADVANCED]</span></h3>
+                <p class="item-description">Set da intrusione d'élite. Fornisce il bonus di oggetto di +1 e permette di hackerare sistemi a distanza wireless fino a 30 piedi, a meno che non ci si trovi all'interno di ambienti fortemente radioattivi.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">5</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">700</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1 o 2</div></div>
+            </div>
+        </div>
+
+        <!-- HOLOSKIN COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Holoskin (Commercial) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Proiettore olografico da cintura o da arto attivabile con un'azione di Interagire. Programmatico per riprodurre l'aspetto visivo di un'altra creatura della tua stessa taglia per nasconderti, ma non altera voce, odore, movenze od oggetti impugnati. Essenziale per camuffarsi e Impersonare (Impersonate) qualcuno con l'abilità Raggirare.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">20</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- HOLOSKIN TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Holoskin (Tactical) <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Unità di proiezione a rifrazione fotonica stabilizzata e ad alta densità pixel. Aggiunge un bonus di oggetto di +1 a tutte le prove relative al camuffamento e ai travestimenti visivi.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">400</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- HOLOSPARK -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Holospark <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Micro-proiettore olografico mimetizzato come orecchino, spilla o ciondolo. Riproduce un semplice effetto visivo ornamentale personale (come ali o un'aureola fluttuante) abbinato a brevi clip audio personalizzate (canzoni o effetti sonori) programmabili tramite il datapad o comm unit.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- HYGIENE KIT -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Massimo Hygiene Kit</h3>
+                <p class="item-description">Contiene tutti gli strumenti personali necessari per la cura e l'igiene del corpo in viaggio. I kit dedicati includono prodotti biologici specifici per specie aliene (come lo sciogliprodotti per scaglie dei Vesk o gli oli protettivi per le antenne di Lashunta e Shirren).</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- INFILTRATOR'S TOOLKIT COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Infiltrator's Toolkit (Commercial)</h3>
+                <p class="item-description">Strumentazione tecnica essenziale richiesta per utilizzare l'abilità Furtività (Thievery) per Scassinare Serrature (Pick Locks) o Disattivare Dispositivi di sicurezza meccanici o elettronici.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">30</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- INFILTRATOR'S TOOLKIT TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Infiltrator's Toolkit (Tactical)</h3>
+                <p class="item-description">Kit da scasso professionale avanzato con tensori micrometrici auto-regolanti. Fornisce un bonus di oggetto di +1 alle prove di Furtività destinate a Scassinare Serrature o Disattivare Dispositivi.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">500</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- INFINITY DECK -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Infinity Deck</h3>
+                <p class="item-description">Una replica perfetta di un celebre mazzo di carte da gioco storiche apparso misteriosamente durante l'epoca del Gap, utilizzato tutt'oggi per intrattenersi in innumerevoli giochi di abilità e fortuna galattici.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- MAGBOOTS -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Magboots <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Stivali magnetici attivabili con un'azione di Interagire. Attivi, conferiscono un bonus di oggetto di +1 alle prove di Atletica per Scalare superfici metalliche e un bonus di +1 alle CD di Tempra/Reflex (Riflessi) contro Spingere, Riposizionare o Sbilanciare su metallo. In assenza di gravità permettono di muoversi alla propria Velocità sul metallo senza subire la condizione fluttuante.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">350</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- MAKER'S APP -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Maker's App</h3>
+                <p class="item-description">Un'applicazione software specializzata per comm unit e datapad che contiene gli schemi logici e le formule di calcolo necessarie per la Fabbricazione (Crafting) di tutti gli oggetti comuni di questa categoria.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">10</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- MAKER'S TOOLKIT COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Maker's Toolkit (Commercial)</h3>
+                <p class="item-description">Set di assemblaggio e calibrazione molecolare portatile obbligatorio per poter convertire i blocchi di componenti UPB in oggetti finiti sul campo utilizzando l'azione di Fabbricare (Craft).</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">40</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- MAKER'S TOOLKIT TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Maker's Toolkit (Tactical)</h3>
+                <p class="item-description">Unità di assemblaggio industriale avanzata con collimatori di flusso stabili. Fornisce un bonus di oggetto di +1 a tutte le prove di Artigianato effettuate per Fabbricare oggetti dai blocchi UPB.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">500</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- MEDKIT COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Medkit (Commercial)</h3>
+                <p class="item-description">Contiene analgesici, bende riassorbibili, garze sterili e strumenti di sutura laser necessari per le prove di Medicina destinate a Somministrare Primo Soccorso, Trattare Malattie, Trattare Veleni o Curare Ferite. Trattato come un toolkit completo.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">50</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1 o 2</div></div>
+            </div>
+        </div>
+
+        <!-- MEDKIT TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Medkit (Tactical)</h3>
+                <p class="item-description">Kit di terapia medica d'urgenza da campo militare, equipaggiato con micro-suture automatizzate. Fornisce un bonus di oggetto di +1 a tutte le prove di Medicina descritte.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">500</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1 o 2</div></div>
+            </div>
+        </div>
+
+        <!-- MICROGOGGLES -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Microgoggles <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Goggles d'ingrandimento ottico dotati di lenti focali regolabili e illuminatori a micro-raggio. Garantiscono un bonus di oggetto di +2 a qualsiasi prova di abilità che richieda o benefici di una visione estremamente ravvicinata (es. scovare falsificazioni complesse, identificare agenti patogeni nel sangue o sintetizzare droghe/farmaci).</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">250</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- MICROPHONE -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Microphone <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Dispositivo cordless manuale compatto progettato per registrare flussi audio ad alta fedeltà e trasmetterli in tempo reale ad altoparlanti wireless o unità computer esterne.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">8</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- MUSICAL INSTRUMENT COMMERCIAL HANDHELD -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Musical Instrument (Commercial Handheld)</h3>
+                <p class="item-description">Strumenti musicali tascabili o manuali (autocorni, chitarre acustiche, piastre d'onda psicoattive, holoflauti, digital synth deck) dotati di amplificazione o connessioni wireless integrate. Versioni particolarmente ingombranti o pesanti (come drumdeck o theremin) richiedono un posizionamento stazionario per essere suonati.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">8</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- MUSICAL INSTRUMENT TACTICAL HANDHELD -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Musical Instrument (Tactical Handheld)</h3>
+                <p class="item-description">Strumento manuale tarato con sintetizzatori di frequenza armonici professionali. Fornisce un bonus di oggetto di +1 a tutte le prove di Esibizione (Performance) effettuate utilizzandolo.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">500</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- MUSICAL INSTRUMENT COMMERCIAL HEAVY -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Musical Instrument (Commercial Heavy)</h3>
+                <p class="item-description">Grandi postazioni musicali stazionarie, sintetizzatori monumentali o drumdeck pesanti non adatti al trasporto agile, dotati di casse risonanti tecnologiche ad altissima fedeltà sonora.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">20</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">16</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- MUSICAL INSTRUMENT TACTICAL HEAVY -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Musical Instrument (Tactical Heavy)</h3>
+                <p class="item-description">Impianto musicale pesante professionale con equalizzatori acustici integrati per esibizioni su scala planetaria. Garantisce il bonus di oggetto di +1 alle prove di Esibizione.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">1.000</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">16</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- PORTABLE AMP -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Portable Amp</h3>
+                <p class="item-description">Un piccolo e potente amplificatore acustico portatile sincronizzabile con strumenti musicali, microfoni o player audio di datapad. Amplifica esponenzialmente il volume sonoro, riducendo di 5 la CD delle prove di Deception (Percezione) effettuate da chiunque per sentire l'audio proiettato.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">50</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">L</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- RADIATION SWEEPER -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Radiation Sweeper <span style="font-family:'Share Tech Mono'; font-size:0.75em; color:#00ffff;">[TECH]</span></h3>
+                <p class="item-description">Rileva radiazioni entro 120 piedi emettendo ping sonori a toni variabili (bassa, media, alta, severa) e mostrandole su uno schermo tramite un'azione di Interagire. I dati si aggiornano con i tuoi movimenti fino al turno successivo, poi richiedono una nuova interazione. Schermato e immune alle radiazioni; non rileva attraverso 3 piedi di legno/terra, 1 di pietra, 1 pollice di metallo comune, piombo o campi di forza.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">350</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">1</div></div>
+            </div>
+        </div>
+
+        <!-- REPAIR TOOLKIT COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Repair Toolkit (Commercial)</h3>
+                <p class="item-description">Un set completo che racchiude strumenti di precisione e scorte di ricambio per effettuare piccole e medie riparazioni d'emergenza in viaggio. Consente di Riparare (Repair) oggetti danneggiati sfruttando l'abilità Artigianato. Estrarre o riporre il kit logorato è parte integrante dell'azione stessa.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">20</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- REPAIR TOOLKIT TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Repair Toolkit (Tactical)</h3>
+                <p class="item-description">Set da riparazione con saldatori termici auto-stabilizzanti. Fornisce un bonus di oggetto di +1 a tutte le prove di Artigianato mirate ad aggiustare o ripristinare l'integrità strutturale dei componenti.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">250</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">2</div></div>
+            </div>
+        </div>
+
+        <!-- SUNSHADES COMMERCIAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Sunshades (Commercial)</h3>
+                <p class="item-description">Occhiali da sole protettivi commerciali. Oltre a completare l'estetica estetica del tuo avatar cyberpunk rendendolo decisamente più carismatico, proteggono gli occhi dai bagliori standard delle luci planetarie.</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- SUNSHADES TACTICAL -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Sunshades (Tactical)</h3>
+                <p class="item-description">Occhiali con lenti polarizzate e filtri fotosensibili auto-oscuranti istantanei di grado militare. Conferiscono un bonus di oggetto di +1 a tutti i tiri salvezza contro gli effetti esterni che infliggono la condizione Abbagliato (dazzled) o Accecato (blinded).</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">3</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">450</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">—</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+        <!-- WHEELCHAIR -->
+        <div class="item-row-card">
+            <div class="item-details">
+                <h3 class="item-name">Wheelchair / Hoverchair</h3>
+                <p class="item-description">Dispositivi di mobilità assistita (comprese varianti a levitazione hoverchair) personalizzabili per innumerevoli anatomie aliene. Meccanismi automatizzati avanzati consentono di superare scale, scale a pioli e terreni sconnessi senza alcuna difficoltà aggiuntiva (il terreno difficile dimezza comunque la Velocità normalmente).</p>
+            </div>
+            <div class="item-stats-badge">
+                <div class="stat-box"><span>Lvl</span><div class="val">0</div></div>
+                <div class="stat-box"><span>Price</span><div class="val">1</div></div>
+                <div class="stat-box"><span>Bulk</span><div class="val">2</div></div>
+                <div class="stat-box"><span>Hands</span><div class="val">—</div></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Razza Shirren</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 380px; /* Margine sinistro per fare spazio alle immagini fisse */
+            letter-spacing: 0.5px;
+        }
+
+        /* IMAGES FISSE A SINISTRA */
+        .fixed-img-1 {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-2 {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-1:hover, .fixed-img-2:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI (EFFETTO QUANTISTICO) */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8em;
+            color: #8a2be2;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .main-desc {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #a1b5cc;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        /* BLOCCO STATISTICHE INIZIALI */
+        .stats-summary-box {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            background: rgba(15, 22, 42, 0.5);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .stats-row-top {
+            display: flex;
+            justify-content: space-around;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #203a70;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            color: #00ffff;
+        }
+        .stats-boosts-table {
+            width: 100%;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .boost-cell-left {
+            width: 50%;
+            vertical-align: top;
+            padding-right: 15px;
+            border-right: 1px solid #203a70;
+            color: #cdffff;
+        }
+        .boost-cell-right {
+            width: 50%;
+            vertical-align: top;
+            padding-left: 15px;
+            color: #cdffff;
+        }
+        .boost-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* GRIGLIA ORIZZONTALE DEI COMPONENTI */
+        .features-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 25px;
+        }
+
+        /* BLOCCHETTI IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6); /* Vetro scuro */
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2; /* Accento viola di base */
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff; /* Diventa ciano luminoso */
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        
+        /* VERSIONE TALENTI CON BORDO LATERALE PER LIVELLO */
+        .feat-lvl-1 { border-left-color: #c62828; }
+        .feat-lvl-5 { border-left-color: #e65100; }
+        .feat-lvl-9 { border-left-color: #f57c00; }
+        .feat-lvl-13 { border-left-color: #d84315; }
+        .feat-lvl-17 { border-left-color: #4f5b66; }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 4px 0;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+        }
+        .feature-text small {
+            color: #8da2bb;
+            line-height: 1.4;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* METADATI MECCANICHE ED EFFETTI */
+        .paradox-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .meta-label {
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        /* TRATTI COMPRESI */
+        .traits-container {
+            margin-bottom: 12px;
+        }
+        .trait-pill {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75em;
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            background: rgba(0, 82, 204, 0.15);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- IMMAGINI FISSE IN LATERALE SINISTRO -->
+    <img src="SHIRREN.jpeg" alt="Shirren" class="fixed-img-1">
+    <img src="SHIRREN2.jpeg" alt="Shirren 2" class="fixed-img-2">
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA RAZZA -->
+    <h1 class="main-title">Specie selezionata: SHIRREN</h1>
+    
+    <!-- QUADRO SINTESI STATISTICHE E ATTRIBUTI -->
+    <div class="stats-summary-box">
+        <div class="stats-row-top">
+            <span>PUNTI FERITA (HP): 10</span>
+            <span>TAGLIA: Media</span>
+            <span>VELOCITÀ: 25 Piedi (7.5 mt)</span>
+        </div>
+        <table class="stats-boosts-table">
+            <tr>
+                <td class="boost-cell-left">
+                    <span class="boost-label" style="color: #00ff66;">Aggiungi +1 alle seguenti statistiche: (Attributi +):</span>
+                    Costituzione, Saggezza, Un aumento libero da assegnare.
+                </td>
+                <td class="boost-cell-right">
+                    <span class="boost-label" style="color: #ff3333;">Sottrai -1 alle seguenti statistiche:</span>
+                    Carisma.
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- CARATTERISTICHE DI SPECIE -->
+    <div class="backgrounds-grid" style="max-width: 1000px; margin: 0 auto 40px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 20px;">
+        
+        <!-- TRATTI E LINGUAGGI -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">DATI ANAGRAFICI DI FABBRICA</h2>
+                <div class="feature-translation">TRAITS & LANGUAGES</div>
+                <div class="traits-container">
+                    <span class="trait-pill">UMANOIDE</span>
+                    <span class="trait-pill">SHIRREN</span>
+                </div>
+                <p class="feature-text">
+                    <strong>LANGUAGES:</strong> Comune, Shirren.<br>
+                    <small>Una lingua regionale a tua scelta. Lingue aggiuntive pari al tuo modificatore di Intelligenza (se positivo). Scegli dalla lista delle lingue comuni e da qualsiasi altra lingua a cui hai accesso (come le lingue diffuse sul tuo pianeta d'origine).</small>
+                </p>
+            </div>
+        </div>
+
+        <!-- TELEPATIA LIMITATA -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">LIMITED TELEPATHY</h2>
+                <div class="feature-translation">Sincronizzazione Psionica Limitata</div>
+                <p class="feature-text">
+                    Puoi comunicare mentalmente con le creature entro 30 piedi (9 metri). Puoi comunicare solo con creature che condividono un linguaggio con te.<br><br>
+                    Questo non ti dà alcun accesso ai loro pensieri e non trasmette più informazioni di quante ne trasmetterebbe il normale discorso a voce.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SEZIONE LIGNAGGI -->
+    <h2 class="section-divider">SHIRREN HERITAGES ( PUOI SCEGLIERNE SOLO 1 )</h2>
+    <div class="section-subtitle">(Lignaggi Shirren)</div>
+    <p class="main-desc">
+        Spinti da una passione viscerale per le scelte personali e dotati di una spiccata attitudine all'adattamento rapido, gli shirren sono altamente diversificati.
+    </p>
+
+    <div class="features-grid">
+        <!-- COURTIER SHIRREN -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Courtier Shirren</h2>
+                <div class="feature-translation">(Shirren Cortigiano)</div>
+                <p class="feature-text">La tua telepatia è più potente del normale, permettendoti di combinare fluidamente la comunicazione fisica, verbale e psionica trasmettendo anche emozioni complesse.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Quando una creatura comunica con te tramite telepatia (anche limitata), guadagni un **bonus di circostanza di +2** a Deception (Percezione) per **Percepire Intenzioni (Sense Motive)**.
+            </div>
+        </div>
+
+        <!-- DEFIANT SHIRREN -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Defiant Shirren</h2>
+                <div class="feature-translation">(Shirren Provocatore)</div>
+                <p class="feature-text">Rimani risoluto nella tua sfida assoluta contro lo Sciame (Swarm) e qualsiasi altra forma di condizionamento o controllo mentale esterno.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> I successi nei TS di Will (Volontà) contro creature *kucharn* o legate allo Sciame diventano successi critici. Ottieni l'azione **Defiance Ribelle [1A]** (1 volta/giorno): per 1 minuto ottieni +1 all'attacco e +1 ai TS contro un tiranno designato entro 100 piedi.
+            </div>
+        </div>
+
+        <!-- IRIDESCENT SHIRREN -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Iridescent Shirren</h2>
+                <div class="feature-translation">(Shirren Iridescente)</div>
+                <p class="feature-text">Il tuo esoscheletro chitinoso è cangiante e genera pattern scintillanti studiati originariamente per distrarre ed affascinare i predatori biologici dello Sciame.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Puoi **Fintare (Feint)** fino a 10 piedi (3 mt). Guadagni l'azione **Abbaglio Scintillante [1A]** (1 volta/ora): un bersaglio entro 30 piedi deve superare un TS di Fortitude (Tempra)contro la tua CD di classe o rimanere **abbagliato (dazzled)** per 1 round.
+            </div>
+        </div>
+
+        <!-- SWARM EXILE SHIRREN -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Swarm Exile Shirren</h2>
+                <div class="feature-translation">(Shirren Esiliato dello Sciame)</div>
+                <p class="feature-text">Sei un convertito recente proveniente da un gruppo di reietti dello Sciame, mantenendo un legame biologico d'attacco innato e mutato con l'alveare.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Guadagni un attacco disarmato a distanza (**bio-cannone**, gittata 20 piedi, danno **1d6 acido**, gruppo corrosivo). Al 1° livello decidi se emerge da sotto il braccio, sopra la spalla o dalla bocca.
+            </div>
+        </div>
+
+        <!-- WINGED SHIRREN -->
+        <div class="feature-card" style="grid-column: span 1;">
+            <div>
+                <h2 class="bg-title">Winged Shirren</h2>
+                <div class="feature-translation">(Shirren Alato)</div>
+                <p class="feature-text">I tuoi antenati facevano parte delle caste specializzate dello Sciame che svilupparono le ali per i rapidi spostamenti e ricognizioni aeree.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Possiedi un paio di ali chitinose pienamente funzionanti che ti conferiscono una velocità di **Volare di 15 piedi (4.5 metri)**.
+            </div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 1° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 1 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 1° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Communalism <small style="display:inline; color:#8a2be2;">[R] - FEAT 1</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta al giorno | <strong>Innesco:</strong> Un alleato entro 10 piedi fallisce una prova di abilità (max 3 azioni).</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Invii un forte impulso empatico: l'alleato ripete la prova fallita e tiene il risultato migliore (effetto di fortuna).</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Distant Telepath <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Telepatia Limitata</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Grazie all'addestramento psionico, incrementi la gittata della tua telepatia limitata di ulteriori 15 piedi (4.5 metri). Puoi selezionare questo talento più volte.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Linguistic Prodigy <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">La mappatura logica dei tuoi canali mentali rende l'apprendimento delle lingue del tutto naturale.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Guadagni due lingue aggiuntive a scelta. Ogni volta che ottieni il talento *Multilingue*, ricevi 1 lingua extra in aggiunta alle due normali.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Psychic Talent <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Le tue doti mentali si espandono oltre i protocolli di comunicazione basilari.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Scegli un trucchetto della lista occulta. Puoi lanciarlo come incantesimo innato occulto a Will (Volontà) (potenziato a metà del tuo livello, arrotondato per eccesso).</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Shirren Lore <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">La tua predisposizione ad aprirti a nuove culture ti infonde la profonda conoscenza di molte filosofie.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trained ( T ) in Diplomazia e Società. Ottieni il talento Conoscenza Addizionale legato a Shirren Lore.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Unconventional Weaponry <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Ti sei familiarizzato profondamente con un armamento esotico appartenente a un'altra cultura o ascendenza planetaria.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Scegli un'arma semplice/da guerra non comune con tratto d'ascendenza (es: vesk, ysoki): ottieni l'accesso e la consideri come arma semplice (o da guerra se avanzata).</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 5° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 5 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 5° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Eager Assistant <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text">Trovi una profonda gratificazione nel supportare attivamente i tuoi alleati durante le operazioni critiche.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> All'inizio del tuo turno guadagni una reazione aggiuntiva, spendibile ed utilizzabile esclusivamente per compiere l'azione **Aiutare (Aid)**.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Learning Experience <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text">La tua biologia adatta i tessuti per assorbire parzialmente le tossine o le fiamme persistenti al fine di analizzarle.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Prima di subire danni persistenti, puoi dimezzarli: fallisci il flat check per terminarli, ma esegui subito un'azione gratuita di **Richiamare Conoscenze** sulla loro fonte.</div>
+        </div>
+        <div class="feature-card feat-lvl-5" style="grid-column: span 1;">
+            <h2 class="bg-title">Telepathic Conduit <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Telepatia Limitata</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Agisci come ripetitore psionico bidirezionale: la creatura con cui comunichi può inviarti una breve risposta mentale spendendo una reazione o come azione gratuita all'inizio del suo turno.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 9° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 9 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 9° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-9" style="grid-column: span 1;">
+            <h2 class="bg-title">Basic Insectile Flight <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <p class="feature-text">Evolvi o potenzi un set completo di ali insettoidi chitinose sul tuo esoscheletro.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Guadagni una velocità di **Volare di 20 piedi (6 metri)** e non subisci mai danni da caduta. Se sei già *Winged Shirren*, la tua velocità di Volare aumenta a **25 piedi (7.5 mt)**.</div>
+        </div>
+        <div class="feature-card feat-lvl-9" style="grid-column: span 1;">
+            <h2 class="bg-title">Psychic Master <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Psychic Talent</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> I tuoi poteri mentali latenti fioriscono. Scegli un incantesimo comune di 2° grado dalla lista occulta: puoi lanciarlo 1 volta al giorno come incantesimo innato occulto.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 13° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 13 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 13° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Consistent Communalism <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Communalism</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> I tuoi impulsi empatici protettivi sono costantemente reattivi: puoi utilizzare il talento d'ascendenza *Communalism* **una volta ogni ora** anziché una volta al giorno.</div>
+        </div>
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Linguistic Master <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <p class="feature-text">**Uncommon.** La tua padronanza psionica e biologica delle barriere linguistiche della galassia tocca vette assolute.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Puoi lanciare *truespeech* come incantesimo innato occulto di 5° grado 1 volta al giorno su te stesso (ti conferisce +1 a Diplomazia parlando con chi condividevi già una lingua).</div>
+        </div>
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Unconventional Expertise <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Unconventional Weaponry</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Quando un privilegio di classe aumenta la tua competenza ad esperto o superiore in determinate armi, ottieni lo stesso grado nell'arma esotica scelta.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 17° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 17 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 17° Livello)</div>
+    <div class="features-grid" style="margin-bottom: 60px;">
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Scatter Thoughts <small style="display:inline; color:#4f5b66;">[R] - FEAT 17</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1 volta al giorno | <strong>Innesco:</strong> Sei bersagliato da un effetto mentale.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Schermi la mente frammentando istantaneamente i tuoi filamenti psionici: diventi totalmente **immune all'effetto mentale scatenante** per l'intero minuto successivo.</div>
+        </div>
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Swarm Evolution <small style="display:inline; color:#4f5b66;">- FEAT 17</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Lignaggio Swarm Exile Shirren</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Una metamorfosi radicale ti trasforma in una maestosa e terrificante macchina bellica chitinosa. Ottieni un bonus di stato di +2 ai TS contro la paura, resistenza ai danni da acido pari a metà del tuo livello, e puoi lanciare *mask of terror* come incantesimo innato primordiale di 7° grado 1 volta al giorno.</div>
+        </div>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

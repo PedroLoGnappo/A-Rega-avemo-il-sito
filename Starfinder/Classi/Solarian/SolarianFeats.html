@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Solarian Feats - Talenti di Classe</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 40px 40px 40px;
+            letter-spacing: 0.5px;
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        /* AVVISO DI SISTEMA ROSSO NEON */
+        .critical-notice {
+            max-width: 1000px;
+            margin: 20px auto 40px auto;
+            background: rgba(183, 28, 28, 0.2);
+            color: #ffffff;
+            border: 1px solid #ff1744;
+            border-radius: 4px;
+            padding: 15px 25px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            box-shadow: 0 0 15px rgba(183, 28, 28, 0.3);
+            text-transform: uppercase;
+            backdrop-filter: blur(6px);
+        }
+
+        /* STRUTTURA DELLA TIMELINE DEI LIVELLI */
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .level-section {
+            border-left: 3px solid #8a2be2; /* Accento viola neon verticale */
+            padding-left: 25px;
+        }
+        .level-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4em;
+            color: #00ffff;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .level-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #0052cc, transparent);
+        }
+
+        /* BLOCCHETTI IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s ease-in-out;
+            backdrop-filter: blur(6px);
+        }
+        .feature-card:hover {
+            transform: translateX(3px);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.15em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0;
+        }
+
+        /* DETTAGLI MECCANICI E BADGE TRATTI */
+        .feat-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85em;
+            margin-bottom: 12px;
+            color: #8da2bb;
+            line-height: 1.5;
+        }
+        .trait-badge {
+            background-color: rgba(0, 82, 204, 0.4);
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7em;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 6px;
+            letter-spacing: 0.5px;
+        }
+        .trait-badge.action {
+            background-color: rgba(183, 28, 28, 0.4);
+            border-color: #ff1744;
+            color: #ffffff;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA -->
+    <h1 class="main-title">SOLARIAN FEATS - TALENTI DI CLASSE</h1>
+    
+    <!-- BLOCCO AVVISO DI SISTEMA -->
+    <div class="critical-notice">
+        ⚠ DIRETTIVA DI SISTEMA: Ogni volta che ottieni un talento di classe del Solariano, puoi selezionare una delle seguenti opzioni purché tu ne soddisfi i prerequisiti.
+    </div>
+
+    <!-- TIMELINE DEI LIVELLI -->
+    <div class="timeline-container" style="margin-bottom: 60px;">
+
+        <!-- LIVELLO 1 -->
+        <div class="level-section">
+            <div class="level-header">1° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Binaric Assault <span class="feature-translation">(Assalto Binarico)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Coordini gli attacchi usando sia il tuo dardo che la tua arma solare. Compi due Colpi (Strikes) contro lo stesso bersaglio, uno con l'arma solare e uno con il dardo solare, applicando la tua penalità di attacco multiplo corrente. Scegli tu l'ordine. Dopo il primo colpo a segno, risolvi danni ed effetti, poi scambia la tua sintonia corrente. Se entrambi mancano, perdi la sintonia. Conta come due attacchi ai primi della MAP.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Hampering Flare <span class="feature-translation">(Dardo Ostacolante)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">CYCLE</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Ti concentri sul tuo dardo, preparando una fiammata d'energia per disorientare i nemici. Compi un Colpo a distanza con il tuo dardo solare. Se colpisce, il bersaglio è Impreparato (off-guard) fino all'inizio del tuo prossimo turno o finché non si Ripara (Takes Cover).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Meditative Analysis <span class="feature-translation">(Analisi Meditativa)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">CYCLE</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Mediti brevemente sulla natura del nemico e sul suo ruolo nel cosmo. Effettua una prova per Richiamare Conoscenze (Recall Knowledge) su una creatura. In caso di successo, il tuo prossimo Colpo in questo round con un'arma solare contro di essa guadagna un bonus di circostanza di +1; se colpisce, puoi scegliere quale beneficio di sintonia (fotone o gravitone) applicare a quel Colpo. Il bersaglio è poi immune per 1 giorno.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Solar Shield <span class="feature-translation">(Scudo Solare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">MANIFESTATION</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Sviluppi una nuova manifestazione: un piccolo scudo di energia stellare che orbita attorno a te senza occupare mani. Puoi Usare lo Scudo (Raise a Shield) per ottenere +1 bonus di circostanza alla CA e guadagni il talento generale *Parare con lo Scudo (Shield Block)*. Lo scudo ha Durezza pari a metà del tuo livello (arrotondato per eccesso) e Punti Ferita pari a 5 + il doppio del tuo livello. Non può essere rotto, ma se viene distrutto non puoi evocarlo per 10 minuti.
+                <br>• *Sintonia Gravitonnica:* Se distrutto rilascia un'onda d'urto; i nemici adiacenti devono superare un TS Fortitude (Tempra)o essere soppressi per 1 round (2 round con fallimento critico).
+                <br>• *Sintonia Fotonica:* Se distrutto rilascia un lampo; i nemici adiacenti devono superare un TS Fortitude (Tempra)o essere abbagliati per 1 round (acciecati per 1 round con fallimento critico).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Stellar Rush <span class="feature-translation">(Scatto Stellare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">CYCLE</span><span class="trait-badge">MOVE</span><span class="trait-badge">SOLARIAN</span><span class="trait-badge">TRAVERSAL</span>
+                </div>
+                <p class="feature-text">Ti lanci in avanti spinto da un'esplosione di energia stellare. Compi due Corse (Stride) ottenendo un bonus di circostanza di +3 metri (+10 piedi) alla tua Velocità.<br>
+                • *Sintonia Gravitonnica:* Al termine del movimento, i nemici entro 15 piedi (4,5 metri) devono superare un TS Fortitude (Tempra)o venire trascinati direttamente in quadretti adiacenti a te.<br>
+                • *Sintonia Fotonica:* Al termine del movimento crei un campo fotonico in un'emanazione di 4,5 metri centrata su di te: fino al tuo prossimo turno, chi è fuori dal campo è occultato (concealed) per chi si trova all'interno.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Twin Weapons <span class="feature-translation">(Armi Gemelle)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">MANIFESTATION</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Manifesti una seconda arma solare. Quando acquisisci questo talento o quando usi Riforgiare l'Arma Solare, selezioni i suoi tratti, il tipo di danno e il gruppo d'arma separatamente dalla prima. Aggiungi i tratti **agile** e **gemella (twin)** alla lista dei tratti applicabili alle tue armi solari.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 2 -->
+        <div class="level-section">
+            <div class="level-header">2° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Distant Flare <span class="feature-translation">(Dardo Distante)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLARIAN</span><span class="trait-badge">MANIFESTATION</span>
+                </div>
+                <p class="feature-text">La tua concentrazione ti permette di scagliare il tuo dardo solare ancora più lontano. Incrementi l'incremento di gittata del tuo dardo solare di 4,5 metri (15 piedi).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Eclipse Strike <span class="feature-translation">(Colpo dell'Eclissi)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">CYCLE</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">I tuoi attacchi generano una brillante eclissi energetica che ti scherma. Compi un Colpo con il tuo dardo o arma solare. Se colpisci, incrementi il grado di copertura ricevuto da quel nemico di un passo fino al tuo prossimo turno.<br>
+                • *Sintonia Gravitonnica:* Se non hai coperture, ottieni comunque copertura inferior contro gli attacchi di quel bersaglio.<br>
+                • *Sintonia Fotonica:* Se il bersaglio ti fornisce copertura contro l'attacco di un altro nemico, quell'attaccante subisce una penalità di circostanza di –1 al tiro per colpire.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Mutable Manifestation <span class="feature-translation">(Manifestazione Mutevole)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLARIAN</span><span class="trait-badge">MANIFESTATION</span>
+                </div>
+                <p class="feature-text">Impari ad adattare il tuo arsenale direttamente sul campo. Ogni volta che usi l'azione Sintonizzare (Attune), puoi modificare istantaneamente il tipo di danno della tua arma solare (ma non i tratti o il gruppo), come se avessi speso 10 minuti per Riforgiarla.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Shattering Impact <span class="feature-translation">(Impatto Dirompente)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">DISHARMONY</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Incanali ogni sforzo in un singolo colpo devastante che frantuma temporaneamente l'arma. Compi un Colpo con la tua arma solare aggiungendo un dado di danno dell'arma extra. L'arma si dissolve in frammenti e dovrai sintonizzarti nuovamente per manifestarla.<br>
+                • *Sintonia Gravitonnica:* Se colpisci, il bersaglio subisce una penalità di status di –3 metri (–10 piedi) alla Velocità fino al tuo prossimo turno.<br>
+                • *Sintonia Fotonica:* Se colpisci, infliggi anche danni da fuoco persistenti pari a metà del tuo livello (arrotondato per eccesso).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Solar Rampart <span class="feature-translation">(Baluardo Solare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Ti adatti all'uso di protezioni pesanti. Diventi Trained ( T ) nelle **armature pesanti**. Quando un privilegio di classe ti conferisce competenza Esperto o superiore nelle armature medie, la ottieni anche nelle pesanti. Consideri le armature con Ingombro pari o superiore a 2 come se pesassero 1 Ingombro in meno (minimo 1).</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 4 -->
+        <div class="level-section">
+            <div class="level-header">4° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Black Hole <span class="feature-translation">(Buco Nero)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">FREQUENZA:</strong> 1 volta ogni 10 minuti | <strong style="color: #00ffff;">REQUISITI:</strong> Sei sintonizzato a Gravitone.
+                </div>
+                <p class="feature-text">Generi una morsa gravitazionale schiacciante che attira la materia. Seleziona qualsiasi numero di creature entro 30 piedi (9 metri). Ciascuna subisce 2d8 danni contundenti e deve tentare un TS Fortitude (Tempra)contro la tua CD di classe.<br>
+                • *Successo Critico:* Immune.<br>
+                • *Successo:* Metà danno e viene trascinata di 1,5 metri verso di te.<br>
+                • *Fallimento:* Danno pieno, viene trascinata di 4,5 metri e diventa Impreparata (off-guard) contro il tuo prossimo attacco in mischia prima del termine del turno.<br>
+                • *Fallimento Critico:* Doppio danno, viene trascinata di 9 metri e cade Prona.<br>
+                Aumenta il danno di 1d8 ogni 2 livelli successivi.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Cosmic Infusion <span class="feature-translation">(Infusione Cosmica)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">ATTUNED</span><span class="trait-badge">MANIFESTATION</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Infondi nuova energia nelle tue sintonie. Quando infliggi danno da fuoco (anche persistente) mentre sei sintonizzato a fotone, puoi convertirlo in danno vitale (vitality), in grado di ferire le creature con guarigione del vuoto come i non morti. Quando sei sintonizzato a gravitone, i Colpi con la tua arma solare costringono il bersaglio a considerare tutti i quadretti entro 3 metri (10 piedi) come terreno difficile, anziché solo quelli adiacenti.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Nimbus Ward <span class="feature-translation">(Custodia del Nimbus)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE o 1A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">MANIFESTATION</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">INNESCO:</strong> Stai per subire danni da un attacco, incantesimo o effetto (richiede consapevolezza e di non essere impreparato).
+                </div>
+                <p class="feature-text">Sfrutti il nimbus solare per proteggerti, ottenendo resistenza a un tipo di danno pari a metà del tuo livello (arrotondato per eccesso) fino al tuo prossimo turno. Scegli il tipo di danno in base alla sintonia:<br>
+                • *Sintonia Gravitonnica:* Resistenza a scelta tra: contundente, forza, perforante o tagliente.<br>
+                • *Sintonia Fotonica:* Resistenza a scelta tra: acido, freddo, elettricità, fuoco o sonoro.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Plasma Ejection <span class="feature-translation">(Espulsione di Plasma)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">CYCLE</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Scateni un'ondata di plasma incandescente in un'emanazione di 3 metri (10 piedi) o in una linea di 9 metri (30 piedi). Ogni creatura nell'area subisce 3d6 danni da fuoco (TS Reflex (Riflessi) dimezza). Chi fallisce criticamente subisce anche 1d8 danni da elettricità persistenti.<br>
+                • *Sintonia Gravitonnica:* Chi fallisce il TS cade anche Prono.<br>
+                • *Sintonia Fotonica:* I dadi di danno aumentano da d6 a d8.<br>
+                Aumenta il danno di 1d6 (o 1d8 se fotonico) ogni 2 livelli successivi.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Supernova <span class="feature-translation">(Supernova)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">FREQUENZA:</strong> 1 volta ogni 10 minuti | <strong style="color: #00ffff;">REQUISITI:</strong> Sei sintonizzato a Fotone.
+                </div>
+                <p class="feature-text">Rilasci l'energia accumulata facendola esplodere in un'emanazione a scelta di 4,5 metri (15 piedi) o 9 metri (30 piedi). Nel raggio di 4,5 metri infliggi 4d8 danni da fuoco (TS Reflex (Riflessi) dimezza). Se scegli il raggio di 9 metri, infliggi invece 4d6 danni da fuoco.<br>
+                • *Successo:* Metà danno e rimane abbagliato per 1 round.<br>
+                • *Fallimento:* Danno pieno e rimane accecato per 1 round.<br>
+                • *Fallimento Critico:* Doppio danno e rimane accecato per 1 minuto.<br>
+                Aumenta il danno di 1d8 (o 1d6 per i 9 metri) per ogni livello successivo.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 6 -->
+        <div class="level-section">
+            <div class="level-header">6° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Constellation Vortex <span class="feature-translation">(Vortice di Costellazioni)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">CONCENTRATE</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Manifesti copie della tua arma solare che orbitano attorno a te in un vortice. Una creatura che inizia il turno adiacente a te subisce danni pari al danno base della tua arma solare (TS Reflex (Riflessi) base dimezza). Puoi aggiungere fino a un massimo di 3 armi al vortice usando nuovamente l'azione (ogni arma extra aumenta il danno di +1). Puoi Sostenerlo (Sustain) fino a 1 minuto; quando termina esplode infliggendo a tutti i vicini danni pari al tuo livello +1 per arma.<br>
+                • *Sintonia Gravitonnica:* Il danno del vortice aumenta di +2 per ogni arma inserita.<br>
+                • *Sintonia Fotonica:* Aggiunge +1 danno da fuoco extra per ogni arma inserita.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Corona <span class="feature-translation">(Corona Stellare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Emani una corona di energia stellare in un raggio di 3 metri (10 piedi) che dura fino al tuo prossimo turno e può essere Sostenuta (Sustain) fino a 1 minuto. Se cambi sintonia, gli effetti cambiano di conseguenza:<br>
+                • *Sintonia Gravitonnica:* Ottiene il tratto oscurità, bloccando la penetrazione della luce nell'area come un incantesimo *oscurità* di rango pari a metà del tuo livello.<br>
+                • *Sintonia Fotonica:* Ottiene il tratto luce, emanando luce intensa nel raggio (e fioca per altri 6 metri). All'interno, le creature invisibili diventano solo occultate, e le occultate tornano pienamente visibili.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Nimbus Block <span class="feature-translation">(Blocco del Nimbus)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">ATTUNED</span><span class="trait-badge">MANIFESTATION</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">PREREQUISITI:</strong> Nimbus Ward e Solar Shield
+                </div>
+                <p class="feature-text">Combini le tue barriere difensive in modo che l'aura alimenti lo scudo. Quando esegui un *Parare con lo Scudo (Shield Block)* contro un attacco in mischia con il tuo scudo solare, finché tu o lo scudo subite danni, puoi attivare il talento **Nimbus Ward come azione gratuita**.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Solar Barrage <span class="feature-translation">(Sbarramento Solare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">DISHARMONY</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Spari raffiche multiple a corto raggio. Compi tre Colpi (Strikes) con il tuo dardo solare contro tre bersagli differenti, ciascuno con una penalità di circostanza di –2. Gli attacchi contano per la tua penalità di attacco multiplo, ma questa si incrementa solo dopo aver completato tutti e tre i colpi.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Star Brand <span class="feature-translation">(Marchio della Stella)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">MANIFESTATION</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">REQUISITI:</strong> La tua ultima azione è stata un Colpo andato a segno con l'arma o dardo solare.
+                </div>
+                <p class="feature-text">Marchi il nemico con pura energia che attira i tuoi dardi. Quando attacchi la creatura marchiata, incrementi la gittata del dardo solare di 18 metri (60 piedi). Se il bersaglio è invisibile (o lo diventa), viene considerato solo occultato; se era occultato, torna visibile. Dura 10 minuti o finché non marchi un altro nemico.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 8 -->
+        <div class="level-section">
+            <div class="level-header">8° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Defy Gravity <span class="feature-translation">(Sfidare la Gravità)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Infrangi i vincoli del peso planetario. Finché sei sintonizzato a **Gravitone**, guadagni una Velocità di **volo** pari alla tua normale Velocità di terra.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Flicker Strike <span class="feature-translation">(Colpo Balenante)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">CYCLE</span><span class="trait-badge">SOLARIAN</span><span class="trait-badge">TELEPORTATION</span>
+                </div>
+                <p class="feature-text">Colpisci alla velocità della luce sfruttando l'impatto cinetico. Compi un Colpo con la tua arma solare; se va a segno ti teletrasporti di una distanza pari alla tua Velocità in uno spazio libero a portata di un secondo nemico ed esegui un secondo Colpo immediato. Se il primo manca, l'azione fallisce.<br>
+                • *Sintonia Gravitonnica:* Incrementi la distanza di teletrasporto al doppio della tua Velocità.<br>
+                • *Sintonia Fotonica:* Se uno dei colpi è un successo critico, il bersaglio colpito è abbagliato fino al termine del suo prossimo turno.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Mindward Shield <span class="feature-translation">(Scudo Mentale)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">ATTUNED</span><span class="trait-badge">MANIFESTATION</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">PREREQUISITI:</strong> Solar Shield
+                </div>
+                <p class="feature-text">Il tuo scudo solare funge da ancora per la psiche. Quando Usi lo Scudo (Raise a Shield), applichi il bonus di circostanza dello scudo anche ai tuoi tiri salvezza sulla **Volontà**. Inoltre, puoi usare la reazione *Shield Block* quando subisci danni derivanti da un fallimento in un TS sulla Volontà.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Momentum <span class="feature-translation">(Momento Lineare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">REQUISITI:</strong> La tua ultima azione è stata un Colpo andato a segno con l'arma solare.
+                </div>
+                <p class="feature-text">Sfrutti l'inerzia dell'assalto per riposizionarti agilmente. Compi due Passi (Step) consecutivi:<br>
+                • *Sintonia Gravitonnica:* Ti muovi di 3 metri (10 piedi) con ciascun Passo anziché 1,5 metri.<br>
+                • *Sintonia Fotonica:* Lasci un'immagine residua nel quadretto di partenza fino al tuo prossimo turno; l'immagine conta come alleato legato ai fini del posizionamento e dei tratti.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Propulsive Shield <span class="feature-translation">(Scudo Propulsivo)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">PREREQUISITI:</strong> Solar Shield
+                </div>
+                <p class="feature-text">Canalizzi fiammate solari attraverso lo scudo alzato per spingere i colpi. Quando compi un Colpo con il dardo solare mentre hai lo scudo alzato, aumenti la gittata del dardo di 3 metri e aumenti il danno di +1 per ogni dado di danno dell'arma.<br>
+                • *Sintonia Gravitonnica:* Il danno extra è contundente e ottieni +2 di circostanza alla prova di Sbilanciare in caso di colpo critico.<br>
+                • *Sintonia Fotonica:* Il danno extra è da fuoco e aumenti il danno da fuoco persistente a 1d8 sul colpo critico.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Solar Wind <span class="feature-translation">(Vento Solare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Discorpori parzialmente la materia del tuo corpo tramutandoti in una scia mossa da venti cosmici invisibili. Finché sei sintonizzato a **Fotone**, ottieni un bonus di circostanza di +3 metri (+10 piedi) alla Velocità e puoi attraversare lo spazio occupato da una creatura ostile ogni volta che corri (Stride).</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 10 -->
+        <div class="level-section">
+            <div class="level-header">10° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Careful Strike <span class="feature-translation">(Colpo Prudente)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Controlli millimetricamente la traiettoria dell'arma solare convertendo un colpo mancato in un graffio. Compi un Colpo con il tuo dardo o arma solare; l'attacco ottiene il seguente effetto:<br>
+                • *Fallimento:* L'attacco infligge comunque danni pari al tuo modificatore di Forza (non conta come colpo a segno e non innesca altre capacità speciali).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Clinging Flare <span class="feature-translation">(Dardo Avviluppante)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">CYCLE</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">L'energia del tuo dardo si avvolge sul nemico impigliandolo all'impatto. Compi un Colpo con il dardo solare. Se colpisci, il bersaglio è **Immobilizzato** fino al termine del suo prossimo turno o finché non Sfugge (Escape contro la tua CD di classe). Con un colpo critico è anche Impreparato (off-guard) finché bloccato.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Soul Furnace <span class="feature-translation">(Fornace dell'Anima)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">1A</span><span class="trait-badge">CONCENTRATE</span><span class="trait-badge">HEALING</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">FREQUENZA:</strong> 1 volta per afflizione ogni 24 ore
+                </div>
+                <p class="feature-text">Bruci la tua stessa forza vitale per purificare il corpo. Scegli un veleno o una malattia da cui sei affetto: perdi Punti Ferita pari al livello dell'afflizione e tenti immediatamente un nuovo tiro salvezza contro di essa come se fossi alla fine del suo intervallo. Anche se fallisci, lo stadio del male non aumenta.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Twin Guard <span class="feature-translation">(Guardia Gemella)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">PREREQUISITI:</strong> Twin Weapons<br>
+                    <strong style="color: #00ffff;">INNESCO:</strong> Un nemico a portata mette a segno un colpo critico in mischia su di te mentre impugni due armi solari.
+                </div>
+                <p class="feature-text">Incroci le lame stellari per intercettare l'assalto letale. Guadagni resistenza a tutti i danni dell'attacco innescante pari al tuo livello. Una delle tue armi solari si frantuma all'impatto e cessa di essere manifestata.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 12 -->
+        <div class="level-section">
+            <div class="level-header">12° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Ascended Stability <span class="feature-translation">(Stabilità Ascesa)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">INNESCO:</strong> Stai per completare un ciclo o per perdere la sintonia.
+                </div>
+                <p class="feature-text">Entri in uno stato meditativo istantaneo che ricentra il tuo baricentro spirituale. Annulli l'effetto: non perdi la sintonia e non avanzi nel ciclo, rimanendo esattamente nel tuo stato energetico attuale.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Covering Flare <span class="feature-translation">(Dardo di Copertura)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Usi il dardo solare per coprirti mentre avanzi. Compi due Corse (Stride); in un punto qualsiasi di questo movimento puoi eseguire un Colpo a distanza con il tuo dardo solare. Se colpisci, il bersaglio è anche Soppresso fino alla fine del suo prossimo turno.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Wormhole <span class="feature-translation">(Ponte di Einstein-Rosen / Wormhole)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">CYCLE</span><span class="trait-badge">SOLARIAN</span><span class="trait-badge">TELEPORTATION</span><br>
+                    <strong style="color: #00ffff;">FREQUENZA:</strong> 1 volta all'ora
+                </div>
+                <p class="feature-text">Laceri lo spazio creando un tunnel quantistico. Generi due wormholes in quadretti liberi entro 30 metri, visibili e distanti almeno 4,5 metri tra loro. Una creatura che entra nello spazio di un wormhole emerge in uno spazio adiacente all'altro. Dura 1 round (Sostenibile fino a 1 minuto):<br>
+                • *Sintonia Gravitonnica:* Chi inizia il turno adiacente a un wormhole deve superare un TS Fortitude (Tempra)o venire risucchiato dentro.<br>
+                • *Sintonia Fotonica:* Chi attraversa il wormhole emerge occultato (concealed) fino al suo prossimo turno.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 14 -->
+        <div class="level-section">
+            <div class="level-header">14° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Big Bang <span class="feature-translation">(Big Bang)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">3A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">DISHARMONY</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">FREQUENZA:</strong> 1 volta all'ora | <strong style="color: #00ffff;">REQUISITI:</strong> Sei sintonizzato a Fotone.
+                </div>
+                <p class="feature-text">Evochi un frammento della forza primordiale che ha dato origine all'universo, scatenando un fuoco cosmico purificatore che dissolve anche le difese magiche. Infliggi 10d6 danni da fuoco a tutte le creature in un'emanazione di 9 metri (30 piedi). Tu e qualsiasi alleato adiacente siete immuni. I nemici effettuano un TS Reflex (Riflessi) contro la tua CD di classe:<br>
+                • *Fallimento:* Danno pieno e 2d6 danni da fuoco persistenti.<br>
+                • *Fallimento Critico:* Doppio danno, 4d6 fuoco persistenti e tenti di Dissolvere un incantesimo attivo sulla creatura. Aumenta di 1d6 danni per livello successivo.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Singularity <span class="feature-translation">(Singolarità)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">3A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">DARKNESS</span><span class="trait-badge">DEATH</span><span class="trait-badge">DISHARMONY</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">FREQUENZA:</strong> 1 volta all'ora | <strong style="color: #00ffff;">REQUISITI:</strong> Sei sintonizzato a Gravitone.
+                </div>
+                <p class="feature-text">Convochi il centro infinitesimale di un buco nero collassato entro 18 metri (60 piedi) che occupa un singolo spazio di 1,5 metri. Chi si trova nello spazio subisce 10d8 danni del vuoto (void, TS Reflex (Riflessi) base). Chi viene ridotto a 0 PF viene polverizzato e risucchiato senza lasciare resti. Fino al tuo prossimo turno l'area e i quadretti adiacenti sono avvolti da oscurità totale impenetrabile anche per scurovisione superiore. Chi inizia il turno nell'oscurità deve superare un TS Fortitude (Tempra)o essere Rallentato 1. Aumenta di 2d8 danni ogni 2 livelli.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Stellar Shield Collapse <span class="feature-translation">(Collasso dello Scudo Stellare)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">REAZIONE</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">PREREQUISITI:</strong> Solar Shield più uno tra Black Hole o Supernova<br>
+                    <strong style="color: #00ffff;">INNESCO:</strong> Il tuo scudo solare alzato viene distrutto. <strong style="color: #00ffff;">REQUISITI:</strong> Non hai usato Black Hole o Supernova negli ultimi 10 minuti.
+                </div>
+                <p class="feature-text">Fai implodere lo scudo solare su se stesso riciclando l'energia:<br>
+                • *Sintonia Gravitonnica:* Attivi immediatamente l'azione *Black Hole* come azione gratuita (se possiedi il talento).<br>
+                • *Sintonia Fotonica:* Attivi immediatamente l'azione *Supernova* come azione gratuita (se possiedi il talento).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Unstable Flare <span class="feature-translation">(Dardo Instabile)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge action">2A</span><span class="trait-badge">ATTUNED</span><span class="trait-badge">DISHARMONY</span><span class="trait-badge">FLOURISH</span><span class="trait-badge">SOLARIAN</span><br>
+                    <strong style="color: #00ffff;">PREREQUISITI:</strong> Solar Barrage
+                </div>
+                <p class="feature-text">Sovraccarichi il dardo solare scatenando esplosioni simultanee. Compi un Colpo con il dardo solare con una penalità di circostanza di –2 contro *ciascun* nemico situato in un'esplosione di 4,5 metri (15 piedi) centrata in un punto qualsiasi entro la prima gittata del tuo dardo. La MAP si accumula ma aumenta solo al termine di tutti gli attacchi.<br>
+                • *Sintonia Gravitonnica:* Puoi compiere una Corsa fino a metà della tua velocità come azione gratuita prima o dopo i colpi.<br>
+                • *Sintonia Fotonica:* Sei occultato (concealed) per ciascun bersaglio dell'attacco fino al tuo prossimo turno.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 16 -->
+        <div class="level-section">
+            <div class="level-header">16° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Attuned Blow <span class="feature-translation">(Colpo Sintonizzato)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Attivi le tue armi nello stesso istante in cui sintonizzi la mente. Quando utilizzi l'azione singola Sintonizzare (Attune), puoi compiere un Colpo (Strike) con il tuo dardo o arma solare come **Azione Gratuita** immediata.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Harmonic Convergence <span class="feature-translation">(Convergenza Armonica)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">La dissonanza interiore ti conferisce una scarica di lucidità nelle situazioni di forte stress. Ogni volta che utilizzi un'azione che possiede il tratto **disharmony**, guadagni immediatamente un ammontare di **Punti Ferita Temporanei pari a metà del tuo livello** fino all'inizio del tuo prossimo turno.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 18 -->
+        <div class="level-section">
+            <div class="level-header">18° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Attuned Wards <span class="feature-translation">(Interdizioni Sintonizzate)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Estendi le forze stellari per punire istantaneamente chi osa colpirti. Le creature che mandano a segno un attacco contro di te subiscono dure conseguenze automatiche in base alla tua sintonia:<br>
+                • *Sintonia Gravitonnica:* L'attaccante diventa Goffo 1 (clumsy) e Impreparato (off-guard) per 1 round.<br>
+                • *Sintonia Fotonica:* L'attaccante subisce immediatamente danni da fuoco persistenti pari a metà del tuo livello.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Homing Mote <span class="feature-translation">(Dardo Tracciante)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">MANIFESTATION</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Sviluppi una simbiosi balistica perfetta con i tuoi dardi energetici. **Triplichi l'incremento di gittata** del tuo dardo solare. Inoltre, quando effettui un Colpo con il dardo solare contro un bersaglio situato entro il tuo primo incremento di gittata, ignori completamente qualsiasi effetto di occultamento o copertura del nemico.</p>
+            </div>
+        </div>
+
+        <!-- LIVELLO 20 -->
+        <div class="level-section">
+            <div class="level-header">20° LIVELLO</div>
+            
+            <div class="feature-card">
+                <div class="feature-title">Cosmic Alignment <span class="feature-translation">(Allineamento Cosmico)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Raggiungi il perfetto equilibrio e l'allineamento definitivo con il ciclo energetico dell'universo. Sei **permanentemente Velocizzato (Quickened)**. Puoi spendere l'azione extra guadagnata esclusivamente per eseguire l'azione Sintonizzare (Attune) o per compiere un Colpo (Strike) con il tuo dardo o la tua arma solare.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-title">Perfectly-Attuned <span class="feature-translation">(Sintonia Perfetta)</span></div>
+                <div class="feat-meta">
+                    <span class="trait-badge">ATTUNED</span><span class="trait-badge">SOLARIAN</span>
+                </div>
+                <p class="feature-text">Ottieni il controllo assoluto e la comprensione suprema delle polarità energetiche del cosmo. Se un effetto o un'azione sta per farti entrare in sintonia fotonica o gravitonica, diventi invece **Perfettamente Sintonizzato**. Finché ti trovi in questo stato supremo, puoi scegliere arbitrariamente e in qualsiasi istante da quale dei due bonus di sintonia trarre beneficio (Fotone o Gravitone) quando utilizzi una qualunque delle deine capacità di classe. Se una capacità richiede uno stato specifico, la sintonia perfetta soddisfa automaticamente entrambe le condizioni a tua scelta.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

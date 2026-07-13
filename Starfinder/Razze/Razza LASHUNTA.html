@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Starfinder - Razza Lashunta</title>
+    <!-- Font Fantascientifici da Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #060913; /* Nero profondo cyberpunk */
+            background-image: radial-gradient(circle at 50% 30%, #0c152b 0%, #060913 70%);
+            color: #e0e6ed;
+            font-family: 'Rajdhani', -apple-system, sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 40px 20px 40px 380px; /* Spazio per le immagini fisse a sinistra */
+            letter-spacing: 0.5px;
+        }
+
+        /* IMMAGINI FISSE A SINISTRA */
+        .fixed-img-1 {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-2 {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: auto;
+            z-index: 999;
+            opacity: 0.85;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            box-shadow: 0 0 15px rgba(0, 82, 204, 0.4);
+            transition: all 0.25s ease-in-out;
+        }
+        .fixed-img-1:hover, .fixed-img-2:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        /* BARRA DI NAVIGAZIONE FISSA IN ALTO A DESTRA (Stile Olografico) */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
+        }
+        .nav-pill {
+            color: #00ffff !important;
+            background: rgba(0, 82, 204, 0.15) !important;
+            border: 1px solid #0052cc !important;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .nav-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 82, 204, 0.4) !important;
+            color: #ffffff !important;
+            border-color: #00ffff !important;
+        }
+
+        /* INTESTAZIONI PRINCIPALI */
+        .main-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.2);
+            margin-top: 40px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .section-divider {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #8a2be2; /* Linea viola neon */
+            padding-bottom: 8px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8em;
+            color: #8a2be2;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .main-desc {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #a1b5cc;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        /* QUADRO SINTESI STATISTICHE */
+        .stats-summary-box {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            background: rgba(15, 22, 42, 0.5);
+            border: 1px solid #203a70;
+            border-radius: 4px;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .stats-row-top {
+            display: flex;
+            justify-content: space-around;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #203a70;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            color: #00ffff;
+        }
+        .stats-boosts-table {
+            width: 100%;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .boost-cell-left {
+            width: 100%;
+            vertical-align: top;
+            color: #cdffff;
+        }
+        .boost-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* GRIGLIA CARATTERISTICHE E TALENTI */
+        .features-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 25px;
+        }
+
+        /* SCHEDE IN STILE MONOLITE FUMÉ */
+        .feature-card {
+            background: rgba(15, 22, 42, 0.6);
+            border: 1px solid #203a70;
+            border-left: 4px solid #8a2be2;
+            border-radius: 4px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feature-card:hover {
+            transform: translateX(3px) translateY(-2px);
+            border-color: #00ffff;
+            border-left-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            background: rgba(20, 30, 58, 0.8);
+        }
+        
+        /* BORDI LATERALI PER CODIFICA LIVELLI TALENTI */
+        .feat-lvl-1 { border-left-color: #c62828; }
+        .feat-lvl-5 { border-left-color: #e65100; }
+        .feat-lvl-9 { border-left-color: #f57c00; }
+        .feat-lvl-13 { border-left-color: #d84315; }
+        .feat-lvl-17 { border-left-color: #4f5b66; }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0 0 4px 0;
+            text-transform: uppercase;
+        }
+        .feature-translation {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: #a1b5cc;
+            letter-spacing: 0px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #cdffff;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+        }
+        .feature-text small {
+            color: #8da2bb;
+            line-height: 1.4;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* METADATI MECCANICHE ED EFFETTI */
+        .paradox-meta {
+            background: rgba(6, 9, 19, 0.8);
+            border-left: 3px solid #0052cc;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #8da2bb;
+        }
+        .meta-label {
+            font-family: 'Orbitron', sans-serif;
+            color: #00bfff;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        /* PILLOLE DEI TRATTI */
+        .traits-container {
+            margin-bottom: 12px;
+        }
+        .trait-pill {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75em;
+            color: #00ffff;
+            border: 1px solid #0052cc;
+            background: rgba(0, 82, 204, 0.15);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* INTERFACCIA RETRATTILE LATERALE DI NAVIGAZIONE */
+        .cyber-nav-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 10000;
+            height: 250px; 
+            padding-left: 60px;
+        }
+        .cyber-nav-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateX(calc(100% - 45px));
+            transition: transform 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+        .cyber-trigger-ball {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 82, 204, 0.15);
+            border: 2px solid #0052cc;
+            border-right: none;
+            border-radius: 50% 0 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00bfff;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: -2px 0 15px rgba(0, 82, 204, 0.4), inset 2px 0 10px rgba(0, 191, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .cyber-menu-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(10, 15, 30, 0.9); 
+            border: 2px solid #0052cc;
+            border-radius: 0 0 0 12px;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0, 82, 204, 0.5);
+            backdrop-filter: blur(12px); 
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .cyber-nav-container:hover .cyber-nav-wrapper {
+            transform: translateX(0);
+        }
+        .cyber-nav-container:hover .cyber-trigger-ball {
+            background: rgba(0, 82, 204, 0.5);
+            color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0, 191, 255, 0.8);
+            border-radius: 12px 0 0 0;
+            height: 60px;
+        }
+        .cyber-btn {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px; 
+            font-family: 'Orbitron', 'Rajdhani', sans-serif;
+            font-weight: bold;
+            font-size: 0.8em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            border-left: 3px solid transparent;
+        }
+        .btn-home { background: rgba(0, 82, 204, 0.3); border: 1px solid #0052cc; }
+        .btn-home:hover { background: #0052cc; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(0, 82, 204, 0.6); transform: scale(1.02); }
+        .btn-back1 { background: rgba(30, 136, 229, 0.2); border: 1px solid #1e88e5; }
+        .btn-back1:hover { background: #1e88e5; border-left: 3px solid #ffffff; box-shadow: 0 0 15px rgba(30, 136, 229, 0.6); transform: scale(1.02); }
+        .btn-back2 { background: rgba(2, 136, 209, 0.15); border: 1px solid #0288d1; }
+        .btn-back2:hover { background: #0288d1; border-left: 3px solid #00bfff; box-shadow: 0 0 15px rgba(2, 136, 209, 0.6); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- IMMAGINI FISSE IN LATERALE SINISTRO -->
+    <img src="LASHUNTA.jpeg" alt="Lashunta" class="fixed-img-1">
+    <img src="LASHUNTA2.jpeg" alt="Lashunta 2" class="fixed-img-2">
+
+    <!-- BARRA DI NAVIGAZIONE IN ALTO A DESTRA (HUD) -->
+	<div class="nav-container">
+        <a href="../Razze/Razze.html" class="nav-pill">Razze</a>
+        <a href="../Backgrounds/Backgrounds.html" class="nav-pill">Background</a>
+        <a href="../Classi/Classi.html" class="nav-pill">Classi</a>
+        <a href="../Feats/Feats.html" class="nav-pill">Feats</a>
+        <a href="../Equipaggiamento/Equipaggiamento.html" class="nav-pill">Equipaggiamenti</a>
+        <a href="../Magie/Magie.html" class="nav-pill">Magie</a>
+        <a href="../StarfinderSecondEdition_CharacterSheet.pdf" target="_blank" class="nav-pill" style="border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">Scheda Personaggio</a>
+    </div>
+
+    <!-- INTESTAZIONE PAGINA RAZZA -->
+    <h1 class="main-title">Specie selezionata: LASHUNTA</h1>
+    
+    <!-- QUADRO SINTESI STATISTICHE E ATTRIBUTI -->
+    <div class="stats-summary-box">
+        <div class="stats-row-top">
+            <span>PUNTI FERITA (HP): 6</span>
+            <span>TAGLIA: Media</span>
+            <span>VELOCITÀ: 25 Piedi (7.5 mt)</span>
+        </div>
+        <table class="stats-boosts-table">
+            <tr>
+                <td class="boost-cell-left">
+                    <span class="boost-label" style="color: #00ff66;">Aggiungi +1 alle seguenti statistiche: (Attributi +):</span>
+                    Carisma, Un aumento libero da assegnare.
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- CARATTERISTICHE DI SPECIE (GRIGLIA INIZIALE) -->
+    <div class="backgrounds-grid" style="max-width: 1000px; margin: 0 auto 40px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 20px;">
+        
+        <!-- TRATTI E LINGUAGGI -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">DATI ANAGRAFICI DI FABBRICA</h2>
+                <div class="feature-translation">TRAITS & LANGUAGES</div>
+                <div class="traits-container">
+                    <span class="trait-pill">UMANOIDE</span>
+                    <span class="trait-pill">LASHUNTA</span>
+                </div>
+                <p class="feature-text">
+                    <strong>LANGUAGES:</strong> Castrovelian, Comune.<br>
+                    <small>Lingue aggiuntive pari al tuo modificatore di Intelligenza (se positivo). Scegli liberamente dalla lista dei linguaggi comuni e nativi a cui hai accesso.</small>
+                </p>
+            </div>
+        </div>
+
+        <!-- TELEPATIA LIMITATA -->
+        <div class="feature-card" style="border-left-color: #0052cc;">
+            <div>
+                <h2 class="feature-title">LIMITED TELEPATHY</h2>
+                <div class="feature-translation">Sistemi di Trasmissione Psionica Nervosa</div>
+                <p class="feature-text">
+                    <strong>Telepatia Limitata:</strong> Comunichi mentalmente entro 9 metri con creature che condividono un linguaggio con te. Non garantisce l'accesso ai pensieri e non trasmette più dati del normale discorso verbale.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SEZIONE LIGNAGGI -->
+    <h2 class="section-divider">LASHUNTA HERITAGES ( PUOI SCEGLIERNE SOLO 1 )</h2>
+    <div class="section-subtitle">(Lignaggi Lashunta)</div>
+    <p class="main-desc">
+        Intorno alla pubertà, molti lashunta scelgono di abbracciare un percorso genetico che determina la loro fisiologia definitiva e il loro ruolo all'interno della società.
+    </p>
+
+    <div class="features-grid">
+        <!-- DAMAYA LASHUNTA -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Damaya Lashunta</h2>
+                <div class="feature-translation">(Lashunta Damaya)</div>
+                <p class="feature-text">Hai scelto la genetica adattiva per diventare un damaya, sviluppando una corporatura più snella e slanciata. L'aumento libero di ascendenza non può essere applicato a Intelligenza.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Aumento a <strong>Intelligenza</strong>, difetto a <strong>Costituzione</strong>. Trained ( T ) in <strong>Diplomazia</strong> e guadagni il talento generale <strong>Conoscenza Addizionale</strong>.
+            </div>
+        </div>
+
+        <!-- KORASHA LASHUNTA -->
+        <div class="feature-card">
+            <div>
+                <h2 class="bg-title">Korasha Lashunta</h2>
+                <div class="feature-translation">(Lashunta Korasha)</div>
+                <p class="feature-text">Hai scelto la genetica adattiva per diventare un korasha, sviluppando una corporatura più tarchiata e muscolosa. L'aumento libero di ascendenza non può essere applicato a Forza.</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Aumento a <strong>Forza</strong>, difetto a <strong>Saggezza</strong>. Ottieni <strong>8 PF</strong> anziché 6 e bonus di circostanza di +1 ad Atletica per Spingere o Sbilanciare.
+            </div>
+        </div>
+
+        <!-- UNBOUND LASHUNTA -->
+        <div class="feature-card" style="grid-column: span 2;">
+            <div>
+                <h2 class="bg-title">Unbound Lashunta</h2>
+                <div class="feature-translation">(Lashunta Slegato)</div>
+                <p class="feature-text">Hai deciso di non attivare le modifiche genetiche ormonali della tua specie, mostrando un mix di tratti damaya e korasha o caratteristiche insolite (come protuberanze cutanee o antenne pelose).</p>
+            </div>
+            <div class="paradox-meta">
+                <span class="meta-label">Beneficio:</span> Guadagni la reazione <strong>Mente Slegata [R]</strong> (Innesco: tenti un TS mentale prima di tirare): ottieni un bonus di circostanza di +1 al salvataggio e ad altri effetti mentali fino al prossimo turno.
+            </div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 1° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 1 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 1° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Alluring Pheromones <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Influenzi gli altri tramite emissioni chimiche calibrate.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Usi Diplomazia per Fare Buona Impressione e fare semplici Richieste su creature senza linguaggio condiviso. Perde il tratto linguistico e ottiene il tratto olfattivo.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Center Thoughts <small style="display:inline; color:#8a2be2;">[F] - FEAT 1</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1/giorno | <strong>Innesco:</strong> Fallisci un TS di Will (Volontà) contro un effetto mentale.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Scrolli via l'intrusione nociva focalizzando la mente. Ripeti il tiro salvezza attivante e tieni il risultato migliore (fortuna).</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Commanding Pheromones <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Sfrutti i tuoi feromoni biologici autorevoli per smorzare il malanimo e le minacce.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Quando usi Coartare (Coerce), se il bersaglio dovrebbe diventare ostile o maldisposto, diventa invece indifferente.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Distant Telepath <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Telepatia Limitata<br>Grazie al talento innato hai esteso la portata delle tue comunicazioni. <small><strong>Speciale:</strong> Selezionabile più volte.</small></p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Incrementi in modo permanente la gittata della tua telepatia limitata di 4.5 metri.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Lashunta Lore <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Hai approfondito i traguardi storici, psionici e sociali del tuo popolo.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trained ( T ) in Occultismo e Società. Guadagni il talento Conoscenza Addizionale legato a Lashunta Lore.</div>
+        </div>
+        <div class="feature-card feat-lvl-1">
+            <h2 class="bg-title">Psychic Talent <small style="display:inline; color:#8a2be2;">- FEAT 1</small></h2>
+            <p class="feature-text">Sviluppi manipolazioni psioniche latenti oltre la normale telepatia.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Scegli un trucchetto occulto comune: puoi lanciarlo come incantesimo innato occulto a Will (Volontà) (potenziato a metà livello per eccesso).</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 5° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 5 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 5° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Psychic Bully <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Lignaggio Korasha o Unbound Lashunta</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Forzi le menti altrui per impartire ordini. Puoi lanciare <em>command</em> e <em>fear</em> come incantesimi innati occulti di 1° grado una volta al giorno ciascuno.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Psychic Scholar <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Lignaggio Damaya o Unbound Lashunta</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Trasferisci pacchetti dati direttamente nei canali neurali altrui. Puoi lanciare <em>mindlink</em> come incantesimo innato occulto di 1° grado due volte al giorno.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Sensitive Antennae <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text">I peli delle tue antenne intercettano le minime vibrazioni psichiche e i segnali neuronali nell'ambiente.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Guadagni Deception (Percezione) del pensiero (thoughtsense) come senso vago entro 9 metri (solo bersagli pensanti). Diventa impreciso al 9° livello.</div>
+        </div>
+        <div class="feature-card feat-lvl-5">
+            <h2 class="bg-title">Telepathic Conduit <small style="display:inline; color:#e65100;">- FEAT 5</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Telepatia Limitata</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Apri un canale a doppio senso. Il bersaglio della tua telepatia può risponderti brevemente come reazione o come azione gratuita all'inizio del suo turno.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 9° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 9 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 9° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-9">
+            <h2 class="bg-title">Guarded Thoughts <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <p class="feature-text">Innalzi barriere logiche per bloccare i tentativi di spionaggio o lettura della tua mente.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Chi sonda la tua mente deve superare una prova di contrasto contro la tua CD di classe o incantesimo. Grado pari a metà del tuo livello per eccesso.</div>
+        </div>
+        <div class="feature-card feat-lvl-9">
+            <h2 class="bg-title">Psychic Mastery <small style="display:inline; color:#f57c00;">- FEAT 9</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Psychic Talent</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Scegli un incantesimo comune occulto di 2° grado: puoi lanciarlo come magia innata occulto una volta al giorno.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 13° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 13 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 13° Livello)</div>
+    <div class="features-grid">
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Focus Pheromones <small style="display:inline; color:#d84315;">[1A] - FEAT 13</small></h2>
+            <p class="feature-text"><strong>Frequenza:</strong> 1/ora | Rilasci deliberatamente feromoni iper-concentrati per manipolare le interazioni.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Se la tua prossima azione è Creare una Diversione (Raggirare), Richiedere (Diplomazia) o Demoralizzare (Intimidire), tiri due volte e tieni il massimo.</div>
+        </div>
+        <div class="feature-card feat-lvl-13">
+            <h2 class="bg-title">Psychic Investigator <small style="display:inline; color:#d84315;">- FEAT 13</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Psychic Bully, Psychic Scholar, o Psychic Talent</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Valuti all'istante scenari estraendo frammenti di pensiero. Lanci <em>hypercognition</em> e <em>mind reading</em> come incantesimi innati occulti di 3° grado 1/giorno ciascuno.</div>
+        </div>
+    </div>
+
+    <!-- TALENTI DI 17° LIVELLO -->
+    <h2 class="section-divider">Ancestry Feat ( Livello 17 , puoi sceglierne solo 1 )</h2>
+    <div class="section-subtitle">(Talenti di 17° Livello)</div>
+    <div class="features-grid" style="margin-bottom: 60px;">
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Centered Mind <small style="display:inline; color:#4f5b66;">- FEAT 17</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Center Thoughts</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Ottieni una stabilità psionica totale contro manipolazioni esterne. Puoi usare il talento Concentrare i Pensieri (Center Thoughts) una volta all'ora anziché una volta al giorno.</div>
+        </div>
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Mental Deflection <small style="display:inline; color:#4f5b66;">[R] - FEAT 17</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Esperto in Occultismo, riserva di focus | <strong>Requisiti:</strong> Almeno 1 Punto Focus | <strong>Innesco:</strong> Una creatura lancia un incantesimo mentale.</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Spendi 1 Punto Focus per contrastare l'attacco mentale nemico tramite una prova di contrasto (counteract) usando il tuo modificatore chiave + competenza.</div>
+        </div>
+        <div class="feature-card feat-lvl-17">
+            <h2 class="bg-title">Psychic Paragon <small style="display:inline; color:#4f5b66;">- FEAT 17</small></h2>
+            <p class="feature-text"><strong>Prerequisiti:</strong> Psychic Mastery</p>
+            <div class="paradox-meta"><span class="meta-label">Effetto:</span> Raggiungi l'apice evolutivo. Scegli un incantesimo comune occulto di 6° grado: puoi lanciarlo come magia innata una volta al giorno.</div>
+        </div>
+    </div>
+
+    <!-- INTERFACCIA DI NAVIGAZIONE RETRATTILE LATERALE SULL'ASSE DESTRA -->
+    <div class="cyber-nav-container">
+        <div class="cyber-nav-wrapper">
+            <div class="cyber-trigger-ball">//</div>
+            <div class="cyber-menu-panel">
+                <a href="../index.html" class="cyber-btn btn-home">🚀​​ Pagina iniziale</a>
+                <a href="javascript:history.go(-1)" class="cyber-btn btn-back1">🔙 Indietro</a>
+                <a href="javascript:history.go(-2)" class="cyber-btn btn-back2">⏮ Indietro di 2</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
